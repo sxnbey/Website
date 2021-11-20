@@ -41,9 +41,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let isBackspacing = false;
 
   let textArray = shuffle([
-    "Folge mir auf Twitter...",
-    "Abonniere mich auf YouTube...",
-    "Füge meinen Bot hinzu...",
+    "Follow me on Twitter...",
+    "Sub to me on YouTube...",
+    "Add my Discord-bot...",
+    "Sub to my OnlyFans (I don't have one yet)...",
+    "Stantac is cute <3...",
+    "Just look at my GitHub profile...",
   ]);
 
   let speedForward = 100;

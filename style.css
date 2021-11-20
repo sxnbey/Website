@@ -67,9 +67,9 @@ header {
 }
 
 #logo {
-  width: 220px;
+  width: 130px;
   float: left;
-  margin: 10px 0 0 50px;
+  margin: 8px 0 0 50px;
 }
 
 #logo:hover {
@@ -99,7 +99,7 @@ header nav ul li:hover {
 }
 
 #home {
-  background: url(img/chad.jpg);
+  background: url(img/lilpeepcomearound.gif);
   background-position: center center;
   background-size: cover;
   background-attachment: fixed;
