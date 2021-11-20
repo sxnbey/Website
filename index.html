@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>senbey.net - Homepage</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./js/utils.js?version=14"></script>
+    <script src="./js/title.js"></script>
+    <script>
+      document.onkeydown = function (e) {
+        switch (e.keyCode) {
+          default:
+            break;
+
+          case 123:
+          case 73:
+          case 83:
+            return false;
+        }
+      };
+    </script>
+    <script
+      src="https://kit.fontawesome.com/6559ffc15f.js"
+      crossorigin="anonymous"
+    ></script>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="style.css?version=19" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:500"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto+Slab"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="theme-color" content="#a83ddf" />
+    <meta name="description" content="Homepage von senbey.net" />
+    <meta property="og:url" content="https://senbey.net/" />
+    <meta property="og:title" content="senbey.net - Homepage" />
+    <meta property="og:description" content="Homepage von senbey.net" />
+    <meta property="og:site_name" content="senbey.net" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://senbey.net/img/lilpeep.gif" />
+    <meta itemprop="image" content="https://senbey.net/img/lilpeep.gif" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/img/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/img/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/img/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/img/favicon/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
+    <meta name="msapplication-TileColor" content="#da532c" />
+  </head>
+
+  <body oncontextmenu="return false">
+    <header>
+      <div id="logo">
+        <a onclick="scrollAnimation('home')">
+          <img src="img/logo.png" alt="Logo" />
+        </a>
+      </div>
+
+      <nav id="main-nav">
+        <ul>
+          <li><a onclick="scrollAnimation('home')">Home</a></li>
+          <li><a onclick="scrollAnimation('about')">About</a></li>
+          <li><a onclick="scrollAnimation('youtube')">YouTube</a></li>
+          <li><a onclick="scrollAnimation('socials')">Socials</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="home">
+      <hr />
+      <h1 style="color: #ffffff">senbey</h1>
+      <h2 style="color: #ffffff">
+        Your average nugget enjoyer, <br />
+        chad & Developer
+      </h2>
+      <a onclick="scrollAnimation('about')">
+        <img src="img/pfeil.png" alt="Pfeil" />
+      </a>
+    </section>
+
+    <section id="about">
+      <h3>About</h3>
+      <hr />
+      <img src="img/peep.gif" alt="Avatar" />
+      <h4>senbey</h4>
+      <p>
+        Ich mach ein bisschen JS, höre Lil Peep und das wars. Bin aber stolzer
+        Besitzer von
+        <a href="https://amogus.eu" target="_blank">amogus.eu</a>.
+      </p>
+    </section>
+
+    <section id="youtube">
+      <h3>YouTube</h3>
+      <hr />
+      <iframe
+        width="1060vh"
+        height="596,25vw"
+        src="https://www.youtube.com/embed/B2YViecRwb8"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </section>
+
+    <section id="socials">
+      <h3>Socials</h3>
+      <hr />
+
+      <div class="typer">
+        <div class="container">
+          <div class="output" id="output">
+            <h1 class="cursor"></h1>
+          </div>
+        </div>
+      </div>
+
+      <a
+        href="https://discord.com/api/oauth2/authorize?client_id=728580712290189314&permissions=1007021278&scope=applications.commands%20bot"
+        target="_blank"
+        style="margin-right: 80px"
+      >
+        <img
+          src="img/bot.svg"
+          title="Discord Bot"
+          alt="Discord Bot"
+          height="120px"
+          width="120px"
+        />
+      </a>
+
+      <a
+        href="https://twitter.com/senbeyxd"
+        target="_blank"
+        style="margin-right: 80px"
+      >
+        <img
+          src="img/twitter.svg"
+          title="Twitter"
+          alt="Twitter"
+          height="120px"
+          width="120px"
+        />
+      </a>
+
+      <img
+        src="img/discord.svg"
+        title="Discord Tag"
+        alt="Discord Tag"
+        height="120px"
+        width="120px"
+        onclick="copyText(`senbey#0001`)"
+        style="margin-right: 80px"
+      />
+
+      <a
+        href="https://www.youtube.com/channel/UCboUa7LWDjYnM1lK5weZiZA"
+        target="_blank"
+        style="margin-right: 80px"
+      >
+        <img
+          src="img/youtube.svg"
+          title="YouTube"
+          alt="YouTube"
+          height="120px"
+          width="120px"
+        />
+      </a>
+
+      <a href="https://steamcommunity.com/id/senbey" target="_blank">
+        <img
+          src="img/steam.svg"
+          title="Steam"
+          alt="Steam"
+          height="120px"
+          width="120px"
+        />
+      </a>
+
+      <br />
+      <br />
+
+      <div id="snackbar"></div>
+    </section>
+
+    <footer>
+      <br />
+      <a href="disclaimer" style="font-size: 16px; color: #f0f0f0"
+        >Disclaimer</a
+      >
+    </footer>
+  </body>
+</html>
