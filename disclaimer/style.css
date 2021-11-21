@@ -4,151 +4,101 @@ body {
   padding: 0;
   height: 100%;
   text-align: center;
+  font-family: "M PLUS Code Latin", sans-serif;
+  background-color: #000;
 }
-section {
+
+#video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
   min-height: 100%;
 }
+
 a {
   text-decoration: none;
-}
-li {
-  list-style-type: none;
-}
-
-h1,
-h3,
-a {
-  font-family: "Roboto", sans-serif;
-  font-weight: 500;
-  color: #494949;
-  text-transform: uppercase;
-}
-h3 {
-  font-size: 40px;
-  padding-top: 8%;
-  margin-bottom: 5px;
-}
-
-p {
-  font-family: "Roboto Slab", serif;
-  color: #494949;
-}
-
-hr {
-  width: 100px;
-  height: 3px;
-  background: #494949;
-  border: 0;
-  margin: 0 auto 40px auto;
-}
-#logo,
-li,
-img {
+  font-family: "M PLUS Code Latin", sans-serif;
+  color: #f1f1f1;
   transition: all 300ms;
   -webkit-transition: all 300ms;
   -moz-transition: all 300ms;
   -o-transition: all 300ms;
 }
 
-header {
-  width: 100%;
-  height: 65px;
+a:hover {
+  color: #000;
+}
+
+#text p {
   position: fixed;
-  top: 0;
-  left: 0;
-  background: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  z-index: 1;
+  bottom: 0;
+  color: #f1f1f1;
+  width: 40%;
+  margin-bottom: 10%;
+  margin-left: 30%;
+  margin-right: 30%;
+  text-shadow: 1px 1px 0px rgba(8, 230, 255, 100),
+    -1px -1px 0px rgba(255, 0, 0, 100);
+
+  -webkit-animation: fadein 2s;
+  -moz-animation: fadein 2s;
+  -ms-animation: fadein 2s;
+  -o-animation: fadein 2s;
+  animation: fadein 2s;
 }
 
-#logo {
-  width: 130px;
-  float: left;
-  margin: 8px 0 0 50px;
+@keyframes fadein {
+  from {
+    opacity: 0;
+    left: -50%;
+  }
+  to {
+    opacity: 1;
+    left: 0%;
+  }
 }
 
-#logo:hover {
-  opacity: 0.5;
+@-moz-keyframes fadein {
+  from {
+    opacity: 0;
+    left: -50%;
+  }
+  to {
+    opacity: 1;
+    left: 0%;
+  }
 }
 
-#logo img {
-  width: 100%;
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+    left: -50%;
+  }
+  to {
+    opacity: 1;
+    left: 0%;
+  }
 }
 
-header nav {
-  float: right;
-  margin: 10px 50px 0 0;
+@-ms-keyframes fadein {
+  from {
+    opacity: 0;
+    left: -50%;
+  }
+  to {
+    opacity: 1;
+    left: 0%;
+  }
 }
 
-header nav ul li {
-  float: left;
-  margin-right: 25px;
-}
-
-header nav ul li a {
-  font-size: 16px;
-}
-
-header nav ul li:hover {
-  opacity: 0.5;
-}
-
-#home {
-  background: url(../img/landing1.jpg);
-  background-position: center center;
-  background-size: cover;
-  background-attachment: fixed;
-}
-
-#home h1 {
-  margin: 290px auto 0 auto;
-  font-size: 110px;
-}
-
-#home img {
-  width: 32px;
-  margin-top: 150px;
-  opacity: 0.7;
-}
-
-#home img:hover {
-  opacity: 1;
-}
-
-#disclaimer {
-  min-height: 40%;
-}
-
-#disclaimer a:hover {
-  opacity: 0.5;
-}
-
-#disclaimer p {
-  width: 700px;
-  margin: 0 auto 0 auto;
-}
-a {
-  text-transform: none;
-  transition: all 300ms;
-  -webkit-transition: all 300ms;
-  -moz-transition: all 300ms;
-  -o-transition: all 300ms;
-}
-
-footer {
-  width: 100%;
-  height: 70px;
-  background-color: #3f3f3f;
-}
-
-footer a {
-  text-transform: uppercase;
-}
-
-footer a:hover {
-  transition: all 300ms;
-  -webkit-transition: all 300ms;
-  -moz-transition: all 300ms;
-  -o-transition: all 300ms;
-  opacity: 0.5;
+@-o-keyframes fadein {
+  from {
+    opacity: 0;
+    left: -50%;
+  }
+  to {
+    opacity: 1;
+    left: 0%;
+  }
 }

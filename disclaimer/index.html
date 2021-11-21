@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>senbey.net - Disclaimer</title>
+    <title>Disclaimer</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../js/utils.js"></script>
+    <script
+      src="https://kit.fontawesome.com/6559ffc15f.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./js/title.js"></script>
     <script>
       document.onkeydown = function (e) {
         switch (e.keyCode) {
@@ -18,24 +22,24 @@
       };
     </script>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="style.css?version=2" />
+    <link rel="stylesheet" type="text/css" href="style.css?version=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css?family=Roboto:500"
+      href="https://fonts.googleapis.com/css2?family=M+PLUS+Code+Latin&display=swap"
       rel="stylesheet"
     />
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto+Slab"
-      rel="stylesheet"
-    />
-    <meta name="theme-color" content="#a83ddf" />
-    <meta name="description" content="Disclaimer von senbey.net" />
+    <!-- meta tags -->
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Disclaimer page of senbey.net" />
     <meta property="og:url" content="https://senbey.net/" />
     <meta property="og:title" content="senbey.net - Disclaimer" />
-    <meta property="og:description" content="Disclaimer von senbey.net" />
+    <meta property="og:description" content="Disclaimer page of senbey.net" />
     <meta property="og:site_name" content="senbey.net" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://senbey.net/img/lilpeep.gif" />
     <meta itemprop="image" content="https://senbey.net/img/lilpeep.gif" />
+    <!-- favicon -->
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -57,63 +61,73 @@
     <link
       rel="mask-icon"
       href="../img/favicon/safari-pinned-tab.svg"
-      color="#5bbad5"
+      color="#000000"
     />
-    <meta name="msapplication-TileColor" content="#da532c" />
+    <link rel="shortcut icon" href="../img/favicon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#000000" />
+    <meta
+      name="msapplication-config"
+      content="../img/favicon/browserconfig.xml"
+    />
+    <meta name="theme-color" content="#000000" />
   </head>
 
   <body oncontextmenu="return false">
-    <header>
-      <div id="logo">
-        <a href="https://senbey.net">
-          <img src="../img/logo.png" alt="Logo" />
-        </a>
-      </div>
+    <video autoplay muted loop id="video">
+      <source id="source" src="../media/comearound.mp4" type="video/mp4" />
+    </video>
 
-      <nav id="main-nav">
-        <ul>
-          <li><a href="https://senbey.net">HOMEPAGE</a></li>
-        </ul>
-      </nav>
-    </header>
+    <embed
+      autoplay="true"
+      autostart="true"
+      height="0"
+      id="audio"
+      src="../media/comearound.mp3"
+      type="audio/mpeg"
+      width="200"
+    />
 
-    <section id="home">
-      <hr />
-      <h1>Disclaimer</h1>
-      <a onclick="scrollAnimation('disclaimer')">
-        <img src="../img/pfeil.png" alt="Pfeil" />
-      </a>
-    </section>
+    <script>
+      const videos = [
+        "comearound",
+        "cocaineshawty",
+        "californiaworld",
+        "mos",
+        "keepmycoo",
+        "runaway",
+        "gymclass",
+        "benztruck",
+        "girls",
+        "whitewine",
+        "whitetee",
+      ];
 
-    <section id="disclaimer">
-      <h3>Disclaimer</h3>
-      <hr />
+      const video = videos[Math.floor(Math.random() * videos.length)];
+
+      document
+        .getElementById("source")
+        .setAttribute("src", `../media/${video}.mp4`);
+
+      document
+        .getElementById("audio")
+        .setAttribute("src", `../media/${video}.mp3`);
+
+      document.getElementById("audio").volume = 0.01;
+    </script>
+
+    <div id="text">
       <p>
-        Some background images are from
-        <a target="_blank" href="https://unsplash.com/">Unsplash</a>, the
-        current GIF is from
-        <a target="_blank" href="https://www.youtube.com/watch?v=lCc4T3xIRHg"
-          >Lil Peep</a
-        >
-        and the logos are from
-        <a href="https://fontawesome.com/" target="_blank">Fontawesome</a>. The
-        other logo (top left) was created by myself. The rest of the pictures
-        are not mine. If you really have a problem with this you can reach out
-        to me on
-        <a href="https://twitter.com/senbeyxd" title="Twitter" target="_blank"
-          >Twitter</a
-        >.
+        I don't own any of these videos. If you really have a problem with this
+        you can reach out to me on
+        <a href="https://twitter.com/senbeyxd" target="_blank">Twitter</a>.
         <br />
         <br />
         The site DOES NOT make money and was created for fun only.
+        <br />
+        <br />
+        <br />
+        <a href="https://senbey.net">Back to the website</a>
       </p>
-    </section>
-
-    <footer>
-      <br />
-      <a href="https://senbey.net" style="font-size: 16px; color: #f0f0f0"
-        >Homepage</a
-      >
-    </footer>
+    </div>
   </body>
 </html>
