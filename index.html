@@ -33,7 +33,7 @@
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Homepage of senbey.net" />
     <meta property="og:url" content="https://senbey.net/" />
-    <meta property="og:title" content="senbey.net - Disclaimer" />
+    <meta property="og:title" content="senbey.net - Homepage" />
     <meta property="og:description" content="Homepage of senbey.net" />
     <meta property="og:site_name" content="senbey.net" />
     <meta property="og:type" content="website" />
@@ -74,7 +74,7 @@
 
   <body oncontextmenu="return false">
     <video autoplay muted loop id="video">
-      <source id="source" src="./media/comearound.mp4" type="video/mp4" />
+      <source src="./media/whitetee.mp4" type="video/mp4" />
     </video>
 
     <embed
@@ -82,7 +82,7 @@
       autostart="true"
       height="0"
       id="audio"
-      src="./media/comearound.mp3"
+      src="./media/whitetee.mp3"
       type="audio/mpeg"
       width="200"
     />
@@ -105,7 +105,7 @@
       const video = videos[Math.floor(Math.random() * videos.length)];
 
       document
-        .getElementById("source")
+        .getElementById("video")
         .setAttribute("src", `./media/${video}.mp4`);
 
       document
