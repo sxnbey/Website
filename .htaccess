@@ -1,8 +1,3 @@
 RewriteEngine On
-Redirect 301 /bot/ https://discord.com/oauth2/authorize?client_id=728580712290189314&scope=bot&permissions=8
+Redirect 301 /bot/ https://discord.com/oauth2/authorize?client_id=728580712290189314&permissions=275884911830&scope=applications.commands%20bot
 
-Redirect 301 /hws/ https://discord.gg/ufTw6PMuTt
-
-Redirect 301 /steam/ https://steamcommunity.com/id/senbey
-
-Redirect 301 /twitter/ https://twitter.com/senbeyxd
