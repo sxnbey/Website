@@ -31,21 +31,22 @@ a:hover {
 }
 
 #text p {
+  font-size: 150%;
   position: fixed;
   bottom: 0;
   color: #f1f1f1;
   width: 40%;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
   margin-left: 30%;
   margin-right: 30%;
   text-shadow: 1px 1px 0px rgba(8, 230, 255, 100),
     -1px -1px 0px rgba(255, 0, 0, 100);
 
-  -webkit-animation: fadein 2s;
-  -moz-animation: fadein 2s;
-  -ms-animation: fadein 2s;
-  -o-animation: fadein 2s;
-  animation: fadein 2s;
+  -webkit-animation: fadein 1s;
+  -moz-animation: fadein 1s;
+  -ms-animation: fadein 1s;
+  -o-animation: fadein 1s;
+  animation: fadein 1s;
 }
 
 @keyframes fadein {

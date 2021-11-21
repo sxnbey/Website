@@ -22,7 +22,7 @@
       };
     </script>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="style.css?version=1" />
+    <link rel="stylesheet" type="text/css" href="style.css?version=3" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -74,18 +74,12 @@
 
   <body oncontextmenu="return false">
     <video autoplay muted loop id="video">
-      <source src="../media/comearound.mp4" type="video/mp4" />
+      <source src="../media/whitetee.mp4" type="video/mp4" />
     </video>
 
-    <embed
-      autoplay="true"
-      autostart="true"
-      height="0"
-      id="audio"
-      src="../media/comearound.mp3"
-      type="audio/mpeg"
-      width="200"
-    />
+    <audio id="audio" autoplay loop>
+      <source src="../media/whitetee.mp3" type="audio/mpeg" />
+    </audio>
 
     <script>
       const videos = [
@@ -100,6 +94,12 @@
         "girls",
         "whitewine",
         "whitetee",
+        "antarctica",
+        "2ndhand",
+        "forthelasttime",
+        "opana",
+        "magazine",
+        "paris",
       ];
 
       const video = videos[Math.floor(Math.random() * videos.length)];
@@ -112,7 +112,7 @@
         .getElementById("audio")
         .setAttribute("src", `../media/${video}.mp3`);
 
-      document.getElementById("audio").volume = 0.01;
+      document.getElementById("audio").volume = 0.3;
     </script>
 
     <div id="text">
