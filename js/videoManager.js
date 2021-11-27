@@ -25,12 +25,6 @@ function videoManager(mediaPath, map = false) {
     document
       .getElementById("video")
       .setAttribute("src", `${mediaPath}/media/${video}.mp4`);
-
-    document
-      .getElementById("audio")
-      .setAttribute("src", `${mediaPath}/media/${video}.mp3`);
-
-    document.getElementById("audio").volume = 0;
   }
 
   document.getElementById("video").onerror = function () {
@@ -44,11 +38,7 @@ function videoManager(mediaPath, map = false) {
       .getElementById("video")
       .setAttribute("src", `${mediaPath}/media/${url}.mp4`);
 
-    document
-      .getElementById("audio")
-      .setAttribute("src", `${mediaPath}/media/${url}.mp3`);
-
-    document.getElementById("audio").volume = 0;
+    video = url;
   } else {
     playVideo();
   }
