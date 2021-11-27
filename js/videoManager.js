@@ -1,4 +1,4 @@
-function videoManager(mediaPath, map) {
+function videoManager(mediaPath, map = false) {
   let videos = [
     "comearound",
     "cocaineshawty",
@@ -19,9 +19,9 @@ function videoManager(mediaPath, map) {
     "paris",
   ];
 
-  function playVideo() {
-    let video = videos[Math.floor(Math.random() * videos.length)];
+  let video = videos[Math.floor(Math.random() * videos.length)];
 
+  function playVideo() {
     document
       .getElementById("video")
       .setAttribute("src", `${mediaPath}/media/${video}.mp4`);
@@ -30,7 +30,7 @@ function videoManager(mediaPath, map) {
       .getElementById("audio")
       .setAttribute("src", `${mediaPath}/media/${video}.mp3`);
 
-    document.getElementById("audio").volume = 0.3;
+    document.getElementById("audio").volume = 0;
   }
 
   document.getElementById("video").onerror = function () {
@@ -48,10 +48,14 @@ function videoManager(mediaPath, map) {
       .getElementById("audio")
       .setAttribute("src", `${mediaPath}/media/${url}.mp3`);
 
-    document.getElementById("audio").volume = 0.3;
+    document.getElementById("audio").volume = 0;
   } else {
     playVideo();
   }
 
   if (map) document.write(videos.map((video) => video).join(", "));
+
+  document
+    .getElementById("h1")
+    .setAttribute("title", `Current video: "${video}"`);
 }

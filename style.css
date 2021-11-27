@@ -17,6 +17,22 @@ body {
   transform: translateX(calc((100% - 100vw) / 2));
 }
 
+#mute {
+  height: 3%;
+  margin-top: 1.2%;
+  position: relative;
+  margin-right: 96%;
+
+  transition: all 300ms;
+  -webkit-transition: all 300ms;
+  -moz-transition: all 300ms;
+  -o-transition: all 300ms;
+}
+
+#mute:hover {
+  opacity: 0.5;
+}
+
 a {
   text-decoration: none;
   font-family: "M PLUS Code Latin", sans-serif;
