@@ -31,9 +31,9 @@ function muteManager(path) {
     if (!alerted)
       if (document.getElementById("audio").paused) {
         alert(
-          "It seems like you have no sound, please activate audio autoplay for this site manually."
+          'It seems like you have no sound, please activate audio autoplay for this site manually.\nIf you don\'t know how to activate it, on some browsers it is enough to go to "Info" and then click on "Back to the website".'
         );
         alerted = true;
       }
-  }, 3500);
+  }, 3000);
 }

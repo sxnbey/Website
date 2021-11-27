@@ -55,7 +55,8 @@ function videoManager(mediaPath, map = false) {
 
   if (map) document.write(videos.map((video) => video).join(", "));
 
-  document
-    .getElementById("h1")
-    .setAttribute("title", `Current video: "${video}"`);
+  if (document.getElementById("h1"))
+    document
+      .getElementById("h1")
+      .setAttribute("title", `Current video: "${video}"`);
 }
