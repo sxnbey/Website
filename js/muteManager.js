@@ -35,5 +35,5 @@ function muteManager(path) {
         );
         alerted = true;
       }
-  }, 1000);
+  }, 3500);
 }
