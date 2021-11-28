@@ -1,8 +1,4 @@
 async function videoManager(mediaPath, map = false) {
-  function wait() {
-    return new Promise((res) => setTimeout(() => res(true), 200));
-  }
-
   let videos = [
     "beamerboy",
     "yourfavouritedress",
