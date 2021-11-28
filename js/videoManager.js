@@ -1,4 +1,4 @@
-async function videoManager(mediaPath, map = false) {
+async function videoManager(mediaPath, map = false, newVideo = false) {
   let videos = [
     "beamerboy",
     "yourfavouritedress",
@@ -48,6 +48,8 @@ async function videoManager(mediaPath, map = false) {
       .setAttribute("src", `${mediaPath}/media/${video}.mp4`);
   }
 
+  if (newVideo) return playVideo();
+
   document.getElementById("video").onerror = function () {
     playVideo();
   };
@@ -66,58 +68,93 @@ async function videoManager(mediaPath, map = false) {
 
   await new Promise((res) => setTimeout(() => res(true), 300));
 
-  var x = 0;
+  let x = 0;
 
-  var titleText = [
-    "",
-    "S",
-    "S ",
-    "S E",
-    "S E ",
-    "S E N",
-    "S E N ",
-    "S E N B",
-    "S E N B ",
-    "S E N B E",
-    "S E N B E ",
-    "S E N B E Y",
-    "S E N B E Y ",
-    "S E N B E Y .",
-    "S E N B E Y . ",
-    "S E N B E Y . N",
-    "S E N B E Y . N ",
-    "S E N B E Y . N E",
-    "S E N B E Y . N E ",
-    "S E N B E Y . N E T",
-    "S E N B E Y . N E T ",
-    "S E N B E Y . N E T -",
-    "S E N B E Y . N E T - ",
-  ];
-
-  let titleVideo = document
-    .getElementById("video")
-    .getAttribute("src")
-    .split("/")[2]
-    .split(".")[0];
+  let titleText = titleTextGen();
 
   if (document.getElementById("h1")) {
     document
       .getElementById("h1")
-      .setAttribute("title", `Current video: "${titleVideo}"`);
+      .setAttribute(
+        "title",
+        `Current video: "${
+          document
+            .getElementById("video")
+            .getAttribute("src")
+            .split("/")[2]
+            .split(".")[0]
+        }"`
+      );
   }
 
-  titleVideo = titleVideo.toUpperCase().split("");
+  setInterval(loop, 300);
 
-  titleVideo.forEach((v) => {
-    titleText.push(`${titleText[titleText.length - 1]}${v}`);
-    titleText.push(`${titleText[titleText.length - 1]} `);
-  });
+  function titleTextGen() {
+    let titleText = [
+      "",
+      "S",
+      "S ",
+      "S E",
+      "S E ",
+      "S E N",
+      "S E N ",
+      "S E N B",
+      "S E N B ",
+      "S E N B E",
+      "S E N B E ",
+      "S E N B E Y",
+      "S E N B E Y ",
+      "S E N B E Y .",
+      "S E N B E Y . ",
+      "S E N B E Y . N",
+      "S E N B E Y . N ",
+      "S E N B E Y . N E",
+      "S E N B E Y . N E ",
+      "S E N B E Y . N E T",
+      "S E N B E Y . N E T ",
+      "S E N B E Y . N E T -",
+      "S E N B E Y . N E T - ",
+    ];
+
+    let titleVideo = document
+      .getElementById("video")
+      .getAttribute("src")
+      .split("/")[2]
+      .split(".")[0];
+
+    titleVideo = titleVideo.toUpperCase().split("");
+
+    titleVideo.forEach((v) => {
+      titleText.push(`${titleText[titleText.length - 1]}${v}`);
+      titleText.push(`${titleText[titleText.length - 1]} `);
+    });
+
+    return titleText;
+  }
 
   function loop() {
+    if (titleTextGen().toString() != titleText.toString()) {
+      titleText = titleTextGen();
+      x = 0;
+
+      if (document.getElementById("h1")) {
+        document
+          .getElementById("h1")
+          .setAttribute(
+            "title",
+            `Current video: "${
+              document
+                .getElementById("video")
+                .getAttribute("src")
+                .split("/")[2]
+                .split(".")[0]
+            }"`
+          );
+      }
+    }
+
     document.getElementsByTagName("title")[0].innerHTML = `${
       titleText[x++ % titleText.length]
     }|`;
   }
-
-  setInterval(loop, 300);
 }

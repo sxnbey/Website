@@ -1,5 +1,6 @@
 html,
 body {
+  cursor: url("../img/cursor.cur"), auto;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -22,7 +23,6 @@ body {
   margin-top: 1.2%;
   position: relative;
   margin-right: 96%;
-
   transition: all 300ms;
   -webkit-transition: all 300ms;
   -moz-transition: all 300ms;
@@ -34,6 +34,7 @@ body {
 }
 
 a {
+  cursor: url("../img/cursor.cur"), auto;
   font-family: "M PLUS Code Latin", sans-serif;
   color: #f1f1f1;
   transition: all 300ms;
