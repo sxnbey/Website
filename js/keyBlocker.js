@@ -8,6 +8,7 @@ document.onkeydown = function (e) {
     case 83:
     case 85:
     case 70:
+    case 114:
       return false;
   }
 };
