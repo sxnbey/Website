@@ -54,7 +54,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     playVideo();
   };
 
-  let url = document.URL.split("?")[1];
+  let url = document.URL.split("?")[1].toLowerCase();
 
   if (typeof url == "string" && url != "") {
     document
@@ -77,13 +77,12 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
       .getElementById("h1")
       .setAttribute(
         "title",
-        `Current video: "${
-          document
-            .getElementById("video")
-            .getAttribute("src")
-            .split("/")[2]
-            .split(".")[0]
-        }"`
+        `Current video: "${document
+          .getElementById("video")
+          .getAttribute("src")
+          .split("/")[2]
+          .split(".")[0]
+          .toUpperCase()}"`
       );
   }
 
