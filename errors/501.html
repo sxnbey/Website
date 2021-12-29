@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>⠀</title>
+    <script src="../js/videoManager.js?version=1"></script>
+    <script src="../js/keyBlocker.js?version=1"></script>
+    <script src="../js/muteManager.js?version=1"></script>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../errors/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=M+PLUS+Code+Latin&display=swap"
+      rel="stylesheet"
+    />
+    <!-- meta tags -->
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Info page of senbey.net" />
+    <meta property="og:url" content="https://senbey.net/" />
+    <meta property="og:title" content="senbey.net - Info" />
+    <meta property="og:description" content="Info page of senbey.net" />
+    <meta property="og:site_name" content="senbey.net" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://senbey.net/img/lilpeep.gif" />
+    <meta itemprop="image" content="https://senbey.net/img/lilpeep.gif" />
+    <!-- favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../img/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../img/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../img/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="../img/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="../img/favicon/safari-pinned-tab.svg"
+      color="#000000"
+    />
+    <link rel="shortcut icon" href="../img/favicon/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#000000" />
+    <meta
+      name="msapplication-config"
+      content="../img/favicon/browserconfig.xml"
+    />
+    <meta name="theme-color" content="#000000" />
+  </head>
+
+  <body oncontextmenu="return false">
+    <video autoplay muted loop id="video">
+      <source src="../media/whitetee.mp4" type="video/mp4" />
+    </video>
+
+    <img src="../img/muted.svg" alt="Muted" id="mute" />
+
+    <script>
+      videoManager("..");
+      muteManager("..");
+    </script>
+
+    <div id="text">
+      <h1 title=" " id="h1">Oh no! It looks like error 404 occured!</h1>
+
+      <br />
+      <br />
+
+      <p>The server is unable to process your request.</p>
+
+      <br />
+      <br />
+
+      <a href="https://senbey.net">Back to the website</a>
+    </div>
+  </body>
+</html>
