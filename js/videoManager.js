@@ -42,13 +42,9 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
 
   let video = videos[Math.floor(Math.random() * videos.length)];
 
-  function playVideo() {
-    document
-      .getElementById("video")
-      .setAttribute("src", `${mediaPath}/media/${video}.mp4`);
-  }
-
   if (newVideo) return playVideo();
+
+  if (map) return document.write(videos.map((video) => video).join(", "));
 
   document.getElementById("video").onerror = function () {
     playVideo();
@@ -64,7 +60,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     playVideo();
   }
 
-  if (map) document.write(videos.map((video) => video).join(", "));
+  // title shit //
 
   await new Promise((res) => setTimeout(() => res(true), 300));
 
@@ -87,6 +83,14 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
   }
 
   setInterval(loop, 300);
+
+  // functions //
+
+  function playVideo() {
+    document
+      .getElementById("video")
+      .setAttribute("src", `${mediaPath}/media/${video}.mp4`);
+  }
 
   function titleTextGen() {
     let titleText = [
