@@ -40,7 +40,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     "paris",
   ];
 
-  let video = videos[Math.floor(Math.random() * videos.length)];
+  let video = newVideoF();
 
   if (newVideo) return playVideo();
 
@@ -87,9 +87,24 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
   // functions //
 
   function playVideo() {
-    document
-      .getElementById("video")
-      .setAttribute("src", `${mediaPath}/media/${video}.mp4`);
+    if (
+      newVideo &&
+      document
+        .getElementById("video")
+        .getAttribute("src")
+        .split("/")[2]
+        .split(".")[0] == video
+    ) {
+      video = newVideoF();
+      playVideo();
+    } else
+      document
+        .getElementById("video")
+        .setAttribute("src", `${mediaPath}/media/${video}.mp4`);
+  }
+
+  function newVideoF() {
+    return videos[Math.floor(Math.random() * videos.length)];
   }
 
   function titleTextGen() {
