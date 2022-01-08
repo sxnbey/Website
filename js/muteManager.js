@@ -1,6 +1,12 @@
 function muteManager(path) {
   let currentImg = "muted";
 
+  document.getElementById("mute").addEventListener("click", function (img) {
+    muter();
+  });
+
+  // functions //
+
   function muter() {
     switch (currentImg) {
       default:
@@ -22,8 +28,4 @@ function muteManager(path) {
       .getElementById("mute")
       .setAttribute("src", `${path}/img/${currentImg}.svg`);
   }
-
-  document.getElementById("mute").addEventListener("click", function (img) {
-    muter();
-  });
 }
