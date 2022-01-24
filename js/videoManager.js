@@ -1,41 +1,41 @@
 async function videoManager(mediaPath, map = false, newVideo = false) {
   let videos = [
-    "beamerboy",
-    "yourfavouritedress",
-    "comearound",
-    "cocaineshawty",
-    "californiaworld",
+    "beamer-boy",
+    "your-favourite-dress",
+    "come-around",
+    "cocaine-shawty",
+    "california-world",
     "mos",
-    "keepmycoo",
+    "keep-my-coo",
     "runaway",
-    "gymclass",
-    "benztruck",
+    "gym-class",
+    "benz-truck",
     "girls",
-    "whitewine",
-    "whitetee",
-    "lilkennedy",
+    "white-wine",
+    "white-tee",
+    "lil-kennedy",
     "cobain",
     "hellboy",
-    "liljeep",
+    "lil-jeep",
     "drugz",
     "crybaby",
     "belgium",
-    "whenilie",
-    "fallingdown",
-    "ivebeenwaiting",
-    "lifeisbeautiful",
-    "16lines",
-    "cryalone",
-    "4goldchains",
-    "savethatshit",
-    "awfulthings",
-    "thebrightside",
+    "when-i-lie",
+    "falling-down",
+    "ive-been-waiting",
+    "life-is-beautiful",
+    "16-lines",
+    "cry-alone",
+    "4-gold-chains",
+    "save-that-shit",
+    "awful-things",
+    "the-brightside",
     "backseat",
     "witchblades",
     "antarctica",
-    "2ndhand",
-    "forthelasttime",
-    "opana",
+    "2nd-hand",
+    "for-the-last-time",
+    "o-pana",
     "magazine",
     "paris",
   ];
@@ -73,12 +73,13 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
       .getElementById("h1")
       .setAttribute(
         "title",
-        `Current video: "${document
-          .getElementById("video")
-          .getAttribute("src")
-          .split("/")[2]
-          .split(".")[0]
-          .toUpperCase()}"`
+        `Current video: "${
+          document
+            .getElementById("video")
+            .getAttribute("src")
+            .split("/")[2]
+            .split(".")[0]
+        }"`
       );
   }
 
@@ -138,9 +139,11 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
       .getElementById("video")
       .getAttribute("src")
       .split("/")[2]
-      .split(".")[0];
+      .split(".")[0]
+      .toUpperCase()
+      .replaceAll("-", "⠀");
 
-    titleVideo = titleVideo.toUpperCase().split("");
+    titleVideo = titleVideo.split("");
 
     titleVideo.forEach((v) => {
       titleText.push(`${titleText[titleText.length - 1]}${v}`);
@@ -160,12 +163,13 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
           .getElementById("h1")
           .setAttribute(
             "title",
-            `Current video: "${document
-              .getElementById("video")
-              .getAttribute("src")
-              .split("/")[2]
-              .split(".")[0]
-              .toUpperCase()}"`
+            `Current video: "${
+              document
+                .getElementById("video")
+                .getAttribute("src")
+                .split("/")[2]
+                .split(".")[0]
+            }"`
           );
       }
     }
