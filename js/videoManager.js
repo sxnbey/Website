@@ -44,7 +44,12 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
 
   if (newVideo) return playVideo();
 
-  if (map) return document.write(videos.map((video) => video).join(", "));
+  if (map)
+    return document.write(
+      videos
+        .map((video) => `<a href="https://senbey.net?${video}" >${video}</a>`)
+        .join(", ")
+    );
 
   document.getElementById("video").onerror = function () {
     playVideo();
