@@ -42,7 +42,9 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
 
   let video = newVideoF();
 
-  if (newVideo) return playVideo();
+  let docVideo = document.getElementById("video");
+
+  if (newVideo) return playVideo(newVideo);
 
   if (map)
     return document.write(
@@ -51,7 +53,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
         .join(", ")
     );
 
-  document.getElementById("video").onerror = function () {
+  docVideo.onerror = function () {
     playVideo();
   };
 
@@ -92,21 +94,14 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
 
   // functions //
 
-  function playVideo() {
+  function playVideo(newVidBoo = false) {
     if (
-      newVideo &&
-      document
-        .getElementById("video")
-        .getAttribute("src")
-        .split("/")[2]
-        .split(".")[0] == video
+      newVidBoo &&
+      docVideo.getAttribute("src").split("/")[2].split(".")[0] == video
     ) {
       video = newVideoF();
       playVideo();
-    } else
-      document
-        .getElementById("video")
-        .setAttribute("src", `${mediaPath}/media/${video}.mp4`);
+    } else docVideo.setAttribute("src", `${mediaPath}/media/${video}.mp4`);
   }
 
   function newVideoF() {
@@ -140,8 +135,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
       "S E N B E Y . N E T - ",
     ];
 
-    let titleVideo = document
-      .getElementById("video")
+    let titleVideo = docVideo
       .getAttribute("src")
       .split("/")[2]
       .split(".")[0]
@@ -169,11 +163,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
           .setAttribute(
             "title",
             `Current video: "${
-              document
-                .getElementById("video")
-                .getAttribute("src")
-                .split("/")[2]
-                .split(".")[0]
+              docVideo.getAttribute("src").split("/")[2].split(".")[0]
             }"`
           );
       }
@@ -183,4 +173,10 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
       titleText[x++ % titleText.length]
     }|`;
   }
+
+  // event(s) //
+
+  docVideo.onended = function () {
+    playVideo(true);
+  };
 }
