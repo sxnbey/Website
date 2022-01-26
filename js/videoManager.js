@@ -44,6 +44,8 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
 
   let docVideo = document.getElementById("video");
 
+  let url = window.location.search.substring(1);
+
   if (newVideo) return playVideo(newVideo);
 
   if (map)
@@ -54,10 +56,8 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     );
 
   docVideo.onerror = function () {
-    playVideo();
+    playVideo(false, true);
   };
-
-  let url = document.URL.split("?")[1];
 
   if (typeof url == "string" && url != "") {
     document
@@ -94,14 +94,18 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
 
   // functions //
 
-  function playVideo(newVidBoo = false) {
+  function playVideo(newVidBoo = false, err = false) {
     if (
-      newVidBoo &&
-      docVideo.getAttribute("src").split("/")[2].split(".")[0] == video
+      (newVidBoo &&
+        docVideo.getAttribute("src").split("/")[2].split(".")[0] == video) ||
+      err
     ) {
       video = newVideoF();
       playVideo();
-    } else docVideo.setAttribute("src", `${mediaPath}/media/${video}.mp4`);
+    } else {
+      docVideo.setAttribute("src", `${mediaPath}/media/${video}.mp4`);
+      docVideo.play();
+    }
   }
 
   function newVideoF() {
@@ -177,6 +181,11 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
   // event(s) //
 
   docVideo.onended = function () {
-    playVideo(true);
+    if (url != docVideo.getAttribute("src").split("/")[2].split(".")[0])
+      playVideo(true);
+    else {
+      docVideo.currentTime = 0;
+      docVideo.play();
+    }
   };
 }
