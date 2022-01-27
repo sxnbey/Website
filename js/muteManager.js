@@ -1,7 +1,7 @@
 function muteManager(path) {
   let currentImg = "muted";
 
-  document.getElementById("mute").addEventListener("click", function (img) {
+  document.getElementById("mute").addEventListener("click", function () {
     muter();
   });
 

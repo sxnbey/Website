@@ -59,13 +59,11 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     playVideo(false, true);
   };
 
-  if (typeof url == "string" && url != "") {
+  if (url != "")
     document
       .getElementById("video")
       .setAttribute("src", `${mediaPath}/media/${url.toLowerCase()}.mp4`);
-  } else {
-    playVideo();
-  }
+  else playVideo();
 
   // title shit //
 
@@ -75,7 +73,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
 
   let titleText = titleTextGen();
 
-  if (document.getElementById("h1")) {
+  if (document.getElementById("h1"))
     document
       .getElementById("h1")
       .setAttribute(
@@ -88,7 +86,6 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
             .split(".")[0]
         }"`
       );
-  }
 
   setInterval(loop, 300);
 
