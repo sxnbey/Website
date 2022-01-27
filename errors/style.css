@@ -6,10 +6,8 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
   cursor: url("../img/cursor.cur"), auto;
-  margin: 0;
-  padding: 0;
-  height: 100%;
   text-align: center;
   font-family: "M PLUS Code Latin", sans-serif;
   background-color: #000;
@@ -19,16 +17,17 @@ body {
   position: fixed;
   right: 0;
   bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
+  min-width: 100vw;
+  min-height: 100vh;
   transform: translateX(calc((100% - 100vw) / 2));
 }
 
 #mute {
-  height: 3%;
-  margin-top: 1.2%;
-  position: relative;
-  margin-right: 96%;
+  position: absolute;
+  height: 4vh;
+  left: 1vh;
+  top: 1vh;
+
   transition: all 300ms;
   -webkit-transition: all 300ms;
   -moz-transition: all 300ms;
@@ -40,15 +39,18 @@ body {
 }
 
 #text {
-  cursor: url("../img/cursor.cur"), auto;
+  font-size: 2vh;
+  width: 80vw;
+  position: absolute;
+  left: 50vw;
+  top: 70vh;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+
   color: #f1f1f1;
-  font-size: 135%;
-  position: fixed;
-  bottom: 0;
-  width: 40%;
-  margin-bottom: 5%;
-  margin-left: 30%;
-  margin-right: 30%;
   text-shadow: 1px 1px 0px rgba(8, 230, 255, 100),
     -1px -1px 0px rgba(255, 0, 0, 100);
   -webkit-animation: fadein 1s;
@@ -56,6 +58,10 @@ body {
   -ms-animation: fadein 1s;
   -o-animation: fadein 1s;
   animation: fadein 1s;
+}
+
+#text h1 {
+  font-size: 3vh;
 }
 
 a {
@@ -74,54 +80,54 @@ a:hover {
 @keyframes fadein {
   from {
     opacity: 0;
-    left: -50%;
+    left: -0vw;
   }
   to {
     opacity: 1;
-    left: 0%;
+    left: 50vw;
   }
 }
 
 @-moz-keyframes fadein {
   from {
     opacity: 0;
-    left: -50%;
+    left: -0vw;
   }
   to {
     opacity: 1;
-    left: 0%;
+    left: 50vw;
   }
 }
 
 @-webkit-keyframes fadein {
   from {
     opacity: 0;
-    left: -50%;
+    left: -0vw;
   }
   to {
     opacity: 1;
-    left: 0%;
+    left: 50vw;
   }
 }
 
 @-ms-keyframes fadein {
   from {
     opacity: 0;
-    left: -50%;
+    left: -0vw;
   }
   to {
     opacity: 1;
-    left: 0%;
+    left: 50vw;
   }
 }
 
 @-o-keyframes fadein {
   from {
     opacity: 0;
-    left: -50%;
+    left: -0vw;
   }
   to {
     opacity: 1;
-    left: 0%;
+    left: 50vw;
   }
 }
