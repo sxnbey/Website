@@ -162,7 +162,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
       titleText = titleTextGen();
       x = 0;
 
-      if (document.getElementById("h1")) {
+      if (document.getElementById("h1"))
         document
           .getElementById("h1")
           .setAttribute(
@@ -171,7 +171,6 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
               docVideo.getAttribute("src").split("/")[2].split(".")[0]
             }"`
           );
-      }
     }
 
     document.getElementsByTagName("title")[0].innerHTML = `${
@@ -179,7 +178,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     }|`;
   }
 
-  // event(s) //
+  // events //
 
   docVideo.onended = function () {
     if (url != docVideo.getAttribute("src").split("/")[2].split(".")[0])
