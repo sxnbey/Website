@@ -38,6 +38,9 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     "o-pana",
     "magazine",
     "paris",
+    "rag-round-my-skull",
+    "i-miss-my-dead-friends",
+    "fuckthepopulation",
   ];
 
   let video = newVideoF();
@@ -50,9 +53,9 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
 
   if (map)
     return document.write(
-      videos
+      `All ${videos.length} videos: ${videos
         .map((video) => `<a href="https://senbey.net?${video}" >${video}</a>`)
-        .join(", ")
+        .join(", ")}`
     );
 
   docVideo.onerror = function () {
