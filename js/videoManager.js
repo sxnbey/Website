@@ -63,10 +63,8 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     playVideo(false, true);
   };
 
-  if (url != "")
-    document
-      .getElementById("video")
-      .setAttribute("src", `${mediaPath}/media/${url.toLowerCase()}.mp4`);
+  if (videos.includes(url))
+    docVideo.setAttribute("src", `${mediaPath}/media/${url.toLowerCase()}.mp4`);
   else playVideo();
 
   // title shit //
@@ -83,11 +81,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
       .setAttribute(
         "title",
         `Current video: "${
-          document
-            .getElementById("video")
-            .getAttribute("src")
-            .split("/")[2]
-            .split(".")[0]
+          docVideo.getAttribute("src").split("/")[2].split(".")[0]
         }"`
       );
 
