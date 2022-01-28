@@ -41,6 +41,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     "rag-round-my-skull",
     "i-miss-my-dead-friends",
     "fuckthepopulation",
+    "face-it",
   ];
 
   let video = newVideoF();
