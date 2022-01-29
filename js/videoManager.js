@@ -1,54 +1,54 @@
+let usedVideos = [];
+let videos = [
+  "beamer-boy",
+  "your-favourite-dress",
+  "come-around",
+  "cocaine-shawty",
+  "california-world",
+  "mos",
+  "keep-my-coo",
+  "runaway",
+  "gym-class",
+  "benz-truck",
+  "girls",
+  "white-wine",
+  "white-tee",
+  "lil-kennedy",
+  "cobain",
+  "hellboy",
+  "lil-jeep",
+  "drugz",
+  "crybaby",
+  "belgium",
+  "when-i-lie",
+  "falling-down",
+  "ive-been-waiting",
+  "life-is-beautiful",
+  "16-lines",
+  "cry-alone",
+  "4-gold-chains",
+  "save-that-shit",
+  "awful-things",
+  "the-brightside",
+  "backseat",
+  "witchblades",
+  "antarctica",
+  "2nd-hand",
+  "for-the-last-time",
+  "o-pana",
+  "magazine",
+  "paris",
+  "rag-round-my-skull",
+  "i-miss-my-dead-friends",
+  "fuckthepopulation",
+  "face-it",
+];
+let url = window.location.search.substring(1);
+
 async function videoManager(mediaPath, map = false, newVideo = false) {
-  let videos = [
-    "beamer-boy",
-    "your-favourite-dress",
-    "come-around",
-    "cocaine-shawty",
-    "california-world",
-    "mos",
-    "keep-my-coo",
-    "runaway",
-    "gym-class",
-    "benz-truck",
-    "girls",
-    "white-wine",
-    "white-tee",
-    "lil-kennedy",
-    "cobain",
-    "hellboy",
-    "lil-jeep",
-    "drugz",
-    "crybaby",
-    "belgium",
-    "when-i-lie",
-    "falling-down",
-    "ive-been-waiting",
-    "life-is-beautiful",
-    "16-lines",
-    "cry-alone",
-    "4-gold-chains",
-    "save-that-shit",
-    "awful-things",
-    "the-brightside",
-    "backseat",
-    "witchblades",
-    "antarctica",
-    "2nd-hand",
-    "for-the-last-time",
-    "o-pana",
-    "magazine",
-    "paris",
-    "rag-round-my-skull",
-    "i-miss-my-dead-friends",
-    "fuckthepopulation",
-    "face-it",
-  ];
-
-  let video = newVideoF();
-
   let docVideo = document.getElementById("video");
 
-  let url = window.location.search.substring(1);
+  let video = newVideoF();
 
   if (newVideo) return playVideo(newVideo);
 
@@ -63,9 +63,10 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     playVideo(false, true);
   };
 
-  if (videos.includes(url))
+  if (videos.includes(url)) {
     docVideo.setAttribute("src", `${mediaPath}/media/${url.toLowerCase()}.mp4`);
-  else playVideo();
+    usedVideos.push(url);
+  } else playVideo();
 
   // title shit //
 
@@ -93,13 +94,18 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     if (
       (newVidBoo &&
         docVideo.getAttribute("src").split("/")[2].split(".")[0] == video) ||
+      (usedVideos.includes(video) && usedVideos.length != videos.length) ||
       err
     ) {
       video = newVideoF();
       playVideo();
     } else {
+      if (usedVideos.length == videos.length) usedVideos = [];
+
       docVideo.setAttribute("src", `${mediaPath}/media/${video}.mp4`);
       docVideo.play();
+
+      usedVideos.push(video);
     }
   }
 
