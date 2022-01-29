@@ -50,7 +50,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
 
   let video = newVideoF();
 
-  if (newVideo) return playVideo(newVideo);
+  if (newVideo) return playVideo();
 
   if (map)
     return document.write(
@@ -60,7 +60,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     );
 
   docVideo.onerror = function () {
-    playVideo(false, true);
+    playVideo(true);
   };
 
   if (videos.includes(url)) {
@@ -90,10 +90,8 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
 
   // functions //
 
-  function playVideo(newVidBoo = false, err = false) {
+  function playVideo(err = false) {
     if (
-      (newVidBoo &&
-        docVideo.getAttribute("src").split("/")[2].split(".")[0] == video) ||
       (usedVideos.includes(video) && usedVideos.length != videos.length) ||
       err
     ) {
@@ -182,7 +180,7 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
 
   docVideo.onended = function () {
     if (url != docVideo.getAttribute("src").split("/")[2].split(".")[0])
-      playVideo(true);
+      playVideo();
     else {
       docVideo.currentTime = 0;
       docVideo.play();
