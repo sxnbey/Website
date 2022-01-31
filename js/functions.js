@@ -187,6 +187,26 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
   };
 }
 
+// VOLUME MANAGER //
+
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("mute").addEventListener("wheel", function (e) {
+    volume(e);
+  });
+});
+
+function volume(e) {
+  if (e.deltaY > 0) {
+    if (Math.round(document.getElementById("video").volume * 100) / 100 > 0.1)
+      document.getElementById("video").volume =
+        document.getElementById("video").volume - 0.1;
+  } else {
+    if (Math.round(document.getElementById("video").volume * 100) / 100 < 1)
+      document.getElementById("video").volume =
+        document.getElementById("video").volume + 0.1;
+  }
+}
+
 // REPLAY VIDEO FUNCTION //
 
 function replayVideo() {
@@ -214,34 +234,29 @@ function pauseVideo() {
 // MUTE MANAGER FUNCTION //
 
 function muteManager(path) {
-  let currentImg = "muted";
+  let muted = true;
 
   document.getElementById("mute").addEventListener("click", function () {
     muter();
   });
 
-  // functions //
+  // function //
 
   function muter() {
-    switch (currentImg) {
-      default:
-        break;
-
-      case "muted":
-        currentImg = "unmuted";
-        document.getElementById("video").muted = false;
-        document.getElementById("video").volume = 0.3;
-        break;
-
-      case "unmuted":
-        currentImg = "muted";
-        document.getElementById("video").muted = true;
-        break;
+    if (muted) {
+      muted = false;
+      document.getElementById("video").muted = false;
+      document.getElementById("video").volume = 0.3;
+      document
+        .getElementById("mute")
+        .setAttribute("src", `${path}/img/unmuted.svg`);
+    } else {
+      muted = true;
+      document.getElementById("video").muted = true;
+      document
+        .getElementById("mute")
+        .setAttribute("src", `${path}/img/muted.svg`);
     }
-
-    document
-      .getElementById("mute")
-      .setAttribute("src", `${path}/img/${currentImg}.svg`);
   }
 }
 
