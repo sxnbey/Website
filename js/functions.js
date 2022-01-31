@@ -49,7 +49,6 @@ let url = window.location.search.substring(1);
 
 async function videoManager(mediaPath, map = false, newVideo = false) {
   let docVideo = document.getElementById("video");
-
   let video = newVideoF();
 
   if (newVideo) return playVideo();
@@ -75,7 +74,6 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
   await new Promise((res) => setTimeout(() => res(true), 300));
 
   let x = 0;
-
   let titleText = titleTextGen();
 
   if (document.getElementById("h1"))
@@ -139,7 +137,6 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
       "S E N B E Y . N E T -",
       "S E N B E Y . N E T - ",
     ];
-
     let titleVideo = docVideo
       .getAttribute("src")
       .split("/")[2]
@@ -190,6 +187,30 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
   };
 }
 
+// REPLAY VIDEO FUNCTION //
+
+function replayVideo() {
+  document.getElementById("video").currentTime = 0;
+}
+
+// PAUSE VIDEO FUNCTION //
+
+function pauseVideo() {
+  if (document.getElementById("video").paused) {
+    document.getElementById("video").play();
+
+    document.getElementById("settingsContent").innerHTML = document
+      .getElementById("settingsContent")
+      .innerHTML.replace("Unpause", "Pause");
+  } else {
+    document.getElementById("video").pause();
+
+    document.getElementById("settingsContent").innerHTML = document
+      .getElementById("settingsContent")
+      .innerHTML.replace("Pause", "Unpause");
+  }
+}
+
 // MUTE MANAGER FUNCTION //
 
 function muteManager(path) {
@@ -228,7 +249,6 @@ function muteManager(path) {
 
 async function copyURL() {
   let popup = document.getElementById("popup");
-
   let text = `https://senbey.net?${
     document
       .getElementById(`video`)
@@ -238,7 +258,7 @@ async function copyURL() {
   }`;
 
   navigator.clipboard.writeText(text).then(() => {
-    popup.innerHTML = `"${text}" was copied to the clipboard!`;
+    popup.innerHTML = `"${text}" was copied to your clipboard!`;
   });
 
   popup.className = "visible";

@@ -1,16 +1,13 @@
 html,
 body {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
 
   background-color: #000;
   cursor: url("../img/cursor.cur"), auto;
-  text-align: center;
-  font-family: "M PLUS Code Latin", sans-serif;
 }
 
 #video {
@@ -29,8 +26,8 @@ body {
   top: 1vh;
 
   transition: all 300ms;
-  -webkit-transition: all 300ms;
   -moz-transition: all 300ms;
+  -webkit-transition: all 300ms;
   -o-transition: all 300ms;
 }
 
