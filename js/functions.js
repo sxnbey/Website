@@ -1,3 +1,5 @@
+// VIDEO MANAGER FUNCTION //
+
 let usedVideos = [];
 let videos = [
   "beamer-boy",
@@ -187,3 +189,78 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
     }
   };
 }
+
+// MUTE MANAGER FUNCTION //
+
+function muteManager(path) {
+  let currentImg = "muted";
+
+  document.getElementById("mute").addEventListener("click", function () {
+    muter();
+  });
+
+  // functions //
+
+  function muter() {
+    switch (currentImg) {
+      default:
+        break;
+
+      case "muted":
+        currentImg = "unmuted";
+        document.getElementById("video").muted = false;
+        document.getElementById("video").volume = 0.3;
+        break;
+
+      case "unmuted":
+        currentImg = "muted";
+        document.getElementById("video").muted = true;
+        break;
+    }
+
+    document
+      .getElementById("mute")
+      .setAttribute("src", `${path}/img/${currentImg}.svg`);
+  }
+}
+
+// COPY TEXT FUNCTION //
+
+async function copyURL() {
+  let popup = document.getElementById("popup");
+
+  let text = `https://senbey.net?${
+    document
+      .getElementById(`video`)
+      .getAttribute(`src`)
+      .split(`/`)[2]
+      .split(`.`)[0]
+  }`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    popup.innerHTML = `"${text}" was copied to the clipboard!`;
+  });
+
+  popup.className = "visible";
+
+  await new Promise((res) => setTimeout(() => res(true), 5500));
+
+  popup.className = "";
+}
+
+// KEY BLOCKER EVENT //
+
+document.onkeydown = function (e) {
+  switch (e.keyCode) {
+    default:
+      break;
+
+    case 123:
+    case 73:
+    case 83:
+    case 85:
+    case 70:
+    case 114:
+      return false;
+  }
+};

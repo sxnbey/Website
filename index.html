@@ -2,10 +2,8 @@
 <html>
   <head>
     <title>Homepage of senbey.net</title>
-    <script src="./js/videoManager.js?version=41"></script>
-    <script src="./js/keyBlocker.js?version=2"></script>
-    <script src="./js/muteManager.js?version=7"></script>
-    <link rel="stylesheet" type="text/css" href="./style.css?version=17" />
+    <script src="./js/functions.js?version=5"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css?version=3" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -67,29 +65,22 @@
     <img src="./img/muted.svg" alt="Mute / Unmute" id="mute" />
 
     <div id="text">
-      <h1 title=" " id="h1">senbey.net</h1>
+      <h1 title=" " id="h1" onclick="copyURL()">senbey.net</h1>
 
       <br />
 
       <p>
-        <a href="https://discord.com/users/508358002630459402" target="_blank"
-          >Discord</a
-        >
-        | <a href="bot" target="_blank">Discord-Bot</a> |
-        <a href="https://github.com/senbeyxd" target="_blank">GitHub</a> |
-        <a href="https://twitter.com/senbeyxd" target="_blank">Twitter</a> |
-        <a
-          href="https://www.youtube.com/channel/UCboUa7LWDjYnM1lK5weZiZA"
-          target="_blank"
-          >YouTube</a
-        >
-        |
-        <a href="https://steamcommunity.com/id/senbey" target="_blank">Steam</a>
-        | <a href="info">Info</a>
-        |
+        <a href="discord" target="_blank">Discord</a> |
+        <a href="bot" target="_blank">Discord-Bot</a> |
+        <a href="github" target="_blank">GitHub</a> |
+        <a href="twitter" target="_blank">Twitter</a> |
+        <a href="youtube" target="_blank">YouTube</a> |
+        <a href="steam" target="_blank">Steam</a> | <a href="info">Info</a> |
         <a onclick="videoManager('.', false, true)">New Video</a>
       </p>
     </div>
+
+    <div id="popup"></div>
 
     <script>
       videoManager(".");

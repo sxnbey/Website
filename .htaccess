@@ -4,7 +4,15 @@ Options -Indexes
 
 Redirect 301 /bot https://discord.com/oauth2/authorize?client_id=728580712290189314&permissions=275884911830&scope=applications.commands%20bot
 
-Redirect 301 /bot/ https://discord.com/oauth2/authorize?client_id=728580712290189314&permissions=275884911830&scope=applications.commands%20bot
+Redirect 301 /discord https://discord.com/users/508358002630459402
+
+Redirect 301 /github https://github.com/senbeyxd
+
+Redirect 301 /twitter https://twitter.com/senbeyxd
+
+Redirect 301 /youtube https://www.youtube.com/channel/UCboUa7LWDjYnM1lK5weZiZA
+
+Redirect 301 /steam https://steamcommunity.com/id/senbey
 
 ErrorDocument 400 /errors/400.html
 

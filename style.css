@@ -56,8 +56,8 @@ a:hover {
 
 #text {
   color: #f1f1f1;
-  text-shadow: 1px 1px 0px rgba(8, 230, 255, 100),
-    -1px -1px 0px rgba(255, 0, 0, 100);
+  text-shadow: 1px 1px 0px rgba(8, 230, 255, 1),
+    -1px -1px 0px rgba(255, 0, 0, 1);
   font-size: 1.5vh;
 
   width: 80vw;
@@ -133,5 +133,152 @@ a:hover {
   to {
     opacity: 1;
     left: 50vw;
+  }
+}
+
+/* copy text popup */
+
+#text {
+  color: #f1f1f1;
+  text-shadow: 1px 1px 0px rgba(8, 230, 255, 1),
+    -1px -1px 0px rgba(255, 0, 0, 1);
+  font-size: 1.5vh;
+
+  width: 80vw;
+  position: absolute;
+  left: 50vw;
+  top: 80vh;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+
+  -webkit-animation: fadein 1s;
+  -moz-animation: fadein 1s;
+  -ms-animation: fadein 1s;
+  -o-animation: fadein 1s;
+  animation: fadein 1s;
+}
+
+#popup {
+  background-color: rgba(0, 0, 0, 0.2);
+  color: rgba(241, 241, 241, 0.5);
+  text-shadow: 1px 1px 0px rgba(8, 230, 255, 0.5),
+    -1px -1px 0px rgba(255, 0, 0, 0.5);
+  font-size: 1.5vh;
+
+  visibility: hidden;
+  border-radius: 0.5vw;
+  padding: 0.25vw;
+  max-width: 60vw;
+  position: absolute;
+  left: 50vw;
+  top: 82.5vh;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+
+#popup.visible {
+  visibility: visible;
+
+  -webkit-animation: popupFadein 0.5s, popupFadeout 0.5s 5s;
+  -moz-animation: popupFadein 0.5s, popupFadeout 0.5s 5s;
+  -ms-animation: popupFadein 0.5s, popupFadeout 0.5s 5s;
+  -o-animation: popupFadein 0.5s, popupFadeout 0.5s 5s;
+  animation: popupFadein 0.5s, popupFadeout 0.5s 5s;
+}
+
+@keyframes popupFadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes popupFadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes popupFadein {
+  from {
+    bottom: 0vh;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes popupFadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes popupFadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popupFadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@-moz-keyframes popupFadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes popupFadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@-ms-keyframes popupFadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@-o-keyframes popupFadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
