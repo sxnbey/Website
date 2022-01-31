@@ -209,7 +209,7 @@ function volume(e) {
 
 // REPLAY VIDEO FUNCTION //
 
-function replayVideo() {
+function restartVideo() {
   document.getElementById("video").currentTime = 0;
 }
 
