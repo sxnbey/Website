@@ -7,7 +7,7 @@ body {
   -o-user-select: none;
 
   background-color: #000;
-  cursor: url("./img/cursor.cur"), auto;
+  cursor: url("../img/cursor.cur"), auto;
   text-align: center;
   font-family: "M PLUS Code Latin", sans-serif;
 }
@@ -53,7 +53,7 @@ body {
 }
 
 a {
-  cursor: url("./img/cursor.cur"), auto;
+  cursor: url("../img/cursor.cur"), auto;
   text-decoration: none;
 
   transition: all 300ms;
@@ -61,6 +61,10 @@ a {
   -webkit-transition: all 300ms;
   -ms-transition: all 300ms;
   -o-transition: all 300ms;
+}
+
+#decorationA {
+  text-decoration: underline;
 }
 
 a:hover {
@@ -80,7 +84,29 @@ h1 {
   font-size: 5vh;
 }
 
+#errorH1 {
+  font-size: 3vh;
+}
+
 #text {
+  width: 80vw;
+  position: absolute;
+  left: 50vw;
+  top: 70vh;
+  transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+
+  animation: fadein 1s;
+  -moz-animation: fadein 1s;
+  -webkit-animation: fadein 1s;
+  -ms-animation: fadein 1s;
+  -o-animation: fadein 1s;
+}
+
+#mainPageText {
   width: 80vw;
   position: absolute;
   left: 50vw;
@@ -145,6 +171,8 @@ h1 {
   right: 1vw;
   top: 5vh;
   width: fit-content;
+  min-width: 5vw;
+  min-height: 3vh;
 
   transition: all 300ms;
   -moz-transition: all 300ms;
@@ -187,7 +215,7 @@ h1 {
 #settings:hover {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 0.5vw;
-  padding: 0.25vw;
+  padding: 0.5vw;
 }
 
 /* fade in start animation */

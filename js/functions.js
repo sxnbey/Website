@@ -56,7 +56,10 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
   if (map)
     return document.write(
       `All ${videos.length} videos: ${videos
-        .map((video) => `<a href="https://senbey.net?${video}" >${video}</a>`)
+        .map(
+          (video) =>
+            `<a href="https://senbey.net?${video}" id="decorationA">${video}</a>`
+        )
         .join(", ")}`
     );
 
