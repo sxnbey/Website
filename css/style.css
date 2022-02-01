@@ -136,10 +136,11 @@ h1 {
   visibility: hidden;
   border-radius: 0.5vw;
   padding: 0.25vw;
-  max-width: 60vw;
+  width: fit-content;
+  max-width: 80vw;
   position: absolute;
   left: 50vw;
-  top: 82.5vh;
+  top: 70vh;
   transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
