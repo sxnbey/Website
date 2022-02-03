@@ -22,7 +22,7 @@ body {
 }
 
 #mute {
-  position: absolute;
+  position: fixed;
   height: 4vh;
   left: 1vw;
   top: 1vh;
