@@ -47,21 +47,11 @@ let videos = [
 ];
 let url = window.location.search.substring(1);
 
-async function videoManager(mediaPath, map = false, newVideo = false) {
+async function videoManager(mediaPath, newVideo = false) {
   let docVideo = document.getElementById("video");
   let video = newVideoF();
 
   if (newVideo) return playVideo();
-
-  if (map)
-    return document.write(
-      `All ${videos.length} videos: ${videos
-        .map(
-          (video) =>
-            `<a href="https://senbey.net?${video}" id="decorationA">${video}</a>`
-        )
-        .join(", ")}`
-    );
 
   docVideo.onerror = function () {
     playVideo(true);
@@ -193,6 +183,8 @@ async function videoManager(mediaPath, map = false, newVideo = false) {
 // VOLUME MANAGER //
 
 document.addEventListener("DOMContentLoaded", function () {
+  currentVolume = document.getElementById("video").volume = 0.3;
+
   document.getElementById("mute").addEventListener("wheel", function (e) {
     volume(e);
   });
@@ -200,13 +192,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function volume(e) {
   if (e.deltaY > 0) {
-    if (Math.round(document.getElementById("video").volume * 100) / 100 > 0.1)
+    if (Math.round(document.getElementById("video").volume * 100) / 100 > 0.1) {
       document.getElementById("video").volume =
         document.getElementById("video").volume - 0.1;
+    }
   } else {
-    if (Math.round(document.getElementById("video").volume * 100) / 100 < 1)
+    if (Math.round(document.getElementById("video").volume * 100) / 100 < 1) {
       document.getElementById("video").volume =
         document.getElementById("video").volume + 0.1;
+    }
   }
 }
 
@@ -214,6 +208,19 @@ function volume(e) {
 
 function restartVideo() {
   document.getElementById("video").currentTime = 0;
+}
+
+// VIDEO MAPPER //
+
+function map() {
+  document.write(
+    `All ${videos.length} videos: ${videos
+      .map(
+        (video) =>
+          `<a href="https://senbey.net?${video}" id="decorationA">${video}</a>`
+      )
+      .join(", ")}`
+  );
 }
 
 // PAUSE VIDEO FUNCTION //
@@ -249,7 +256,6 @@ function muteManager(path) {
     if (muted) {
       muted = false;
       document.getElementById("video").muted = false;
-      document.getElementById("video").volume = 0.3;
       document
         .getElementById("mute")
         .setAttribute("src", `${path}/img/unmuted.svg`);
