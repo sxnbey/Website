@@ -44,14 +44,6 @@ body {
   -o-animation: spin 0.3s;
 }
 
-/* #mute:not(:hover) {
-  animation: spinReverse 0.3s;
-  -moz-animation: spinReverse 0.3s;
-  -webkit-animation: spinReverse 0.3s;
-  -ms-animation: spinReverse 0.3s;
-  -o-animation: spinReverse 0.3s;
-} */
-
 a {
   cursor: url("../img/cursor.cur"), auto;
   text-decoration: none;
@@ -204,14 +196,6 @@ h1 {
   -ms-animation: spin 0.3s;
   -o-animation: spin 0.3s;
 }
-
-/* #settings:not(:hover) #settingsSVG {
-  animation: spinReverse 0.3s;
-  -moz-animation: spinReverse 0.3s;
-  -webkit-animation: spinReverse 0.3s;
-  -ms-animation: spinReverse 0.3s;
-  -o-animation: spinReverse 0.3s;
-} */
 
 #settings:hover {
   background-color: rgba(0, 0, 0, 0.2);
@@ -412,50 +396,5 @@ h1 {
   }
   to {
     transform: rotate(360deg);
-  }
-}
-
-@keyframes spinReverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@-moz-keyframes spinReverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@-webkit-keyframes spinReverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@-ms-keyframes spinReverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@-o-keyframes spinReverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
   }
 }

@@ -1,5 +1,6 @@
 // VIDEO MANAGER FUNCTION //
 
+let muted = true;
 let usedVideos = [];
 let videos = [
   "beamer-boy",
@@ -46,25 +47,28 @@ let videos = [
   "face-it",
 ];
 let url = window.location.search.substring(1);
+let video = newVideoF();
 
-async function videoManager(mediaPath, newVideo = false) {
-  let docVideo = document.getElementById("video");
-  let video = newVideoF();
+// VIDEO MANAGER //
 
-  if (newVideo) return playVideo();
+document.addEventListener("DOMContentLoaded", function () {
+  // just for the volume function //
 
-  docVideo.onerror = function () {
-    playVideo(true);
+  document.getElementById("video").volume = 0.3;
+  document.getElementById("mute").addEventListener("wheel", function (e) {
+    volume(e);
+  });
+
+  document.getElementById("video").onerror = function () {
+    playVideo(true, video);
   };
 
   if (videos.includes(url)) {
-    docVideo.setAttribute("src", `${mediaPath}/media/${url.toLowerCase()}.mp4`);
+    document
+      .getElementById("video")
+      .setAttribute("src", `${pathGen()}/media/${url.toLowerCase()}.mp4`);
     usedVideos.push(url);
-  } else playVideo();
-
-  // title shit //
-
-  await new Promise((res) => setTimeout(() => res(true), 300));
+  } else playVideo(false, video);
 
   let x = 0;
   let titleText = titleTextGen();
@@ -75,34 +79,17 @@ async function videoManager(mediaPath, newVideo = false) {
       .setAttribute(
         "title",
         `Current video: "${
-          docVideo.getAttribute("src").split("/")[2].split(".")[0]
+          document
+            .getElementById("video")
+            .getAttribute("src")
+            .split("/")[2]
+            .split(".")[0]
         }"`
       );
 
   setInterval(loop, 300);
 
-  // functions //
-
-  function playVideo(err = false) {
-    if (
-      (usedVideos.includes(video) && usedVideos.length != videos.length) ||
-      err
-    ) {
-      video = newVideoF();
-      playVideo();
-    } else {
-      if (usedVideos.length == videos.length) usedVideos = [];
-
-      docVideo.setAttribute("src", `${mediaPath}/media/${video}.mp4`);
-      docVideo.play();
-
-      usedVideos.push(video);
-    }
-  }
-
-  function newVideoF() {
-    return videos[Math.floor(Math.random() * videos.length)];
-  }
+  // functions for the video stuff //
 
   function titleTextGen() {
     let titleText = [
@@ -130,7 +117,8 @@ async function videoManager(mediaPath, newVideo = false) {
       "S E N B E Y . N E T -",
       "S E N B E Y . N E T - ",
     ];
-    let titleVideo = docVideo
+    let titleVideo = document
+      .getElementById("video")
       .getAttribute("src")
       .split("/")[2]
       .split(".")[0]
@@ -158,7 +146,11 @@ async function videoManager(mediaPath, newVideo = false) {
           .setAttribute(
             "title",
             `Current video: "${
-              docVideo.getAttribute("src").split("/")[2].split(".")[0]
+              document
+                .getElementById("video")
+                .getAttribute("src")
+                .split("/")[2]
+                .split(".")[0]
             }"`
           );
     }
@@ -166,29 +158,53 @@ async function videoManager(mediaPath, newVideo = false) {
     document.getElementsByTagName("title")[0].innerHTML = `${
       titleText[x++ % titleText.length]
     }|`;
+
+    // events //
+
+    document.getElementById("video").onended = function () {
+      if (
+        url !=
+        document
+          .getElementById("video")
+          .getAttribute("src")
+          .split("/")[2]
+          .split(".")[0]
+      )
+        playVideo(false, video);
+      else {
+        document.getElementById("video").currentTime = 0;
+        document.getElementById("video").play();
+      }
+    };
   }
+});
 
-  // events //
+// some other functions that need to be global //
 
-  docVideo.onended = function () {
-    if (url != docVideo.getAttribute("src").split("/")[2].split(".")[0])
-      playVideo();
-    else {
-      docVideo.currentTime = 0;
-      docVideo.play();
-    }
-  };
+function playVideo(err = false, video) {
+  if (
+    (usedVideos.includes(video) && usedVideos.length != videos.length) ||
+    err
+  ) {
+    video = newVideoF();
+    playVideo(false, video);
+  } else {
+    if (usedVideos.length == videos.length) usedVideos = [];
+
+    document
+      .getElementById("video")
+      .setAttribute("src", `${pathGen()}/media/${video}.mp4`);
+    document.getElementById("video").play();
+
+    usedVideos.push(video);
+  }
+}
+
+function newVideoF() {
+  return videos[Math.floor(Math.random() * videos.length)];
 }
 
 // VOLUME MANAGER //
-
-document.addEventListener("DOMContentLoaded", function () {
-  currentVolume = document.getElementById("video").volume = 0.3;
-
-  document.getElementById("mute").addEventListener("wheel", function (e) {
-    volume(e);
-  });
-});
 
 function volume(e) {
   if (e.deltaY > 0) {
@@ -204,7 +220,7 @@ function volume(e) {
   }
 }
 
-// REPLAY VIDEO FUNCTION //
+// RESTART VIDEO FUNCTION //
 
 function restartVideo() {
   document.getElementById("video").currentTime = 0;
@@ -241,31 +257,21 @@ function pauseVideo() {
   }
 }
 
-// MUTE MANAGER FUNCTION //
+// MUTER FUNCTION //
 
-function muteManager(path) {
-  let muted = true;
-
-  document.getElementById("mute").addEventListener("click", function () {
-    muter();
-  });
-
-  // function //
-
-  function muter() {
-    if (muted) {
-      muted = false;
-      document.getElementById("video").muted = false;
-      document
-        .getElementById("mute")
-        .setAttribute("src", `${path}/img/unmuted.svg`);
-    } else {
-      muted = true;
-      document.getElementById("video").muted = true;
-      document
-        .getElementById("mute")
-        .setAttribute("src", `${path}/img/muted.svg`);
-    }
+function muter() {
+  if (muted) {
+    muted = false;
+    document.getElementById("video").muted = false;
+    document
+      .getElementById("mute")
+      .setAttribute("src", `${pathGen()}/img/unmuted.svg`);
+  } else {
+    muted = true;
+    document.getElementById("video").muted = true;
+    document
+      .getElementById("mute")
+      .setAttribute("src", `${pathGen()}/img/muted.svg`);
   }
 }
 
@@ -292,11 +298,51 @@ async function copyURL() {
   popup.className = "";
 }
 
-// KEY BLOCKER EVENT //
+// PATH FUNCTION //
+
+function pathGen() {
+  if (document.getElementById("main")) return ".";
+  else return "..";
+}
+
+// KEY EVENT //
 
 document.onkeydown = function (e) {
   switch (e.keyCode) {
     default:
+      break;
+
+    case 78:
+      playVideo(false, video);
+      break;
+
+    case 82:
+      restartVideo();
+      break;
+
+    case 32:
+      pauseVideo();
+      break;
+
+    case 77:
+      muter();
+      break;
+
+    case 38:
+      if (Math.round(document.getElementById("video").volume * 100) / 100 < 1) {
+        document.getElementById("video").volume =
+          document.getElementById("video").volume + 0.1;
+      }
+      break;
+
+    case 40:
+      if (
+        Math.round(document.getElementById("video").volume * 100) / 100 >
+        0.1
+      ) {
+        document.getElementById("video").volume =
+          document.getElementById("video").volume - 0.1;
+      }
       break;
 
     case 123:

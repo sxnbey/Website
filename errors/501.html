@@ -2,8 +2,8 @@
 <html>
   <head>
     <title>Error 501 page of senbey.net</title>
-    <script src="../js/functions.js?version=23"></script>
-    <link rel="stylesheet" type="text/css" href="../css/style.css?version=6" />
+    <script src="../js/functions.js?version=24"></script>
+    <link rel="stylesheet" type="text/css" href="../css/style.css?version=7" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -62,12 +62,17 @@
       <source src="../media/keep-my-coo.mp4" type="video/mp4" />
     </video>
 
-    <img src="../img/muted.svg" alt="Mute / Unmute" id="mute" />
+    <img
+      src="../img/muted.svg"
+      alt="Mute / Unmute"
+      id="mute"
+      onclick="muter()"
+    />
 
     <div id="settings">
       <img src="../img/settings.svg" alt="Settings" id="settingsSVG" />
       <div id="settingsContent">
-        <a onclick="videoManager('.', true)">New Video</a>
+        <a onclick="playVideo(false, video)">New Video</a>
         <a onclick="restartVideo()">Restart Video</a>
         <a onclick="pauseVideo()">Pause Video</a>
       </div>
@@ -86,10 +91,5 @@
 
       <a href="../" id="decorationA">Back to the website</a>
     </div>
-
-    <script>
-      videoManager("..");
-      muteManager("..");
-    </script>
   </body>
 </html>
