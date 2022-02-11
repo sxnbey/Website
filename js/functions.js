@@ -205,17 +205,25 @@ function newVideoF() {
 // VOLUME MANAGER //
 
 function volume(e) {
-  if (e.deltaY > 0) {
-    if (Math.round(document.getElementById("video").volume * 100) / 100 > 0.1) {
-      document.getElementById("video").volume =
-        document.getElementById("video").volume - 0.1;
-    }
+  if (e.deltaY < 0) {
+    volumeUp();
   } else {
-    if (Math.round(document.getElementById("video").volume * 100) / 100 < 1) {
-      document.getElementById("video").volume =
-        document.getElementById("video").volume + 0.1;
-    }
+    volumeDown();
   }
+}
+
+function volumeUp() {
+  if (Math.round(document.getElementById("video").volume * 100) / 100 < 1) {
+    document.getElementById("video").volume =
+      document.getElementById("video").volume + 0.1;
+  } else popup("The volume is on maximum.", false);
+}
+
+function volumeDown() {
+  if (Math.round(document.getElementById("video").volume * 100) / 100 > 0.1) {
+    document.getElementById("video").volume =
+      document.getElementById("video").volume - 0.1;
+  } else popup("The volume is on minimum.", false);
 }
 
 // RESTART VIDEO FUNCTION //
@@ -273,21 +281,22 @@ function muter() {
   }
 }
 
-// COPY TEXT FUNCTION //
+// POPUP FUNCTION //
 
-async function copyURL() {
+async function popup(text, copy = true) {
   let popup = document.getElementById("popup");
-  let text = `https://senbey.net?${
-    document
-      .getElementById(`video`)
-      .getAttribute(`src`)
-      .split(`/`)[2]
-      .split(`.`)[0]
-  }`;
 
-  navigator.clipboard.writeText(text).then(() => {
-    popup.innerHTML = `"${text}" was copied to your clipboard!`;
-  });
+  if (!popup) return;
+
+  if (popup.className == "visible") return;
+
+  if (copy) {
+    await navigator.clipboard.writeText(text);
+
+    text = `"${text}" was copied to your clipboard!`;
+  }
+
+  popup.innerHTML = text;
 
   popup.className = "visible";
 
@@ -327,20 +336,11 @@ document.onkeydown = function (e) {
       break;
 
     case 38:
-      if (Math.round(document.getElementById("video").volume * 100) / 100 < 1) {
-        document.getElementById("video").volume =
-          document.getElementById("video").volume + 0.1;
-      }
+      volumeUp();
       break;
 
     case 40:
-      if (
-        Math.round(document.getElementById("video").volume * 100) / 100 >
-        0.1
-      ) {
-        document.getElementById("video").volume =
-          document.getElementById("video").volume - 0.1;
-      }
+      volumeDown();
       break;
 
     case 123:

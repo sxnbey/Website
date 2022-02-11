@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Homepage of senbey.net</title>
-    <script src="./js/functions.js?version=24"></script>
+    <script src="./js/functions.js?version=27"></script>
     <link rel="stylesheet" type="text/css" href="./css/style.css?version=7" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -79,7 +79,18 @@
     </div>
 
     <div id="mainPageText">
-      <h1 title=" " id="h1" onclick="copyURL()">senbey.net</h1>
+      <h1
+        title=" "
+        id="h1"
+        onclick="popup(`https://senbey.net?${
+          document
+          .getElementById(`video`)
+          .getAttribute(`src`)
+          .split(`/`)[2]
+          .split(`.`)[0]}`)"
+      >
+        senbey.net
+      </h1>
 
       <br />
 
