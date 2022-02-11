@@ -1,5 +1,3 @@
-// VIDEO MANAGER FUNCTION //
-
 let muted = true;
 let usedVideos = [];
 let videos = [
