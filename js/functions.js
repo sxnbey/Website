@@ -206,6 +206,8 @@ function playVideo(err = false, video, pageLoad = false) {
         }"`
       );
 
+    document.getElementById("video").className = "";
+
     usedVideos.push(video);
   }
 }
