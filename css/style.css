@@ -28,11 +28,11 @@ body {
 }
 
 .blurred {
-  filter: blur(5px);
-  -moz-filter: blur(5px);
-  -webkit-filter: blur(5px);
-  -ms-filter: blur(5px);
-  -o-filter: blur(5px);
+  filter: blur(10px);
+  -moz-filter: blur(10px);
+  -webkit-filter: blur(10px);
+  -ms-filter: blur(10px);
+  -o-filter: blur(10px);
 }
 
 #mute {
@@ -56,6 +56,35 @@ body {
   -webkit-animation: spin 0.3s;
   -ms-animation: spin 0.3s;
   -o-animation: spin 0.3s;
+}
+
+#paused {
+  position: absolute;
+  visibility: hidden;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  opacity: 0;
+  height: 40vh;
+
+  filter: blur(10px);
+  -moz-filter: blur(10px);
+  -webkit-filter: blur(10px);
+  -ms-filter: blur(10px);
+  -o-filter: blur(10px);
+
+  transition: all 300ms;
+  -moz-transition: all 300ms;
+  -webkit-transition: all 300ms;
+  -ms-transition: all 300ms;
+  -o-transition: all 300ms;
+}
+
+#paused.visible {
+  opacity: 1;
+  visibility: visible;
 }
 
 a {
@@ -95,8 +124,8 @@ h1 {
 }
 
 #text {
-  width: 80vw;
   position: absolute;
+  width: 80vw;
   left: 50vw;
   top: 70vh;
   transform: translate(-50%, -50%);
@@ -113,8 +142,8 @@ h1 {
 }
 
 #mainPageText {
-  width: 80vw;
   position: absolute;
+  width: 80vw;
   left: 50vw;
   top: 80vh;
   transform: translate(-50%, -50%);
@@ -132,6 +161,13 @@ h1 {
 
 /* copy url popup */
 
+/* position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  width: 20vw;
+  left: 40vw;
+  top: 30vh; */
+
 #popup {
   background-color: rgba(0, 0, 0, 0.2);
   color: rgba(241, 241, 241, 0.5);
@@ -139,22 +175,30 @@ h1 {
     -1px -1px 0px rgba(255, 0, 0, 0.5);
   font-size: 2vh;
 
+  position: absolute;
   visibility: hidden;
-  border-radius: 0.5vw;
-  padding: 0.25vw;
+  opacity: 0;
   width: fit-content;
   max-width: 80vw;
-  position: absolute;
   left: 50vw;
   top: 70vh;
+  border-radius: 0.5vw;
+  padding: 0.25vw;
   transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
+
+  transition: all 500ms;
+  -moz-transition: all 500ms;
+  -webkit-transition: all 500ms;
+  -ms-transition: all 500ms;
+  -o-transition: all 500ms;
 }
 
 #popup.visible {
+  opacity: 1;
   visibility: visible;
 
   animation: popupFadein 0.5s, popupFadeout 0.5s 1.5s;
@@ -271,98 +315,6 @@ h1 {
   to {
     opacity: 1;
     left: 50vw;
-  }
-}
-
-/* popup animation */
-
-@keyframes popupFadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@-moz-keyframes popupFadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes popupFadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@-ms-keyframes popupFadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@-o-keyframes popupFadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes popupFadeout {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@-moz-keyframes popupFadeout {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@-webkit-keyframes popupFadeout {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@-ms-keyframes popupFadeout {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@-o-keyframes popupFadeout {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
   }
 }
 

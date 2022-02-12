@@ -207,6 +207,7 @@ function playVideo(err = false, video, pageLoad = false) {
       );
 
     document.getElementById("video").className = "";
+    document.getElementById("paused").className = "";
 
     usedVideos.push(video);
   }
@@ -264,16 +265,18 @@ function map() {
 function pauseVideo() {
   if (document.getElementById("video").paused) {
     document.getElementById("video").className = "";
-
     document.getElementById("video").play();
+
+    document.getElementById("paused").className = "";
 
     document.getElementById("settingsContent").innerHTML = document
       .getElementById("settingsContent")
       .innerHTML.replace("Unpause", "Pause");
   } else {
     document.getElementById("video").className = "blurred";
-
     document.getElementById("video").pause();
+
+    document.getElementById("paused").className = "visible";
 
     document.getElementById("settingsContent").innerHTML = document
       .getElementById("settingsContent")
