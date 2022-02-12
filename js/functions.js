@@ -283,12 +283,16 @@ function muter() {
 
 // POPUP FUNCTION //
 
+let popupQueue = [];
+
 async function popup(text, copy = true) {
-  let popup = document.getElementById("popup");
+  let popupE = document.getElementById("popup");
 
-  if (!popup) return;
+  if (!popupE) return;
 
-  if (popup.className == "visible") return;
+  if (popupE.innerHTML == text) return;
+
+  if (popupE.className == "visible") return popupQueue.push({ text, copy });
 
   if (copy) {
     await navigator.clipboard.writeText(text);
@@ -296,13 +300,21 @@ async function popup(text, copy = true) {
     text = `"${text}" was copied to your clipboard!`;
   }
 
-  popup.innerHTML = text;
+  popupE.innerHTML = text;
 
-  popup.className = "visible";
+  popupE.className = "visible";
 
   await new Promise((res) => setTimeout(() => res(true), 5500));
 
-  popup.className = "";
+  popupE.className = "";
+
+  if (popupQueue.length >= 1) {
+    let queuePopup = popupQueue.shift();
+
+    await new Promise((res) => setTimeout(() => res(true), 1000));
+
+    return popup(queuePopup.text, queuePopup.copy);
+  }
 }
 
 // PATH FUNCTION //
