@@ -161,13 +161,6 @@ h1 {
 
 /* copy url popup */
 
-/* position: absolute;
-  visibility: hidden;
-  opacity: 0;
-  width: 20vw;
-  left: 40vw;
-  top: 30vh; */
-
 #popup {
   background-color: rgba(0, 0, 0, 0.2);
   color: rgba(241, 241, 241, 0.5);
@@ -182,8 +175,8 @@ h1 {
   max-width: 80vw;
   left: 50vw;
   top: 70vh;
-  border-radius: 0.5vw;
-  padding: 0.25vw;
+  border-radius: 1rem;
+  padding: 0.5rem;
   transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
@@ -257,8 +250,8 @@ h1 {
 
 #settings:hover {
   background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 0.5vw;
-  padding: 0.5vw;
+  border-radius: 1rem;
+  padding: 1rem;
 }
 
 /* fade in start animation */
