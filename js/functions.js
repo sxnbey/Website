@@ -53,6 +53,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // just for the volume function //
 
   document.getElementById("video").volume = 0.3;
+  document.getElementById("mute").title = `Current volume: ${
+    Math.round(document.getElementById("video").volume * 100) / 10
+  }/10`;
   document.getElementById("mute").addEventListener("wheel", function (e) {
     volume(e);
   });
@@ -231,6 +234,10 @@ function volumeUp() {
   if (Math.round(document.getElementById("video").volume * 100) / 100 < 1) {
     document.getElementById("video").volume =
       document.getElementById("video").volume + 0.1;
+
+    document.getElementById("mute").title = `Current volume: ${
+      Math.round(document.getElementById("video").volume * 100) / 10
+    }/10`;
   } else popup("The volume is on maximum.");
 }
 
@@ -238,6 +245,10 @@ function volumeDown() {
   if (Math.round(document.getElementById("video").volume * 100) / 100 > 0.1) {
     document.getElementById("video").volume =
       document.getElementById("video").volume - 0.1;
+
+    document.getElementById("mute").title = `Current volume: ${
+      Math.round(document.getElementById("video").volume * 100) / 10
+    }/10`;
   } else popup("The volume is on minimum.");
 }
 
