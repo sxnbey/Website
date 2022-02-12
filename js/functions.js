@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .getElementById("video")
       .setAttribute("src", `${pathGen()}/media/${url.toLowerCase()}.mp4`);
     usedVideos.push(url);
-  } else playVideo(false, video);
+  } else playVideo(false, video, true);
 
   let x = 0;
   let titleText = titleTextGen();
@@ -179,12 +179,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // some other functions that need to be global //
 
-function playVideo(err = false, video) {
+function playVideo(err = false, video, pageLoad = false) {
   if (
     (usedVideos.includes(video) && usedVideos.length != videos.length) ||
     err
   ) {
     video = newVideoF();
+
     playVideo(false, video);
   } else {
     if (usedVideos.length == videos.length) usedVideos = [];
@@ -193,6 +194,17 @@ function playVideo(err = false, video) {
       .getElementById("video")
       .setAttribute("src", `${pathGen()}/media/${video}.mp4`);
     document.getElementById("video").play();
+
+    if (!pageLoad)
+      popup(
+        `Now playing: "${
+          document
+            .getElementById("video")
+            .getAttribute("src")
+            .split("/")[2]
+            .split(".")[0]
+        }"`
+      );
 
     usedVideos.push(video);
   }
@@ -216,14 +228,14 @@ function volumeUp() {
   if (Math.round(document.getElementById("video").volume * 100) / 100 < 1) {
     document.getElementById("video").volume =
       document.getElementById("video").volume + 0.1;
-  } else popup("The volume is on maximum.", false);
+  } else popup("The volume is on maximum.");
 }
 
 function volumeDown() {
   if (Math.round(document.getElementById("video").volume * 100) / 100 > 0.1) {
     document.getElementById("video").volume =
       document.getElementById("video").volume - 0.1;
-  } else popup("The volume is on minimum.", false);
+  } else popup("The volume is on minimum.");
 }
 
 // RESTART VIDEO FUNCTION //
@@ -249,12 +261,16 @@ function map() {
 
 function pauseVideo() {
   if (document.getElementById("video").paused) {
+    document.getElementById("video").className = "";
+
     document.getElementById("video").play();
 
     document.getElementById("settingsContent").innerHTML = document
       .getElementById("settingsContent")
       .innerHTML.replace("Unpause", "Pause");
   } else {
+    document.getElementById("video").className = "blurred";
+
     document.getElementById("video").pause();
 
     document.getElementById("settingsContent").innerHTML = document
@@ -268,12 +284,14 @@ function pauseVideo() {
 function muter() {
   if (muted) {
     muted = false;
+
     document.getElementById("video").muted = false;
     document
       .getElementById("mute")
       .setAttribute("src", `${pathGen()}/img/unmuted.svg`);
   } else {
     muted = true;
+
     document.getElementById("video").muted = true;
     document
       .getElementById("mute")
@@ -285,7 +303,7 @@ function muter() {
 
 let popupQueue = [];
 
-async function popup(text, copy = true) {
+async function popup(text, copy = false) {
   let popupE = document.getElementById("popup");
 
   if (!popupE) return;
@@ -302,7 +320,7 @@ async function popup(text, copy = true) {
     try {
       await navigator.clipboard.writeText(text);
 
-      text = `"${text}" was copied to your clipboard!`;
+      text = `"${text}" has been copied to your clipboard!`;
     } catch (e) {
       text = "The text could not be copied, the page was not focused.";
     }
@@ -312,7 +330,7 @@ async function popup(text, copy = true) {
 
   popupE.className = "visible";
 
-  await new Promise((res) => setTimeout(() => res(true), 2750));
+  await new Promise((res) => setTimeout(() => res(true), 1750));
 
   popupE.className = "";
 

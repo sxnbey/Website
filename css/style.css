@@ -19,6 +19,20 @@ body {
   min-width: 100vw;
   min-height: 100vh;
   transform: translateX(calc((100% - 100vw) / 2));
+
+  transition: all 300ms;
+  -moz-transition: all 300ms;
+  -webkit-transition: all 300ms;
+  -ms-transition: all 300ms;
+  -o-transition: all 300ms;
+}
+
+.blurred {
+  filter: blur(5px);
+  -moz-filter: blur(5px);
+  -webkit-filter: blur(5px);
+  -ms-filter: blur(5px);
+  -o-filter: blur(5px);
 }
 
 #mute {
@@ -143,11 +157,11 @@ h1 {
 #popup.visible {
   visibility: visible;
 
-  animation: popupFadein 0.5s, popupFadeout 0.5s 2.5s;
-  -moz-animation: popupFadein 0.5s, popupFadeout 0.5s 2.5s;
-  -webkit-animation: popupFadein 0.5s, popupFadeout 0.5s 2.5s;
-  -ms-animation: popupFadein 0.5s, popupFadeout 0.5s 2.5s;
-  -o-animation: popupFadein 0.5s, popupFadeout 0.5s 2.5s;
+  animation: popupFadein 0.5s, popupFadeout 0.5s 1.5s;
+  -moz-animation: popupFadein 0.5s, popupFadeout 0.5s 1.5s;
+  -webkit-animation: popupFadein 0.5s, popupFadeout 0.5s 1.5s;
+  -ms-animation: popupFadein 0.5s, popupFadeout 0.5s 1.5s;
+  -o-animation: popupFadein 0.5s, popupFadeout 0.5s 1.5s;
 }
 
 /* settings menu */
