@@ -290,28 +290,36 @@ async function popup(text, copy = true) {
 
   if (!popupE) return;
 
-  if (popupE.innerHTML == text) return;
+  if (
+    popupE.innerHTML == text ||
+    popupE.innerHTML == `"${text}" was copied to your clipboard!`
+  )
+    return;
 
   if (popupE.className == "visible") return popupQueue.push({ text, copy });
 
   if (copy) {
-    await navigator.clipboard.writeText(text);
+    try {
+      await navigator.clipboard.writeText(text);
 
-    text = `"${text}" was copied to your clipboard!`;
+      text = `"${text}" was copied to your clipboard!`;
+    } catch (e) {
+      text = "The text could not be copied, the page was not focused.";
+    }
   }
 
   popupE.innerHTML = text;
 
   popupE.className = "visible";
 
-  await new Promise((res) => setTimeout(() => res(true), 5500));
+  await new Promise((res) => setTimeout(() => res(true), 2750));
 
   popupE.className = "";
 
   if (popupQueue.length >= 1) {
     let queuePopup = popupQueue.shift();
 
-    await new Promise((res) => setTimeout(() => res(true), 1000));
+    await new Promise((res) => setTimeout(() => res(true), 500));
 
     return popup(queuePopup.text, queuePopup.copy);
   }
