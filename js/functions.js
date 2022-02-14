@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // just for the volume function //
 
   document.getElementById("video").volume = 0.3;
+
   document.getElementById("mute").title = `Current volume: ${
     Math.round(document.getElementById("video").volume * 100) / 10
   }/10`;
@@ -210,6 +211,7 @@ function playVideo(err = false, video, pageLoad = false) {
       );
 
     document.getElementById("video").className = "";
+
     document.getElementById("paused").className = "";
 
     usedVideos.push(video);
@@ -343,12 +345,15 @@ async function popup(text, copy = false) {
   }
 
   popupE.innerHTML = text;
-
   popupE.className = "visible";
 
-  await new Promise((res) => setTimeout(() => res(true), 1750));
+  await new Promise((res) => setTimeout(() => res(true), 2000));
 
   popupE.className = "";
+
+  await new Promise((res) => setTimeout(() => res(true), 500));
+
+  popupE.innerHTML = "";
 
   if (popupQueue.length >= 1) {
     let queuePopup = popupQueue.shift();
