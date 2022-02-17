@@ -1,4 +1,3 @@
-let muted = true;
 let usedVideos = [];
 let videos = [
   "beamer-boy",
@@ -300,16 +299,12 @@ function pauseVideo() {
 // MUTER FUNCTION //
 
 function muter() {
-  if (muted) {
-    muted = false;
-
+  if (document.getElementById("video").muted) {
     document.getElementById("video").muted = false;
     document
       .getElementById("mute")
       .setAttribute("src", `${pathGen()}/img/unmuted.svg`);
   } else {
-    muted = true;
-
     document.getElementById("video").muted = true;
     document
       .getElementById("mute")
