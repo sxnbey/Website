@@ -315,19 +315,20 @@ function muter() {
 // POPUP FUNCTION //
 
 let popupQueue = [];
+let lastPopup;
 
 async function popup(text, copy = false) {
   let popupE = document.getElementById("popup");
 
   if (!popupE) return;
 
-  if (
-    popupE.innerHTML == text ||
-    popupE.innerHTML == `"${text}" was copied to your clipboard!`
-  )
-    return;
-
-  if (popupE.className == "visible") return popupQueue.push({ text, copy });
+  if (popupE.className == "visible")
+    if (
+      lastPopup != text &&
+      lastPopup != `"${text}" has been copied to your clipboard!`
+    )
+      return popupQueue.push({ text, copy });
+    else return;
 
   if (copy) {
     try {
@@ -338,6 +339,8 @@ async function popup(text, copy = false) {
       text = "The text could not be copied, the page was not focused.";
     }
   }
+
+  lastPopup = text;
 
   popupE.innerHTML = text;
   popupE.className = "visible";
@@ -350,8 +353,11 @@ async function popup(text, copy = false) {
 
   popupE.innerHTML = "";
 
-  if (popupQueue.length >= 1) {
+  if (popupQueue.length > 0) {
     let queuePopup = popupQueue.shift();
+
+    while (popupQueue.length > 0 && popupQueue[0].text == queuePopup.text)
+      queuePopup = popupQueue.shift();
 
     await new Promise((res) => setTimeout(() => res(true), 500));
 
