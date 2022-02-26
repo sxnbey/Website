@@ -266,7 +266,7 @@ function map() {
     `All ${videos.length} videos: ${videos
       .map(
         (video) =>
-          `<a href="${location.host}?${video}" id="decorationA">${video}</a>`
+          `<a href="https://${location.host}?${video}" id="decorationA">${video}</a>`
       )
       .join(", ")}`
   );
