@@ -42,6 +42,9 @@ let videos = [
   "i-miss-my-dead-friends",
   "fuckthepopulation",
   "face-it",
+  "oxycodon",
+  "curly-fries",
+  "crashen",
 ];
 let url = window.location.search.substring(1);
 let video = newVideoF();
@@ -159,25 +162,25 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementsByTagName("title")[0].innerHTML = `${
       titleText[x++ % titleText.length]
     }|`;
-
-    // events //
-
-    document.getElementById("video").onended = function () {
-      if (
-        url !=
-        document
-          .getElementById("video")
-          .getAttribute("src")
-          .split("/")[2]
-          .split(".")[0]
-      )
-        playVideo(false, video);
-      else {
-        document.getElementById("video").currentTime = 0;
-        document.getElementById("video").play();
-      }
-    };
   }
+
+  // events //
+
+  document.getElementById("video").onended = function () {
+    if (
+      url !=
+      document
+        .getElementById("video")
+        .getAttribute("src")
+        .split("/")[2]
+        .split(".")[0]
+    )
+      playVideo(false, video);
+    else {
+      document.getElementById("video").currentTime = 0;
+      document.getElementById("video").play();
+    }
+  };
 });
 
 // some other functions that need to be global //
@@ -224,11 +227,8 @@ function newVideoF() {
 // VOLUME MANAGER //
 
 function volume(e) {
-  if (e.deltaY < 0) {
-    volumeUp();
-  } else {
-    volumeDown();
-  }
+  if (e.deltaY < 0) volumeUp();
+  else volumeDown();
 }
 
 function volumeUp() {
@@ -266,7 +266,7 @@ function map() {
     `All ${videos.length} videos: ${videos
       .map(
         (video) =>
-          `<a href="https://senbey.net?${video}" id="decorationA">${video}</a>`
+          `<a href="${location.host}?${video}" id="decorationA">${video}</a>`
       )
       .join(", ")}`
   );
