@@ -322,7 +322,10 @@ async function popup(text, copy = false) {
 
   if (!popupE) return;
 
-  if (popupE.className == "visible")
+  if (
+    popupE.className == "visible" ||
+    (popupE.className == "" && popupE.innerHTML != "")
+  )
     if (
       lastPopup != text &&
       lastPopup != `"${text}" has been copied to your clipboard!`
