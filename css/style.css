@@ -39,7 +39,7 @@ body {
 #mute {
   position: fixed;
   height: 4vh;
-  left: 1vw;
+  left: 1vh;
   top: 1vh;
 
   transition: all 300ms;
@@ -227,7 +227,7 @@ h1 {
 #settingsSVG {
   position: fixed;
   height: 4vh;
-  right: 1vw;
+  right: 1vh;
   top: 1vh;
 }
 
