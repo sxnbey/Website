@@ -10,6 +10,7 @@ body {
   cursor: url("../img/cursor.cur"), auto;
   text-align: center;
   font-family: "M PLUS Code Latin", sans-serif;
+  overflow-y: hidden;
 }
 
 #video {
@@ -193,6 +194,30 @@ h1 {
 #popup.visible {
   opacity: 1;
   visibility: visible;
+}
+
+/* context menu */
+
+#contextMenu {
+  position: fixed;
+  display: none;
+  max-height: 15vh;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+  padding: 1rem;
+
+  transform: translateX(min(var(--mouse-x), calc(100vw - 100%)))
+    translateY(min(var(--mouse-y), calc(100vh - 100%)));
+}
+
+#contextMenu::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+#contextMenu::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 1rem;
 }
 
 /* settings menu */

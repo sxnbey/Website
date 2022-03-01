@@ -1,5 +1,4 @@
-let usedVideos = [];
-let videos = [
+const videos = [
   "beamer-boy",
   "your-favourite-dress",
   "come-around",
@@ -46,31 +45,51 @@ let videos = [
   "curly-fries",
   "crashen",
 ];
-let url = window.location.search.substring(1);
 let video = newVideoF();
+let usedVideos = [];
+let url = window.location.search.substring(1).toLowerCase();
 
 // VIDEO MANAGER //
 
 document.addEventListener("DOMContentLoaded", function () {
+  const contextMenu = document.getElementById("contextMenu");
+  const videoE = document.getElementById("video");
+  const mute = document.getElementById("mute");
+  const h1 = document.getElementById("h1");
+  const settingsContent = document.getElementById("settingsContent");
+
+  // for the context menu //
+
+  document.body.oncontextmenu = function (event) {
+    contextMenu.style = `display: block; --mouse-x: ${
+      event.clientX - 30
+    }px; --mouse-y: ${event.clientY - 30}px;`;
+
+    return false;
+  };
+
+  document.body.onclick = function (event) {
+    if (
+      !["contextMenuA", "contextMenu"].some((i) => event.target.id.includes(i))
+    )
+      contextMenu.style.display = "none";
+  };
+
   // for the volume function //
 
-  document.getElementById("video").volume = 0.3;
+  videoE.volume = 0.3;
 
-  document.getElementById("mute").title = `Current volume: ${
-    Math.round(document.getElementById("video").volume * 100) / 10
-  }/10`;
-  document.getElementById("mute").addEventListener("wheel", function (e) {
+  mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
+  mute.addEventListener("wheel", function (e) {
     volume(e);
   });
 
-  document.getElementById("video").onerror = function () {
+  videoE.onerror = function () {
     playVideo(true, video);
   };
 
   if (videos.includes(url)) {
-    document
-      .getElementById("video")
-      .setAttribute("src", `${pathGen()}/media/${url.toLowerCase()}.mp4`);
+    videoE.setAttribute("src", `${pathGen()}/media/${url}.mp4`);
     usedVideos.push(url);
   } else playVideo(false, video, true);
 
@@ -78,34 +97,22 @@ document.addEventListener("DOMContentLoaded", function () {
   let titleText = titleTextGen();
 
   if (document.getElementById("h1"))
-    document
-      .getElementById("h1")
-      .setAttribute(
-        "title",
-        `Current video: "${
-          document
-            .getElementById("video")
-            .getAttribute("src")
-            .split("/")[2]
-            .split(".")[0]
-        }"`
-      );
+    h1.setAttribute(
+      "title",
+      `Current video: "${
+        videoE.getAttribute("src").split("/")[2].split(".")[0]
+      }"`
+    );
 
-  setInterval(loop, 300);
+  requestAnimationFrame(loop);
 
   // for the repeat video function //
 
-  if (
-    url ==
-    document
-      .getElementById("video")
-      .getAttribute("src")
-      .split("/")[2]
-      .split(".")[0]
-  )
-    document.getElementById("settingsContent").innerHTML = document
-      .getElementById("settingsContent")
-      .innerHTML.replace("Repeat", "Unrepeat");
+  if (url == videoE.getAttribute("src").split("/")[2].split(".")[0])
+    settingsContent.innerHTML = settingsContent.innerHTML.replace(
+      "Repeat",
+      "Unrepeat"
+    );
 
   // functions for the video stuff //
 
@@ -135,8 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "S E N B E Y . N E T -",
       "S E N B E Y . N E T - ",
     ];
-    let titleVideo = document
-      .getElementById("video")
+    let titleVideo = videoE
       .getAttribute("src")
       .split("/")[2]
       .split(".")[0]
@@ -153,46 +159,43 @@ document.addEventListener("DOMContentLoaded", function () {
     return titleText;
   }
 
-  function loop() {
+  async function loop() {
     if (titleTextGen().toString() != titleText.toString()) {
       titleText = titleTextGen();
       x = 0;
 
-      if (document.getElementById("h1"))
-        document
-          .getElementById("h1")
-          .setAttribute(
-            "title",
-            `Current video: "${
-              document
-                .getElementById("video")
-                .getAttribute("src")
-                .split("/")[2]
-                .split(".")[0]
-            }"`
-          );
+      if (h1)
+        h1.setAttribute(
+          "title",
+          `Current video: "${
+            document
+              .getElementById("video")
+              .getAttribute("src")
+              .split("/")[2]
+              .split(".")[0]
+          }"`
+        );
     }
 
     document.getElementsByTagName("title")[0].innerHTML = `${
       titleText[x++ % titleText.length]
     }|`;
+
+    await wait(300);
+
+    requestAnimationFrame(loop);
   }
 
   // events //
 
   document.getElementById("video").onended = function () {
-    if (
-      url !=
-      document
-        .getElementById("video")
-        .getAttribute("src")
-        .split("/")[2]
-        .split(".")[0]
-    )
+    const videoE = document.getElementById("video");
+
+    if (url != videoE.getAttribute("src").split("/")[2].split(".")[0])
       playVideo(false, video);
     else {
-      document.getElementById("video").currentTime = 0;
-      document.getElementById("video").play();
+      videoE.currentTime = 0;
+      videoE.play();
     }
   };
 });
@@ -200,6 +203,9 @@ document.addEventListener("DOMContentLoaded", function () {
 // some other functions that need to be global //
 
 function playVideo(err = false, video, pageLoad = false) {
+  const videoE = document.getElementById("video");
+  const paused = document.getElementById("paused");
+
   if (
     (usedVideos.includes(video) && usedVideos.length != videos.length) ||
     err
@@ -208,27 +214,31 @@ function playVideo(err = false, video, pageLoad = false) {
 
     playVideo(false, video);
   } else {
-    if (usedVideos.length == videos.length) usedVideos = [];
+    if (usedVideos.length >= videos.length) usedVideos = [];
 
-    document
-      .getElementById("video")
-      .setAttribute("src", `${pathGen()}/media/${video}.mp4`);
-    document.getElementById("video").play();
+    videoE.setAttribute("src", `${pathGen()}/media/${video}.mp4`);
+    videoE.play();
 
     if (!pageLoad)
       popup(
         `Now playing: "${
-          document
-            .getElementById("video")
-            .getAttribute("src")
-            .split("/")[2]
-            .split(".")[0]
+          videoE.getAttribute("src").split("/")[2].split(".")[0]
         }"`
       );
 
-    document.getElementById("video").className = "";
+    videoE.className = "";
 
-    document.getElementById("paused").className = "";
+    paused.className = "";
+
+    settingsContent.innerHTML = settingsContent.innerHTML.replace(
+      "Unpause",
+      "Pause"
+    );
+
+    settingsContent.innerHTML = settingsContent.innerHTML.replace(
+      "Unrepeat",
+      "Repeat"
+    );
 
     usedVideos.push(video);
   }
@@ -246,55 +256,49 @@ function volume(e) {
 }
 
 function volumeUp() {
-  if (Math.round(document.getElementById("video").volume * 100) / 100 < 1) {
-    document.getElementById("video").volume =
-      document.getElementById("video").volume + 0.1;
+  const videoE = document.getElementById("video");
+  const mute = document.getElementById("mute");
 
-    document.getElementById("mute").title = `Current volume: ${
-      Math.round(document.getElementById("video").volume * 100) / 10
-    }/10`;
+  if (Math.round(videoE.volume * 100) / 100 < 1) {
+    videoE.volume = videoE.volume + 0.1;
+
+    mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
   } else popup("The volume is on maximum.");
 }
 
 function volumeDown() {
-  if (Math.round(document.getElementById("video").volume * 100) / 100 > 0.1) {
-    document.getElementById("video").volume =
-      document.getElementById("video").volume - 0.1;
+  const videoE = document.getElementById("video");
+  const mute = document.getElementById("mute");
 
-    document.getElementById("mute").title = `Current volume: ${
-      Math.round(document.getElementById("video").volume * 100) / 10
-    }/10`;
+  if (Math.round(videoE.volume * 100) / 100 > 0.1) {
+    videoE.volume = videoE.volume - 0.1;
+
+    mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
   } else popup("The volume is on minimum.");
 }
 
 // REPEAT VIDEO FUNCTION //
 
 function repeatVideo() {
-  if (
-    url ==
-    document
-      .getElementById("video")
-      .getAttribute("src")
-      .split("/")[2]
-      .split(".")[0]
-  ) {
+  const videoE = document.getElementById("video");
+  const settingsContent = document.getElementById("settingsContent");
+
+  if (url == videoE.getAttribute("src").split("/")[2].split(".")[0]) {
     url = "";
 
-    document.getElementById("settingsContent").innerHTML = document
-      .getElementById("settingsContent")
-      .innerHTML.replace("Unrepeat", "Repeat");
+    settingsContent.innerHTML = settingsContent.innerHTML.replace(
+      "Unrepeat",
+      "Repeat"
+    );
 
     popup("The video is now unrepeated.");
   } else {
-    url = document
-      .getElementById("video")
-      .getAttribute("src")
-      .split("/")[2]
-      .split(".")[0];
+    url = videoE.getAttribute("src").split("/")[2].split(".")[0];
 
-    document.getElementById("settingsContent").innerHTML = document
-      .getElementById("settingsContent")
-      .innerHTML.replace("Repeat", "Unrepeat");
+    settingsContent.innerHTML = settingsContent.innerHTML.replace(
+      "Repeat",
+      "Unrepeat"
+    );
 
     popup("The video is now repeated.");
   }
@@ -303,60 +307,84 @@ function repeatVideo() {
 // RESTART VIDEO FUNCTION //
 
 function restartVideo() {
-  document.getElementById("video").currentTime = 0;
+  const videoE = document.getElementById("video");
+
+  videoE.currentTime = 0;
+  videoE.play();
 }
 
 // VIDEO MAPPER //
 
-function map() {
-  document.write(
-    `All ${videos.length} videos: ${videos
-      .map(
-        (video) =>
-          `<a href="https://${location.host}?${video}" id="decorationA">${video}</a>`
-      )
-      .join(", ")}`
-  );
+function map(playWS = false) {
+  if (playWS)
+    document.write(
+      videos
+        .map(
+          (video) =>
+            `<a id="contextMenuA" onclick="playWS(\`${video}\`)">${video}</a>`
+        )
+        .join("<br />")
+    );
+  else
+    document.write(
+      `All ${videos.length} videos: ${videos
+        .map(
+          (video) =>
+            `<a href="https://${location.host}?${video}" id="decorationA">${video}</a>`
+        )
+        .join(", ")}`
+    );
 }
 
 // PAUSE VIDEO FUNCTION //
 
 function pauseVideo() {
-  if (document.getElementById("video").paused) {
-    document.getElementById("video").className = "";
-    document.getElementById("video").play();
+  const videoE = document.getElementById("video");
+  const paused = document.getElementById("paused");
+  const settingsContent = document.getElementById("settingsContent");
 
-    document.getElementById("paused").className = "";
+  if (videoE.paused) {
+    videoE.className = "";
+    videoE.play();
 
-    document.getElementById("settingsContent").innerHTML = document
-      .getElementById("settingsContent")
-      .innerHTML.replace("Unpause", "Pause");
+    paused.className = "";
+
+    settingsContent.innerHTML = settingsContent.innerHTML.replace(
+      "Unpause",
+      "Pause"
+    );
   } else {
-    document.getElementById("video").className = "blurred";
-    document.getElementById("video").pause();
+    videoE.className = "blurred";
+    videoE.pause();
 
-    document.getElementById("paused").className = "visible";
+    paused.className = "visible";
 
-    document.getElementById("settingsContent").innerHTML = document
-      .getElementById("settingsContent")
-      .innerHTML.replace("Pause", "Unpause");
+    settingsContent.innerHTML = settingsContent.innerHTML.replace(
+      "Pause",
+      "Unpause"
+    );
   }
 }
 
 // MUTER FUNCTION //
 
 function muter() {
-  if (document.getElementById("video").muted) {
-    document.getElementById("video").muted = false;
-    document
-      .getElementById("mute")
-      .setAttribute("src", `${pathGen()}/img/unmuted.svg`);
+  const videoE = document.getElementById("video");
+  const mute = document.getElementById("mute");
+
+  if (videoE.muted) {
+    videoE.muted = false;
+    mute.setAttribute("src", `${pathGen()}/img/unmuted.svg`);
   } else {
-    document.getElementById("video").muted = true;
-    document
-      .getElementById("mute")
-      .setAttribute("src", `${pathGen()}/img/muted.svg`);
+    videoE.muted = true;
+    mute.setAttribute("src", `${pathGen()}/img/muted.svg`);
   }
+}
+
+// WAIT FUNCTION //
+
+function wait(ms) {
+  return new Promise((res) => setTimeout(() => res(true), ms));
 }
 
 // POPUP FUNCTION //
@@ -365,7 +393,7 @@ let popupQueue = [];
 let lastPopup;
 
 async function popup(text, copy = false) {
-  let popupE = document.getElementById("popup");
+  const popupE = document.getElementById("popup");
 
   if (!popupE) return;
 
@@ -395,18 +423,21 @@ async function popup(text, copy = false) {
   popupE.innerHTML = text;
   popupE.className = "visible";
 
-  await new Promise((res) => setTimeout(() => res(true), 2000));
+  await wait(2000);
 
   popupE.className = "";
 
-  await new Promise((res) => setTimeout(() => res(true), 500));
+  await wait(500);
 
   popupE.innerHTML = "";
 
   if (popupQueue.length > 0) {
     let queuePopup = popupQueue.shift();
 
-    while (popupQueue.length > 0 && popupQueue[0].text == queuePopup.text)
+    while (
+      popupQueue.length > 0 &&
+      popupQueue[0].text.startsWith("Now playing: ")
+    )
       queuePopup = popupQueue.shift();
 
     await new Promise((res) => setTimeout(() => res(true), 500));
@@ -418,8 +449,37 @@ async function popup(text, copy = false) {
 // PATH FUNCTION //
 
 function pathGen() {
-  if (document.getElementById("main")) return ".";
-  else return "..";
+  return document.getElementById("main") ? "." : "..";
+}
+
+// CONTEXT MENU FUNCTIONS //
+
+function playWS(video) {
+  const videoE = document.getElementById("video");
+  const paused = document.getElementById("paused");
+  const settingsContent = document.getElementById("settingsContent");
+
+  videoE.setAttribute("src", `${pathGen()}/media/${video}.mp4`);
+
+  popup(
+    `Now playing: "${videoE.getAttribute("src").split("/")[2].split(".")[0]}"`
+  );
+
+  videoE.className = "";
+
+  paused.className = "";
+
+  settingsContent.innerHTML = settingsContent.innerHTML.replace(
+    "Unpause",
+    "Pause"
+  );
+
+  settingsContent.innerHTML = settingsContent.innerHTML.replace(
+    "Unrepeat",
+    "Repeat"
+  );
+
+  if (!usedVideos.includes(video)) usedVideos.push(video);
 }
 
 // KEY EVENT //
