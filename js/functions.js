@@ -456,6 +456,8 @@ async function popup(text, copy = false) {
   popupE.innerHTML = "";
 
   if (popupQueue.length > 0) {
+    popupE.innerHTML = "any text, so no other popup can be triggered";
+
     let queuePopup = popupQueue.shift();
 
     while (
@@ -466,6 +468,8 @@ async function popup(text, copy = false) {
       queuePopup = popupQueue.shift();
 
     await wait(500);
+
+    popupE.innerHTML = "";
 
     return popup(queuePopup.text, queuePopup.copy);
   }
