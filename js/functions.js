@@ -62,6 +62,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const h1 = document.getElementById("h1");
   const settingsContent = document.getElementById("settingsContent");
 
+  // just for test purposes //
+
+  if (videos.includes(url)) {
+    let text =
+      "senbey.net - " +
+      url.charAt(0).toUpperCase() +
+      url.slice(1).replaceAll("-", " ");
+
+    document
+      .querySelector('meta[property="og:title"]')
+      .setAttribute("content", text);
+  }
+
   // for the context menu //
 
   document.body.oncontextmenu = function (event) {
@@ -87,6 +100,8 @@ document.addEventListener("DOMContentLoaded", function () {
   mute.addEventListener("wheel", function (e) {
     volume(e);
   });
+
+  // video manager stuff //
 
   videoE.onerror = function () {
     playVideo(true, video);
@@ -244,6 +259,8 @@ function playVideo(err = false, video, pageLoad = false) {
       "Unrepeat",
       "Repeat"
     );
+
+    url = "";
 
     usedVideos.push(video);
   }
@@ -405,7 +422,8 @@ async function popup(text, copy = false) {
   if (
     popupE.className == " visible" ||
     popupE.className == "main visible" ||
-    (popupE.className == "" && popupE.innerHTML != "")
+    (popupE.className == "" && popupE.innerHTML != "") ||
+    (popupE.className == "main" && popupE.innerHTML != "")
   )
     if (
       lastPopup != text &&
@@ -441,12 +459,13 @@ async function popup(text, copy = false) {
     let queuePopup = popupQueue.shift();
 
     while (
-      popupQueue.length > 0 &&
-      popupQueue[0].text.startsWith("Now playing: ")
+      (popupQueue.length > 0 &&
+        popupQueue[0].text.startsWith("Now playing: ")) ||
+      (popupQueue.length > 0 && popupQueue[0].text == queuePopup.text)
     )
       queuePopup = popupQueue.shift();
 
-    await new Promise((res) => setTimeout(() => res(true), 500));
+    await wait(500);
 
     return popup(queuePopup.text, queuePopup.copy);
   }
@@ -484,6 +503,8 @@ function playWS(video) {
     "Unrepeat",
     "Repeat"
   );
+
+  url = "";
 
   if (!usedVideos.includes(video)) usedVideos.push(video);
 }
