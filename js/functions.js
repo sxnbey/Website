@@ -44,6 +44,8 @@ const videos = [
   "oxycodon",
   "curly-fries",
   "crashen",
+  "luxus-leben",
+  "vorsichtig",
 ];
 let video = newVideoF();
 let usedVideos = [];
