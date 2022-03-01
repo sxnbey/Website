@@ -46,6 +46,8 @@ const videos = [
   "crashen",
   "luxus-leben",
   "vorsichtig",
+  "bankaccount",
+  "grad-mal-ein-jahr",
 ];
 let video = newVideoF();
 let usedVideos = [];
@@ -401,7 +403,8 @@ async function popup(text, copy = false) {
   if (!popupE) return;
 
   if (
-    popupE.className == "visible" ||
+    popupE.className == " visible" ||
+    popupE.className == "main visible" ||
     (popupE.className == "" && popupE.innerHTML != "")
   )
     if (
@@ -424,11 +427,11 @@ async function popup(text, copy = false) {
   lastPopup = text;
 
   popupE.innerHTML = text;
-  popupE.className = "visible";
+  popupE.className += " visible";
 
   await wait(2000);
 
-  popupE.className = "";
+  popupE.className = popupE.className.replace(" visible", "");
 
   await wait(500);
 

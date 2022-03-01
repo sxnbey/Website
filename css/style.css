@@ -10,7 +10,6 @@ body {
   cursor: url("../img/cursor.cur"), auto;
   text-align: center;
   font-family: "M PLUS Code Latin", sans-serif;
-  overflow-y: hidden;
 }
 
 #video {
@@ -144,22 +143,8 @@ h1 {
   -o-animation: fadein 1s;
 }
 
-#mainPageText {
-  position: absolute;
-  width: 80vw;
-  left: 50vw;
+#text.main {
   top: 80vh;
-  transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-
-  animation: fadein 1s;
-  -moz-animation: fadein 1s;
-  -webkit-animation: fadein 1s;
-  -ms-animation: fadein 1s;
-  -o-animation: fadein 1s;
 }
 
 /* copy url popup */
@@ -177,7 +162,7 @@ h1 {
   width: fit-content;
   max-width: 80vw;
   left: 50vw;
-  top: 70vh;
+  top: 50vh;
   border-radius: 1rem;
   padding: 0.5rem;
   transform: translate(-50%, -50%);
@@ -191,6 +176,10 @@ h1 {
   -webkit-transition: all 500ms;
   -ms-transition: all 500ms;
   -o-transition: all 500ms;
+}
+
+#popup.main {
+  top: 70vh;
 }
 
 #popup.visible {
