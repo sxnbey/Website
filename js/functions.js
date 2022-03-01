@@ -52,7 +52,7 @@ let video = newVideoF();
 // VIDEO MANAGER //
 
 document.addEventListener("DOMContentLoaded", function () {
-  // just for the volume function //
+  // for the volume function //
 
   document.getElementById("video").volume = 0.3;
 
@@ -92,6 +92,20 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
   setInterval(loop, 300);
+
+  // for the repeat video function //
+
+  if (
+    url ==
+    document
+      .getElementById("video")
+      .getAttribute("src")
+      .split("/")[2]
+      .split(".")[0]
+  )
+    document.getElementById("settingsContent").innerHTML = document
+      .getElementById("settingsContent")
+      .innerHTML.replace("Repeat", "Unrepeat");
 
   // functions for the video stuff //
 
@@ -253,6 +267,39 @@ function volumeDown() {
   } else popup("The volume is on minimum.");
 }
 
+// REPEAT VIDEO FUNCTION //
+
+function repeatVideo() {
+  if (
+    url ==
+    document
+      .getElementById("video")
+      .getAttribute("src")
+      .split("/")[2]
+      .split(".")[0]
+  ) {
+    url = "";
+
+    document.getElementById("settingsContent").innerHTML = document
+      .getElementById("settingsContent")
+      .innerHTML.replace("Unrepeat", "Repeat");
+
+    popup("The video is now unrepeated.");
+  } else {
+    url = document
+      .getElementById("video")
+      .getAttribute("src")
+      .split("/")[2]
+      .split(".")[0];
+
+    document.getElementById("settingsContent").innerHTML = document
+      .getElementById("settingsContent")
+      .innerHTML.replace("Repeat", "Unrepeat");
+
+    popup("The video is now repeated.");
+  }
+}
+
 // RESTART VIDEO FUNCTION //
 
 function restartVideo() {
@@ -387,6 +434,10 @@ document.onkeydown = function (e) {
       break;
 
     case 82:
+      repeatVideo();
+      break;
+
+    case 83:
       restartVideo();
       break;
 
@@ -408,7 +459,6 @@ document.onkeydown = function (e) {
 
     case 123:
     case 73:
-    case 83:
     case 85:
     case 70:
     case 114:
