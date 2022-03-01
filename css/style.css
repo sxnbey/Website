@@ -118,6 +118,8 @@ a {
 
 h1 {
   font-size: 5vh;
+  width: fit-content;
+  display: inline-block;
 }
 
 #errorH1 {

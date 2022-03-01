@@ -205,6 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function playVideo(err = false, video, pageLoad = false) {
   const videoE = document.getElementById("video");
   const paused = document.getElementById("paused");
+  const settingsContent = document.getElementById("settingsContent");
 
   if (
     (usedVideos.includes(video) && usedVideos.length != videos.length) ||
