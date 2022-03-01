@@ -110,8 +110,8 @@ p,
 h1,
 a {
   color: #f1f1f1;
-  text-shadow: 1px 1px 0px rgba(8, 230, 255, 1),
-    -1px -1px 0px rgba(255, 0, 0, 1);
+  text-shadow: 0.06rem 0.06rem 0px rgba(8, 230, 255, 1),
+    -0.06rem -0.06rem 0px rgba(255, 0, 0, 1);
   font-size: 2vh;
 }
 
@@ -152,8 +152,8 @@ h1 {
 #popup {
   background-color: rgba(0, 0, 0, 0.2);
   color: rgba(241, 241, 241, 0.5);
-  text-shadow: 1px 1px 0px rgba(8, 230, 255, 0.5),
-    -1px -1px 0px rgba(255, 0, 0, 0.5);
+  text-shadow: 0.06rem 0.06rem 0px rgba(8, 230, 255, 0.5),
+    -0.06rem -0.06rem 0px rgba(255, 0, 0, 0.5);
   font-size: 2vh;
 
   position: absolute;
@@ -197,7 +197,6 @@ h1 {
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
   padding: 1rem;
-
   transform: translateX(min(var(--mouse-x), calc(100vw - 100%)))
     translateY(min(var(--mouse-y), calc(100vh - 100%)));
 }
