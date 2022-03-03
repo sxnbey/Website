@@ -65,19 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const h1 = document.getElementById("h1");
   const settingsContent = document.getElementById("settingsContent");
 
-  // just for test purposes //
-
-  if (videos.includes(url)) {
-    let text =
-      "senbey.net - " +
-      url.charAt(0).toUpperCase() +
-      url.slice(1).replaceAll("-", " ");
-
-    document
-      .querySelector('meta[property="og:title"]')
-      .setAttribute("content", text);
-  }
-
   // for the context menu //
 
   document.body.oncontextmenu = function (event) {
