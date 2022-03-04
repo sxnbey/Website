@@ -50,6 +50,7 @@ const videos = [
   "luxus-leben",
   "vorsichtig",
   "bankaccount",
+  "sehnsucht",
   "grad-mal-ein-jahr",
 ];
 let video = newVideoF();
