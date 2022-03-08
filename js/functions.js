@@ -59,6 +59,7 @@ const videos = [
 let video = newVideoF();
 let usedVideos = [];
 let url = window.location.search.substring(1).toLowerCase();
+url = videos.find((i) => i.path == url);
 
 document.addEventListener("DOMContentLoaded", function () {
   const contextMenu = document.getElementById("contextMenu");
@@ -102,8 +103,11 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   if (videos.includes(url)) {
-    videoE.setAttribute("src", `${pathGen()}/media/${url}.mp4`);
+    videoE.setAttribute("src", `${pathGen()}/media/${url.path}.mp4`);
+
     usedVideos.push(url);
+
+    video = url;
   } else playVideo(false, video, true);
 
   requestAnimationFrame(loop);
@@ -122,27 +126,30 @@ document.addEventListener("DOMContentLoaded", function () {
   let length = 30;
 
   async function loop(oldTitle = "") {
-    let title = `SENBEY.NET-${video.name}`
+    if (h1)
+      h1.setAttribute(
+        "title",
+        `Current video: "${video.name}" by ${video.artist}`
+      );
+
+    let title = `senbey.net-${video.name}`
       .toUpperCase()
       .replaceAll(" ", "⠀")
       .split("")
       .join(" ");
 
-    if (title != oldTitle || index++ > title.length + length) {
+    if (title != oldTitle || index > title.length + length) {
       index = 0;
-
-      if (h1)
-        h1.setAttribute(
-          "title",
-          `Current video: "${video.name}" by ${video.artist}`
-        );
     }
 
-    document.getElementsByTagName("title")[0].innerHTML = `${
-      title.slice(index >= length ? index - length : 0, index) || "⠀"
-    }${index % 2 ? "|" : ""}`;
+    index++;
 
-    await wait(index > title.length ? 100 : 300);
+    document.title = `${title.slice(
+      index >= length ? index - length : 0,
+      index
+    )}${index % 2 ? "|" : ""}`;
+
+    await wait(index > title.length ? 70 : 300);
 
     requestAnimationFrame(() => loop(title));
   }
@@ -150,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("video").onended = function () {
     const videoE = document.getElementById("video");
 
-    if (url != videoE.getAttribute("src").split("/")[2].split(".")[0])
+    if (url.path != videoE.getAttribute("src").split("/")[2].split(".")[0])
       playVideo(false, video);
     else {
       videoE.currentTime = 0;
