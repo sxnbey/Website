@@ -51,17 +51,21 @@ const videos = [
     name: "Vorsichtig",
     artist: "T-Low, Sevi Rin, Heinie Nüchtern",
   },
-  { path: "bankaccount", name: "BANKACCOUNT", artist: "T-Low" },
   { path: "sehnsucht", name: "Sehnsucht", artist: "T-Low, Miksu / Macloud" },
   { path: "changed", name: "Changed", artist: "T-Low" },
+  { path: "bankaccount", name: "BANKACCOUNT", artist: "T-Low" },
   { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artist: "makko" },
 ];
+let repeat = false;
 let video = newVideoF();
 let usedVideos = [];
 let url = window.location.search.substring(1).toLowerCase();
-url = videos.find((i) => i.path == url);
+url = url.split("&");
+let urlBoo = false;
 
 document.addEventListener("DOMContentLoaded", function () {
+  history.pushState(null, null, location.href.split("?")[0]);
+
   const contextMenu = document.getElementById("contextMenu");
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
@@ -95,6 +99,66 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   /************************************************************************************************\
+  *                                     OTHER IMPORTANT STUFF                                      *
+  \************************************************************************************************/
+
+  videoE.addEventListener("play", function () {
+    if (urlBoo == "paused") {
+      pauseVideo();
+
+      urlBoo = false;
+    }
+  });
+
+  url.forEach(async (i) => {
+    i = i.split("=");
+
+    switch (i[0]) {
+      default:
+        break;
+
+      case "p":
+        if (url.some((i) => i == "s=true")) urlBoo = "paused";
+
+        videoE.setAttribute("src", `${pathGen()}/media/${i[1]}.mp4`);
+
+        settingsContent.innerHTML = settingsContent.innerHTML.replace(
+          "Repeat",
+          "Unrepeat"
+        );
+
+        usedVideos.push(url);
+
+        video = videos.find((v) => v.path == i[1]);
+        break;
+
+      case "m":
+        if (i[1] == "false") muter();
+        break;
+
+      case "v":
+        videoE.volume = i[1];
+
+        mute.title = `Current volume: ${
+          Math.round(videoE.volume * 100) / 10
+        }/10`;
+        break;
+
+      case "c":
+        videoE.currentTime = i[1];
+        break;
+
+      case "r":
+        if (i[1] == "true") repeat = true;
+
+      case "r":
+        if (i[1] == "true") urlBoo = "";
+    }
+  });
+
+  // p = path, m = muted, v = volume, c = currentTime, s = paused, r = repeat, u = urlBoo
+
+  /************************************************************************************************\
   *                                        VIDEO MANAGER                                           *
   \************************************************************************************************/
 
@@ -102,28 +166,26 @@ document.addEventListener("DOMContentLoaded", function () {
     playVideo(true, video);
   };
 
-  if (videos.includes(url)) {
-    videoE.setAttribute("src", `${pathGen()}/media/${url.path}.mp4`);
-
-    usedVideos.push(url);
-
-    video = url;
-  } else playVideo(false, video, true);
+  if (!urlBoo) playVideo(false, video, true);
 
   requestAnimationFrame(loop);
 
-  if (url == videoE.getAttribute("src").split("/")[2].split(".")[0])
-    settingsContent.innerHTML = settingsContent.innerHTML.replace(
-      "Repeat",
-      "Unrepeat"
-    );
+  document.getElementById("video").onended = function () {
+    const videoE = document.getElementById("video");
+
+    if (!repeat) playVideo(false, video);
+    else {
+      videoE.currentTime = 0;
+      videoE.play();
+    }
+  };
 
   /************************************************************************************************\
   *                               TITLE STUFF (thank you malte <3)                                 *
   \************************************************************************************************/
 
   let index = 0;
-  let length = 30;
+  let revIndex = 0;
 
   async function loop(oldTitle = "") {
     if (h1)
@@ -132,38 +194,28 @@ document.addEventListener("DOMContentLoaded", function () {
         `Current video: "${video.name}" by ${video.artist}`
       );
 
-    let title = `senbey.net-${video.name}`
+    let title = video.name
       .toUpperCase()
       .replaceAll(" ", "⠀")
       .split("")
       .join(" ");
 
-    if (title != oldTitle || index > title.length + length) {
-      index = 0;
-    }
-
     index++;
 
-    document.title = `${title.slice(
-      index >= length ? index - length : 0,
-      index
-    )}${index % 2 ? "|" : ""}`;
+    if (title != oldTitle || index > title.length * 2 + 1) {
+      index = 0;
+      revIndex = 0;
+    }
 
-    await wait(index > title.length ? 70 : 300);
+    document.title = `${title.slice(
+      0,
+      index > title.length + 1 ? revIndex-- : index
+    )}|`;
+
+    await wait(index > title.length + 1 ? 100 : 300);
 
     requestAnimationFrame(() => loop(title));
   }
-
-  document.getElementById("video").onended = function () {
-    const videoE = document.getElementById("video");
-
-    if (url.path != videoE.getAttribute("src").split("/")[2].split(".")[0])
-      playVideo(false, video);
-    else {
-      videoE.currentTime = 0;
-      videoE.play();
-    }
-  };
 });
 
 /************************************************************************************************\
@@ -200,8 +252,6 @@ function playVideo(err = false, vid, pageLoad = false) {
       "Unrepeat",
       "Repeat"
     );
-
-    url = "";
 
     usedVideos.push(vid);
   }
@@ -247,25 +297,24 @@ function volumeDown() {
 \************************************************************************************************/
 
 function repeatVideo() {
-  const videoE = document.getElementById("video");
   const settingsContent = document.getElementById("settingsContent");
 
-  if (url == videoE.getAttribute("src").split("/")[2].split(".")[0]) {
-    url = "";
-
+  if (repeat) {
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
       "Unrepeat",
       "Repeat"
     );
 
+    repeat = false;
+
     popup("The video is now unrepeated.");
   } else {
-    url = videoE.getAttribute("src").split("/")[2].split(".")[0];
-
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
       "Repeat",
       "Unrepeat"
     );
+
+    repeat = true;
 
     popup("The video is now repeated.");
   }
@@ -307,9 +356,9 @@ function map(playWS = false) {
       `All ${videos.length} videos: ${videos
         .map(
           (video) =>
-            `<a href="https://${location.host}?${video.path}" id="decorationA">${video.name}</a>`
+            `"<a href="https://${location.host}?p=${video.path}" id="decorationA">${video.name}</a>" by ${video.artist}`
         )
-        .join(", ")}`
+        .join("; ")}`
     );
 }
 
@@ -317,14 +366,14 @@ function map(playWS = false) {
 *                                      PAUSE VIDEO FUNCTION                                      *
 \************************************************************************************************/
 
-function pauseVideo() {
+async function pauseVideo() {
   const videoE = document.getElementById("video");
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
 
   if (videoE.paused) {
     videoE.className = "";
-    videoE.play();
+    await videoE.play();
 
     paused.className = "";
 
@@ -334,7 +383,7 @@ function pauseVideo() {
     );
   } else {
     videoE.className = "blurred";
-    videoE.pause();
+    await videoE.pause();
 
     paused.className = "visible";
 
@@ -475,8 +524,6 @@ function playWS(vid) {
     "Repeat"
   );
 
-  url = "";
-
   if (!usedVideos.includes(video)) usedVideos.push(video);
 }
 
@@ -525,3 +572,13 @@ document.onkeydown = function (e) {
       return false;
   }
 };
+
+function redirect(url) {
+  const videoE = document.getElementById("video");
+
+  window.location.href =
+    url +
+    `?p=${video.path}&m=${videoE.muted}&v=${
+      Math.round(videoE.volume * 100) / 100
+    }&c=${videoE.currentTime}&s=${videoE.paused}&r=${repeat}&u=true`;
+}

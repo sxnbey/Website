@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Info page of senbey.net</title>
-    <script src="../js/functions.js?version=74"></script>
+    <script src="../js/functions.js?version=81"></script>
     <link rel="stylesheet" type="text/css" href="../css/style.css?version=25" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -84,32 +84,26 @@
 
     <div id="text">
       <p>
-        I <b>DO NOT</b> own any of these videos. If you really have a problem
-        with this you can reach out to me on
-        <a href="../twitter" target="_blank" id="decorationA">Twitter</a>.
+        <b
+          ><a id="decorationA" onclick="redirect(`../disclaimer`)"
+            >!!!CLICK HERE FOR DISCLAIMER!!!</a
+          ></b
+        >
         <br />
         <br />
-        I <b>DO NOT</b> make any money off of the site and it was created just
-        for fun.
-        <br />
-        <br />
-        Use https://senbey.net?VIDEONAME to play a specific video. All videos
-        can be found below. To see the current video, simply hover your mouse
-        over "senbey.net" on the main page or click on it to get the URL. You
-        can adjust the volume by scrolling on the mute/unmute icon or by using
-        the up and down arrow keys. You can see the volume by hovering over the
-        mute/unmute icon. Tap "r" to repeat/unrepeat the video, "n" for a new
-        video, "s" to restart the video and the space bar to pause/unpause. And
-        if you want to watch the videos without text, click
+        Use https://senbey.net?VIDEONAME to play a specific video. To see the
+        current video, simply hover your mouse over "senbey.net" on the main
+        page or click on it to get the URL. You can adjust the volume by
+        scrolling on the mute/unmute icon or by using the up and down arrow keys
+        and you can see the volume by hovering over the mute/unmute icon. Tap
+        "r" to repeat/unrepeat the video, "n" for a new video, "s" to restart
+        the video and the space bar to pause/unpause. You can open the context
+        menu to get a menu from which you can select songs. And if you want to
+        watch the videos without text, click
         <a href="../clear/" id="decorationA">here</a>.
         <br />
         <br />
-        <script>
-          map();
-        </script>
-        <br />
-        <br />
-        <a href="../" id="decorationA">Back to the website</a>
+        <a id="decorationA" onclick="redirect(`../`)">Back to the website</a>
       </p>
     </div>
 

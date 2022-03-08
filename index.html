@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Homepage of senbey.net</title>
-    <script src="./js/functions.js?version=74"></script>
+    <script src="./js/functions.js?version=81"></script>
     <link rel="stylesheet" type="text/css" href="./css/style.css?version=25" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -92,7 +92,7 @@
       <h1
         title=""
         id="h1"
-        onclick="popup(`https://${location.host}?${
+        onclick="popup(`https://${location.host}?p=${
           document
           .getElementById(`video`)
           .getAttribute(`src`)
@@ -110,7 +110,8 @@
         <a href="github" target="_blank">GitHub</a> |
         <a href="twitter" target="_blank">Twitter</a> |
         <a href="youtube" target="_blank">YouTube</a> |
-        <a href="steam" target="_blank">Steam</a> | <a href="info">Info</a>
+        <a href="steam" target="_blank">Steam</a> |
+        <a onclick="redirect(`info`)">Info</a>
       </p>
     </div>
 
