@@ -1,63 +1,64 @@
+/************************************************************************************************\
+*                                          DECLARATION                                           *
+\************************************************************************************************/
+
 const videos = [
-  "beamer-boy",
-  "your-favourite-dress",
-  "come-around",
-  "cocaine-shawty",
-  "california-world",
-  "mos",
-  "keep-my-coo",
-  "runaway",
-  "gym-class",
-  "benz-truck",
-  "girls",
-  "white-wine",
-  "white-tee",
-  "lil-kennedy",
-  "cobain",
-  "hellboy",
-  "lil-jeep",
-  "drugz",
-  "crybaby",
-  "belgium",
-  "when-i-lie",
-  "falling-down",
-  "ive-been-waiting",
-  "life-is-beautiful",
-  "16-lines",
-  "cry-alone",
-  "4-gold-chains",
-  "save-that-shit",
-  "awful-things",
-  "the-brightside",
-  "backseat",
-  "witchblades",
-  "hollywood-dreaming",
-  "switch-up",
-  "live-forever",
-  "antarctica",
-  "2nd-hand",
-  "for-the-last-time",
-  "o-pana",
-  "magazine",
-  "paris",
-  "rag-round-my-skull",
-  "i-miss-my-dead-friends",
-  "fuckthepopulation",
-  "face-it",
-  "oxycodon",
-  "curly-fries",
-  "crashen",
-  "luxus-leben",
-  "vorsichtig",
-  "bankaccount",
-  "sehnsucht",
-  "grad-mal-ein-jahr",
+  { path: "beamer-boy", name: "beamer boy", artist: "Lil Peep, Nedarb" },
+  { path: "lil-kennedy", name: "Lil Kennedy", artist: "Lil Peep, Nedarb" },
+  { path: "keep-my-coo", name: "Keep My Coo", artist: "Lil Peep" },
+  { path: "runaway", name: "Runaway", artist: "Lil Peep" },
+  { path: "gym-class", name: "Gym Class", artist: "Lil Peep" },
+  { path: "benz-truck", name: "Benz Truck", artist: "Lil Peep" },
+  { path: "girls", name: "Girls", artist: "Lil Peep, Horsehead" },
+  { path: "white-wine", name: "White Wine", artist: "Lil Peep, Lil Tracy" },
+  { path: "white-tee", name: "White Tee", artist: "Lil Peep, Lil Tracy" },
+  { path: "cobain", name: "Cobain", artist: "Lil Peep, Lil Tracy" },
+  { path: "16-lines", name: "16 Lines", artist: "Lil Peep" },
+  { path: "awful-things", name: "Awful Things", artist: "Lil Peep, Lil Tracy" },
+  { path: "backseat", name: "Backseat", artist: "Lil Peep, Lil Tracy" },
+  { path: "witchblades", name: "Witchblades", artist: "Lil Peep, Lil Tracy" },
+  { path: "live-forever", name: "Live Forever", artist: "Lil Peep" },
+  {
+    path: "california-world",
+    name: "california world",
+    artist: "Lil Peep, Nedarb, Craig Xen",
+  },
+  {
+    path: "hollywood-dreaming",
+    name: "Hollywood Dreaming",
+    artist: "Lil Peep, Gab3",
+  },
+  { path: "antarctica", name: "Antarctica", artist: "$uicideboy$" },
+  { path: "2nd-hand", name: "2nd Hand", artist: "$uicideboy$" },
+  { path: "o-pana", name: "O Pana!", artist: "$uicideboy$" },
+  { path: "face-it", name: "Face It", artist: "$uicideboy$" },
+  {
+    path: "rag-round-my-skull",
+    name: "Rag Round My Skull",
+    artist: "$uicideboy$",
+  },
+  {
+    path: "for-the-last-time",
+    name: "For the Last Time",
+    artist: "$uicideboy$",
+  },
+  { path: "oxycodon", name: "Oxycodon", artist: "T-Low" },
+  { path: "curly-fries", name: "Curly Fries", artist: "T-Low" },
+  { path: "crashen", name: "Crashen", artist: "T-Low" },
+  { path: "luxus-leben", name: "Luxus Leben", artist: "T-Low" },
+  {
+    path: "vorsichtig",
+    name: "Vorsichtig",
+    artist: "T-Low, Sevi Rin, Heinie Nüchtern",
+  },
+  { path: "bankaccount", name: "BANKACCOUNT", artist: "T-Low" },
+  { path: "sehnsucht", name: "Sehnsucht", artist: "T-Low, Miksu / Macloud" },
+  { path: "changed", name: "Changed", artist: "T-Low" },
+  { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artist: "Makko" },
 ];
 let video = newVideoF();
 let usedVideos = [];
 let url = window.location.search.substring(1).toLowerCase();
-
-// VIDEO MANAGER //
 
 document.addEventListener("DOMContentLoaded", function () {
   const contextMenu = document.getElementById("contextMenu");
@@ -66,7 +67,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const h1 = document.getElementById("h1");
   const settingsContent = document.getElementById("settingsContent");
 
-  // for the context menu //
+  /************************************************************************************************\
+  *                                CONTEXT MENU AND VOLUME STUFF                                   *
+  \************************************************************************************************/
 
   document.body.oncontextmenu = function (event) {
     contextMenu.style = `display: block; --mouse-x: ${
@@ -83,8 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
       contextMenu.style.display = "none";
   };
 
-  // for the volume function //
-
   videoE.volume = 0.3;
 
   mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
@@ -92,7 +93,9 @@ document.addEventListener("DOMContentLoaded", function () {
     volume(e);
   });
 
-  // video manager stuff //
+  /************************************************************************************************\
+  *                                        VIDEO MANAGER                                           *
+  \************************************************************************************************/
 
   videoE.onerror = function () {
     playVideo(true, video);
@@ -103,20 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
     usedVideos.push(url);
   } else playVideo(false, video, true);
 
-  let x = 0;
-  let titleText = titleTextGen();
-
-  if (document.getElementById("h1"))
-    h1.setAttribute(
-      "title",
-      `Current video: "${
-        videoE.getAttribute("src").split("/")[2].split(".")[0]
-      }"`
-    );
-
   requestAnimationFrame(loop);
-
-  // for the repeat video function //
 
   if (url == videoE.getAttribute("src").split("/")[2].split(".")[0])
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
@@ -124,79 +114,38 @@ document.addEventListener("DOMContentLoaded", function () {
       "Unrepeat"
     );
 
-  // functions for the video stuff //
+  /************************************************************************************************\
+  *                              TITLE STUFF (thank you stantac <3)                                *
+  \************************************************************************************************/
 
-  function titleTextGen() {
-    let titleText = [
-      "",
-      "S",
-      "S ",
-      "S E",
-      "S E ",
-      "S E N",
-      "S E N ",
-      "S E N B",
-      "S E N B ",
-      "S E N B E",
-      "S E N B E ",
-      "S E N B E Y",
-      "S E N B E Y ",
-      "S E N B E Y .",
-      "S E N B E Y . ",
-      "S E N B E Y . N",
-      "S E N B E Y . N ",
-      "S E N B E Y . N E",
-      "S E N B E Y . N E ",
-      "S E N B E Y . N E T",
-      "S E N B E Y . N E T ",
-      "S E N B E Y . N E T -",
-      "S E N B E Y . N E T - ",
-    ];
-    let titleVideo = videoE
-      .getAttribute("src")
-      .split("/")[2]
-      .split(".")[0]
+  let index = 0;
+  let length = 30;
+
+  async function loop(oldTitle = "") {
+    let title = `SENBEY.NET-${video.name}`
       .toUpperCase()
-      .replaceAll("-", "⠀");
+      .replaceAll(" ", "⠀")
+      .split("")
+      .join(" ");
 
-    titleVideo = titleVideo.split("");
-
-    titleVideo.forEach((v) => {
-      titleText.push(`${titleText[titleText.length - 1]}${v}`);
-      titleText.push(`${titleText[titleText.length - 1]} `);
-    });
-
-    return titleText;
-  }
-
-  async function loop() {
-    if (titleTextGen().toString() != titleText.toString()) {
-      titleText = titleTextGen();
-      x = 0;
+    if (title != oldTitle || index++ > title.length + length) {
+      index = 0;
 
       if (h1)
         h1.setAttribute(
           "title",
-          `Current video: "${
-            document
-              .getElementById("video")
-              .getAttribute("src")
-              .split("/")[2]
-              .split(".")[0]
-          }"`
+          `Current video: "${video.name}" by ${video.artist}`
         );
     }
 
     document.getElementsByTagName("title")[0].innerHTML = `${
-      titleText[x++ % titleText.length]
-    }|`;
+      title.slice(index >= length ? index - length : 0, index) || "⠀"
+    }${index % 2 ? "|" : ""}`;
 
-    await wait(300);
+    await wait(index > title.length ? 100 : 300);
 
-    requestAnimationFrame(loop);
+    requestAnimationFrame(() => loop(title));
   }
-
-  // events //
 
   document.getElementById("video").onended = function () {
     const videoE = document.getElementById("video");
@@ -210,32 +159,26 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 });
 
-// some other functions that need to be global //
+/************************************************************************************************\
+*                                    VIDEO MANAGER FUNCTIONS                                     *
+\************************************************************************************************/
 
-function playVideo(err = false, video, pageLoad = false) {
+function playVideo(err = false, vid, pageLoad = false) {
   const videoE = document.getElementById("video");
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
 
-  if (
-    (usedVideos.includes(video) && usedVideos.length != videos.length) ||
-    err
-  ) {
+  if ((usedVideos.includes(vid) && usedVideos.length != videos.length) || err) {
     video = newVideoF();
 
     playVideo(false, video);
   } else {
     if (usedVideos.length >= videos.length) usedVideos = [];
 
-    videoE.setAttribute("src", `${pathGen()}/media/${video}.mp4`);
+    videoE.setAttribute("src", `${pathGen()}/media/${vid.path}.mp4`);
     videoE.play();
 
-    if (!pageLoad)
-      popup(
-        `Now playing: "${
-          videoE.getAttribute("src").split("/")[2].split(".")[0]
-        }"`
-      );
+    if (!pageLoad) popup(`Now playing: "${vid.name}" by ${vid.artist}`);
 
     videoE.className = "";
 
@@ -253,7 +196,7 @@ function playVideo(err = false, video, pageLoad = false) {
 
     url = "";
 
-    usedVideos.push(video);
+    usedVideos.push(vid);
   }
 }
 
@@ -261,7 +204,9 @@ function newVideoF() {
   return videos[Math.floor(Math.random() * videos.length)];
 }
 
-// VOLUME MANAGER //
+/************************************************************************************************\
+*                                        VOlUME FUNCTIONS                                        *
+\************************************************************************************************/
 
 function volume(e) {
   if (e.deltaY < 0) volumeUp();
@@ -290,7 +235,9 @@ function volumeDown() {
   } else popup("The volume is on minimum.");
 }
 
-// REPEAT VIDEO FUNCTION //
+/************************************************************************************************\
+*                                     REPEAT VIDEO FUNCTION                                      *
+\************************************************************************************************/
 
 function repeatVideo() {
   const videoE = document.getElementById("video");
@@ -317,7 +264,9 @@ function repeatVideo() {
   }
 }
 
-// RESTART VIDEO FUNCTION //
+/************************************************************************************************\
+*                                     RESTART VIDEO FUNCTION                                     *
+\************************************************************************************************/
 
 function restartVideo() {
   const videoE = document.getElementById("video");
@@ -326,7 +275,9 @@ function restartVideo() {
   videoE.play();
 }
 
-// VIDEO MAPPER //
+/************************************************************************************************\
+*                                         VIDEO MAPPER                                           *
+\************************************************************************************************/
 
 function map(playWS = false) {
   if (playWS)
@@ -334,7 +285,13 @@ function map(playWS = false) {
       videos
         .map(
           (video) =>
-            `<a id="contextMenuA" onclick="playWS(\`${video}\`)">${video}</a>`
+            `<a id="contextMenuA" onclick="playWS(\`${video.path}\`)">"${
+              video.name
+            }" by ${
+              video.artist.length > 10
+                ? video.artist.split(",")[0]
+                : video.artist
+            }</a>`
         )
         .join("<br />")
     );
@@ -343,13 +300,15 @@ function map(playWS = false) {
       `All ${videos.length} videos: ${videos
         .map(
           (video) =>
-            `<a href="https://${location.host}?${video}" id="decorationA">${video}</a>`
+            `<a href="https://${location.host}?${video.path}" id="decorationA">${video.name}</a>`
         )
         .join(", ")}`
     );
 }
 
-// PAUSE VIDEO FUNCTION //
+/************************************************************************************************\
+*                                      PAUSE VIDEO FUNCTION                                      *
+\************************************************************************************************/
 
 function pauseVideo() {
   const videoE = document.getElementById("video");
@@ -379,7 +338,9 @@ function pauseVideo() {
   }
 }
 
-// MUTER FUNCTION //
+/************************************************************************************************\
+*                                         MUTE FUNCTION                                          *
+\************************************************************************************************/
 
 function muter() {
   const videoE = document.getElementById("video");
@@ -394,13 +355,17 @@ function muter() {
   }
 }
 
-// WAIT FUNCTION //
+/************************************************************************************************\
+*                                         WAIT FUNCTION                                          *
+\************************************************************************************************/
 
 function wait(ms) {
   return new Promise((res) => setTimeout(() => res(true), ms));
 }
 
-// POPUP FUNCTION //
+/************************************************************************************************\
+*                                        POPUP FUNCTION                                          *
+\************************************************************************************************/
 
 let popupQueue = [];
 let lastPopup;
@@ -466,24 +431,28 @@ async function popup(text, copy = false) {
   }
 }
 
-// PATH FUNCTION //
+/************************************************************************************************\
+*                                         PATH FUNCTION                                          *
+\************************************************************************************************/
 
 function pathGen() {
   return document.getElementById("main") ? "." : "..";
 }
 
-// CONTEXT MENU FUNCTIONS //
+/************************************************************************************************\
+*                              PLAY FUNCTION FOR THE CONTEXT MENU                                *
+\************************************************************************************************/
 
-function playWS(video) {
+function playWS(vid) {
   const videoE = document.getElementById("video");
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
 
-  videoE.setAttribute("src", `${pathGen()}/media/${video}.mp4`);
+  videoE.setAttribute("src", `${pathGen()}/media/${vid}.mp4`);
 
-  popup(
-    `Now playing: "${videoE.getAttribute("src").split("/")[2].split(".")[0]}"`
-  );
+  video = videos.find((i) => i.path == vid);
+
+  popup(`Now playing: "${video.name}" by ${video.artist}`);
 
   videoE.className = "";
 
@@ -504,7 +473,9 @@ function playWS(video) {
   if (!usedVideos.includes(video)) usedVideos.push(video);
 }
 
-// KEY EVENT //
+/************************************************************************************************\
+*                                           KEY EVENT                                            *
+\************************************************************************************************/
 
 document.onkeydown = function (e) {
   switch (e.keyCode) {
