@@ -54,7 +54,7 @@ const videos = [
   { path: "bankaccount", name: "BANKACCOUNT", artist: "T-Low" },
   { path: "sehnsucht", name: "Sehnsucht", artist: "T-Low, Miksu / Macloud" },
   { path: "changed", name: "Changed", artist: "T-Low" },
-  { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artist: "Makko" },
+  { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artist: "makko" },
 ];
 let video = newVideoF();
 let usedVideos = [];
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
   /************************************************************************************************\
-  *                              TITLE STUFF (thank you stantac <3)                                *
+  *                               TITLE STUFF (thank you malte <3)                                 *
   \************************************************************************************************/
 
   let index = 0;
