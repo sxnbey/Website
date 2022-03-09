@@ -56,12 +56,18 @@ const videos = [
   { path: "bankaccount", name: "BANKACCOUNT", artist: "T-Low" },
   { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artist: "makko" },
 ];
+let usedVideos = new Set();
+if (window.sessionStorage.usedVideos)
+  usedVideos = new Set(...window.sessionStorage.usedVideos);
+
+// why tf does a "[" appear in my set? //
+usedVideos.delete("[");
+
 let repeat = false;
 let video = newVideoF();
-let usedVideos = [];
+let urlBoo = false;
 let url = window.location.search.substring(1).toLowerCase();
 url = url.split("&");
-let urlBoo = false;
 
 document.addEventListener("DOMContentLoaded", function () {
   history.pushState(null, null, location.href.split("?")[0]);
@@ -106,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (urlBoo == "paused") {
       pauseVideo();
 
-      urlBoo = false;
+      urlBoo = true;
     }
   });
 
@@ -127,9 +133,9 @@ document.addEventListener("DOMContentLoaded", function () {
           "Unrepeat"
         );
 
-        usedVideos.push(url);
-
         video = videos.find((v) => v.path == i[1]);
+
+        usedVideos.add(video);
         break;
 
       case "m":
@@ -151,8 +157,8 @@ document.addEventListener("DOMContentLoaded", function () {
       case "r":
         if (i[1] == "true") repeat = true;
 
-      case "r":
-        if (i[1] == "true") urlBoo = "";
+      case "u":
+        if (urlBoo != "paused") urlBoo = true;
     }
   });
 
@@ -227,12 +233,12 @@ function playVideo(err = false, vid, pageLoad = false) {
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
 
-  if ((usedVideos.includes(vid) && usedVideos.length != videos.length) || err) {
+  if ((usedVideos.has(vid) && usedVideos.size != videos.length) || err) {
     video = newVideoF();
 
     playVideo(false, video);
   } else {
-    if (usedVideos.length >= videos.length) usedVideos = [];
+    if (usedVideos.size >= videos.length) usedVideos = new Set();
 
     videoE.setAttribute("src", `${pathGen()}/media/${vid.path}.mp4`);
     videoE.play();
@@ -253,7 +259,7 @@ function playVideo(err = false, vid, pageLoad = false) {
       "Repeat"
     );
 
-    usedVideos.push(vid);
+    usedVideos.add(video);
   }
 }
 
@@ -524,7 +530,7 @@ function playWS(vid) {
     "Repeat"
   );
 
-  if (!usedVideos.includes(video)) usedVideos.push(video);
+  usedVideos.add(video);
 }
 
 /************************************************************************************************\
@@ -576,9 +582,18 @@ document.onkeydown = function (e) {
 function redirect(url) {
   const videoE = document.getElementById("video");
 
+  window.sessionStorage.setItem(
+    "usedVideos",
+    JSON.stringify(Array.from(usedVideos))
+  );
+
   window.location.href =
     url +
-    `?p=${video.path}&m=${videoE.muted}&v=${
-      Math.round(videoE.volume * 100) / 100
-    }&c=${videoE.currentTime}&s=${videoE.paused}&r=${repeat}&u=true`;
+    `?p=${video.path}&m=${
+      navigator.userAgent.toLowerCase().indexOf("firefox") > -1
+        ? "true"
+        : videoE.muted
+    }&v=${Math.round(videoE.volume * 100) / 100}&c=${videoE.currentTime}&s=${
+      videoE.paused
+    }&r=${repeat}&u=true`;
 }
