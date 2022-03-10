@@ -229,6 +229,10 @@ function playVideo(vid, err = false, pageLoad = false, contextMenu = false) {
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
 
+  if (typeof vid == "string") vid = videos.find((i) => i.path == vid);
+
+  video = vid;
+
   if (
     (usedVideos.includes(vid) &&
       usedVideos.length != videos.length &&
@@ -240,8 +244,6 @@ function playVideo(vid, err = false, pageLoad = false, contextMenu = false) {
     playVideo(video);
   } else {
     if (usedVideos.length >= videos.length) usedVideos = [];
-
-    if (typeof vid == "string") vid = videos.find((i) => i.path == vid);
 
     videoE.setAttribute("src", `${pathGen()}/media/${vid.path}.mp4`);
     videoE.play();
