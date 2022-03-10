@@ -60,8 +60,7 @@ let usedVideos = [];
 let repeat = false;
 let video = newVideoF();
 let urlBoo = false;
-let url = window.location.search.substring(1).toLowerCase();
-url = url.split("&");
+let url = window.location.search.substring(1).toLowerCase().split("&");
 
 document.addEventListener("DOMContentLoaded", function () {
   history.pushState(null, null, location.href.split("?")[0]);
