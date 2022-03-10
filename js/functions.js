@@ -224,25 +224,26 @@ document.addEventListener("DOMContentLoaded", function () {
 *                                    VIDEO MANAGER FUNCTIONS                                     *
 \************************************************************************************************/
 
-function playVideo(vid, err = false, pageLoad = false, contextMenu = false) {
+function playVideo(vid, err = false, pageLoad = false, menu = false) {
   const videoE = document.getElementById("video");
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
+  const contextMenu = document.getElementById("contextMenu");
 
   if (typeof vid == "string") vid = videos.find((i) => i.path == vid);
 
   video = vid;
 
   if (
-    (usedVideos.includes(vid) &&
-      usedVideos.length != videos.length &&
-      !contextMenu) ||
+    (usedVideos.includes(vid) && usedVideos.length != videos.length && !menu) ||
     err
   ) {
     video = newVideoF();
 
     playVideo(video);
   } else {
+    contextMenu.innerHTML = map(true);
+
     if (usedVideos.length >= videos.length) usedVideos = [];
 
     videoE.setAttribute("src", `${pathGen()}/media/${vid.path}.mp4`);
@@ -264,7 +265,7 @@ function playVideo(vid, err = false, pageLoad = false, contextMenu = false) {
       "Repeat"
     );
 
-    usedVideos.push(video);
+    if (!usedVideos.includes(video)) usedVideos.push(video);
   }
 }
 
@@ -348,16 +349,16 @@ function restartVideo() {
 
 function map(contextMenu = false) {
   if (contextMenu)
-    document.write(
+    return (
+      "<p>Choose a song:</p>" +
       videos
+        .filter((i) => i != video)
         .map(
-          (video) =>
+          (vid) =>
             `<a id="contextMenuA" onclick="playVideo(\`${
-              video.path
-            }\`, false, false, true)">"${video.name}" by ${
-              video.artist.length > 10
-                ? video.artist.split(",")[0]
-                : video.artist
+              vid.path
+            }\`, false, false, true)">"${vid.name}" by ${
+              vid.artist.length > 10 ? vid.artist.split(",")[0] : vid.artist
             }</a>`
         )
         .join("<br />")
@@ -366,8 +367,8 @@ function map(contextMenu = false) {
     document.write(
       `All ${videos.length} videos: ${videos
         .map(
-          (video) =>
-            `"<a href="https://${location.host}?p=${video.path}&u=true" id="decorationA">${video.name}</a>" by ${video.artist}`
+          (vid) =>
+            `"<a href="https://${location.host}?p=${vid.path}&u=true" id="decorationA">${vid.name}</a>" by ${vid.artist}`
         )
         .join("; ")}`
     );
