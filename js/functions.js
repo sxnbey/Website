@@ -56,13 +56,7 @@ const videos = [
   { path: "bankaccount", name: "BANKACCOUNT", artist: "T-Low" },
   { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artist: "makko" },
 ];
-let usedVideos = new Set();
-if (window.sessionStorage.usedVideos)
-  usedVideos = new Set(...window.sessionStorage.usedVideos);
-
-// why tf does a "[" appear in my set? //
-usedVideos.delete("[");
-
+let usedVideos = [];
 let repeat = false;
 let video = newVideoF();
 let urlBoo = false;
@@ -76,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
   const h1 = document.getElementById("h1");
-  const settingsContent = document.getElementById("settingsContent");
 
   /************************************************************************************************\
   *                                CONTEXT MENU AND VOLUME STUFF                                   *
@@ -108,6 +101,10 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                     OTHER IMPORTANT STUFF                                      *
   \************************************************************************************************/
 
+  let checkArr = url.filter((i) => i.startsWith("p="));
+  checkArr.shift();
+  checkArr.forEach((i) => url.splice(url.indexOf(i), 1));
+
   videoE.addEventListener("play", function () {
     if (urlBoo == "paused") {
       pauseVideo();
@@ -116,8 +113,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  url.forEach(async (i) => {
+  url.forEach((i) => {
     i = i.split("=");
+
+    if (url[url.length - 1] != "u=true" || url.length <= 1) return;
 
     switch (i[0]) {
       default:
@@ -126,16 +125,11 @@ document.addEventListener("DOMContentLoaded", function () {
       case "p":
         if (url.some((i) => i == "s=true")) urlBoo = "paused";
 
-        videoE.setAttribute("src", `${pathGen()}/media/${i[1]}.mp4`);
-
-        settingsContent.innerHTML = settingsContent.innerHTML.replace(
-          "Repeat",
-          "Unrepeat"
+        playVideo(
+          !i[1] || !videos.find((vid) => vid.path == i[1]) ? video : i[1],
+          false,
+          true
         );
-
-        video = videos.find((v) => v.path == i[1]);
-
-        usedVideos.add(video);
         break;
 
       case "m":
@@ -155,10 +149,12 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
 
       case "r":
-        if (i[1] == "true") repeat = true;
+        if (i[1] == "true") repeatVideo(true);
+        break;
 
       case "u":
         if (urlBoo != "paused") urlBoo = true;
+        break;
     }
   });
 
@@ -168,18 +164,18 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                        VIDEO MANAGER                                           *
   \************************************************************************************************/
 
+  if (!urlBoo) playVideo(video, false, true);
+
+  requestAnimationFrame(loop);
+
   videoE.onerror = function () {
     playVideo(true, video);
   };
 
-  if (!urlBoo) playVideo(false, video, true);
-
-  requestAnimationFrame(loop);
-
   document.getElementById("video").onended = function () {
     const videoE = document.getElementById("video");
 
-    if (!repeat) playVideo(false, video);
+    if (!repeat) playVideo(video);
     else {
       videoE.currentTime = 0;
       videoE.play();
@@ -191,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function () {
   \************************************************************************************************/
 
   let index = 0;
-  let revIndex = 0;
+  let revIndex = -1;
 
   async function loop(oldTitle = "") {
     if (h1)
@@ -210,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (title != oldTitle || index > title.length * 2 + 1) {
       index = 0;
-      revIndex = 0;
+      revIndex = -1;
     }
 
     document.title = `${title.slice(
@@ -228,17 +224,24 @@ document.addEventListener("DOMContentLoaded", function () {
 *                                    VIDEO MANAGER FUNCTIONS                                     *
 \************************************************************************************************/
 
-function playVideo(err = false, vid, pageLoad = false) {
+function playVideo(vid, err = false, pageLoad = false, contextMenu = false) {
   const videoE = document.getElementById("video");
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
 
-  if ((usedVideos.has(vid) && usedVideos.size != videos.length) || err) {
+  if (
+    (usedVideos.includes(vid) &&
+      usedVideos.length != videos.length &&
+      !contextMenu) ||
+    err
+  ) {
     video = newVideoF();
 
-    playVideo(false, video);
+    playVideo(video);
   } else {
-    if (usedVideos.size >= videos.length) usedVideos = new Set();
+    if (usedVideos.length >= videos.length) usedVideos = [];
+
+    if (typeof vid == "string") vid = videos.find((i) => i.path == vid);
 
     videoE.setAttribute("src", `${pathGen()}/media/${vid.path}.mp4`);
     videoE.play();
@@ -259,7 +262,7 @@ function playVideo(err = false, vid, pageLoad = false) {
       "Repeat"
     );
 
-    usedVideos.add(video);
+    usedVideos.push(video);
   }
 }
 
@@ -302,7 +305,7 @@ function volumeDown() {
 *                                     REPEAT VIDEO FUNCTION                                      *
 \************************************************************************************************/
 
-function repeatVideo() {
+function repeatVideo(pageload = false) {
   const settingsContent = document.getElementById("settingsContent");
 
   if (repeat) {
@@ -313,7 +316,7 @@ function repeatVideo() {
 
     repeat = false;
 
-    popup("The video is now unrepeated.");
+    if (!pageload) popup("The video is now unrepeated.");
   } else {
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
       "Repeat",
@@ -322,7 +325,7 @@ function repeatVideo() {
 
     repeat = true;
 
-    popup("The video is now repeated.");
+    if (!pageload) popup("The video is now repeated.");
   }
 }
 
@@ -341,15 +344,15 @@ function restartVideo() {
 *                                         VIDEO MAPPER                                           *
 \************************************************************************************************/
 
-function map(playWS = false) {
-  if (playWS)
+function map(contextMenu = false) {
+  if (contextMenu)
     document.write(
       videos
         .map(
           (video) =>
-            `<a id="contextMenuA" onclick="playWS(\`${video.path}\`)">"${
-              video.name
-            }" by ${
+            `<a id="contextMenuA" onclick="playVideo(\`${
+              video.path
+            }\`, false, false, true)">"${video.name}" by ${
               video.artist.length > 10
                 ? video.artist.split(",")[0]
                 : video.artist
@@ -362,7 +365,7 @@ function map(playWS = false) {
       `All ${videos.length} videos: ${videos
         .map(
           (video) =>
-            `"<a href="https://${location.host}?p=${video.path}" id="decorationA">${video.name}</a>" by ${video.artist}`
+            `"<a href="https://${location.host}?p=${video.path}&u=true" id="decorationA">${video.name}</a>" by ${video.artist}`
         )
         .join("; ")}`
     );
@@ -379,7 +382,7 @@ async function pauseVideo() {
 
   if (videoE.paused) {
     videoE.className = "";
-    await videoE.play();
+    videoE.play();
 
     paused.className = "";
 
@@ -389,7 +392,7 @@ async function pauseVideo() {
     );
   } else {
     videoE.className = "blurred";
-    await videoE.pause();
+    videoE.pause();
 
     paused.className = "visible";
 
@@ -438,17 +441,11 @@ async function popup(text, copy = false) {
   if (!popupE) return;
 
   if (
-    popupE.className == " visible" ||
-    popupE.className == "main visible" ||
-    (popupE.className == "" && popupE.innerHTML != "") ||
-    (popupE.className == "main" && popupE.innerHTML != "")
+    popupE.className.includes(" visible") &&
+    lastPopup != text &&
+    lastPopup != `"${text}" has been copied to your clipboard!`
   )
-    if (
-      lastPopup != text &&
-      lastPopup != `"${text}" has been copied to your clipboard!`
-    )
-      return popupQueue.push({ text, copy });
-    else return;
+    return popupQueue.push({ text, copy });
 
   if (copy) {
     try {
@@ -469,13 +466,9 @@ async function popup(text, copy = false) {
 
   popupE.className = popupE.className.replace(" visible", "");
 
-  await wait(500);
-
-  popupE.innerHTML = "";
+  await wait(1000);
 
   if (popupQueue.length > 0) {
-    popupE.innerHTML = "any text, so no other popup can be triggered";
-
     let queuePopup = popupQueue.shift();
 
     while (
@@ -484,10 +477,6 @@ async function popup(text, copy = false) {
       (popupQueue.length > 0 && popupQueue[0].text == queuePopup.text)
     )
       queuePopup = popupQueue.shift();
-
-    await wait(500);
-
-    popupE.innerHTML = "";
 
     return popup(queuePopup.text, queuePopup.copy);
   }
@@ -502,35 +491,21 @@ function pathGen() {
 }
 
 /************************************************************************************************\
-*                              PLAY FUNCTION FOR THE CONTEXT MENU                                *
+*                                       REDIRECT FUNCTION                                        *
 \************************************************************************************************/
 
-function playWS(vid) {
+function redirect(url) {
   const videoE = document.getElementById("video");
-  const paused = document.getElementById("paused");
-  const settingsContent = document.getElementById("settingsContent");
 
-  videoE.setAttribute("src", `${pathGen()}/media/${vid}.mp4`);
-
-  video = videos.find((i) => i.path == vid);
-
-  popup(`Now playing: "${video.name}" by ${video.artist}`);
-
-  videoE.className = "";
-
-  paused.className = "";
-
-  settingsContent.innerHTML = settingsContent.innerHTML.replace(
-    "Unpause",
-    "Pause"
-  );
-
-  settingsContent.innerHTML = settingsContent.innerHTML.replace(
-    "Unrepeat",
-    "Repeat"
-  );
-
-  usedVideos.add(video);
+  window.location.href =
+    url +
+    `?p=${video.path}&m=${
+      navigator.userAgent.toLowerCase().indexOf("firefox") > -1
+        ? "true"
+        : videoE.muted
+    }&v=${Math.round(videoE.volume * 100) / 100}&c=${videoE.currentTime}&s=${
+      videoE.paused
+    }&r=${repeat}&u=true`;
 }
 
 /************************************************************************************************\
@@ -543,7 +518,7 @@ document.onkeydown = function (e) {
       break;
 
     case 78:
-      playVideo(false, video);
+      playVideo(video);
       break;
 
     case 82:
@@ -578,22 +553,3 @@ document.onkeydown = function (e) {
       return false;
   }
 };
-
-function redirect(url) {
-  const videoE = document.getElementById("video");
-
-  window.sessionStorage.setItem(
-    "usedVideos",
-    JSON.stringify(Array.from(usedVideos))
-  );
-
-  window.location.href =
-    url +
-    `?p=${video.path}&m=${
-      navigator.userAgent.toLowerCase().indexOf("firefox") > -1
-        ? "true"
-        : videoE.muted
-    }&v=${Math.round(videoE.volume * 100) / 100}&c=${videoE.currentTime}&s=${
-      videoE.paused
-    }&r=${repeat}&u=true`;
-}
