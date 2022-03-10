@@ -453,18 +453,20 @@ function wait(ms) {
 
 let popupQueue = [];
 let lastPopup;
+let popupVisible = false;
 
 async function popup(text, copy = false) {
   const popupE = document.getElementById("popup");
 
   if (!popupE) return;
 
-  if (
-    popupE.className.includes(" visible") &&
-    lastPopup != text &&
-    lastPopup != `"${text}" has been copied to your clipboard!`
-  )
-    return popupQueue.push({ text, copy });
+  if (popupVisible)
+    if (
+      lastPopup != text &&
+      lastPopup != `"${text}" has been copied to your clipboard!`
+    )
+      return popupQueue.push({ text, copy });
+    else return;
 
   if (copy) {
     try {
@@ -477,6 +479,8 @@ async function popup(text, copy = false) {
   }
 
   lastPopup = text;
+
+  popupVisible = true;
 
   popupE.innerHTML = text;
   popupE.className += " visible";
@@ -491,14 +495,15 @@ async function popup(text, copy = false) {
     let queuePopup = popupQueue.shift();
 
     while (
-      (popupQueue.length > 0 &&
-        popupQueue[0].text.startsWith("Now playing: ")) ||
-      (popupQueue.length > 0 && popupQueue[0].text == queuePopup.text)
+      popupQueue.length > 0 &&
+      popupQueue[0].text.startsWith("Now playing: ")
     )
       queuePopup = popupQueue.shift();
 
-    return popup(queuePopup.text, queuePopup.copy);
-  }
+    popupVisible = false;
+
+    popup(queuePopup.text, queuePopup.copy);
+  } else popupVisible = false;
 }
 
 /************************************************************************************************\
