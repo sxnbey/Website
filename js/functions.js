@@ -3,58 +3,74 @@
 \************************************************************************************************/
 
 const videos = [
-  { path: "beamer-boy", name: "beamer boy", artist: "Lil Peep, Nedarb" },
-  { path: "lil-kennedy", name: "Lil Kennedy", artist: "Lil Peep, Nedarb" },
-  { path: "keep-my-coo", name: "Keep My Coo", artist: "Lil Peep" },
-  { path: "runaway", name: "Runaway", artist: "Lil Peep" },
-  { path: "gym-class", name: "Gym Class", artist: "Lil Peep" },
-  { path: "benz-truck", name: "Benz Truck", artist: "Lil Peep" },
-  { path: "girls", name: "Girls", artist: "Lil Peep, Horsehead" },
-  { path: "white-wine", name: "White Wine", artist: "Lil Peep, Lil Tracy" },
-  { path: "white-tee", name: "White Tee", artist: "Lil Peep, Lil Tracy" },
-  { path: "cobain", name: "Cobain", artist: "Lil Peep, Lil Tracy" },
-  { path: "16-lines", name: "16 Lines", artist: "Lil Peep" },
-  { path: "awful-things", name: "Awful Things", artist: "Lil Peep, Lil Tracy" },
-  { path: "backseat", name: "Backseat", artist: "Lil Peep, Lil Tracy" },
-  { path: "witchblades", name: "Witchblades", artist: "Lil Peep, Lil Tracy" },
-  { path: "live-forever", name: "Live Forever", artist: "Lil Peep" },
-  {
-    path: "california-world",
-    name: "california world",
-    artist: "Lil Peep, Nedarb, Craig Xen",
-  },
+  { path: "keep-my-coo", name: "Keep My Coo", artists: ["Lil Peep"] },
+  { path: "live-forever", name: "Live Forever", artists: ["Lil Peep"] },
+  { path: "runaway", name: "Runaway", artists: ["Lil Peep"] },
+  { path: "gym-class", name: "Gym Class", artists: ["Lil Peep"] },
+  { path: "benz-truck", name: "Benz Truck", artists: ["Lil Peep"] },
+  { path: "16-lines", name: "16 Lines", artists: ["Lil Peep"] },
+  { path: "girls", name: "Girls", artists: ["Lil Peep", "Horsehead"] },
   {
     path: "hollywood-dreaming",
     name: "Hollywood Dreaming",
-    artist: "Lil Peep, Gab3",
+    artists: ["Lil Peep", "Gab3"],
   },
-  { path: "antarctica", name: "Antarctica", artist: "$uicideboy$" },
-  { path: "2nd-hand", name: "2nd Hand", artist: "$uicideboy$" },
-  { path: "o-pana", name: "O Pana!", artist: "$uicideboy$" },
-  { path: "face-it", name: "Face It", artist: "$uicideboy$" },
+  { path: "backseat", name: "Backseat", artists: ["Lil Peep", "Lil Tracy"] },
+  {
+    path: "white-wine",
+    name: "White Wine",
+    artists: ["Lil Peep", "Lil Tracy"],
+  },
+  { path: "white-tee", name: "White Tee", artists: ["Lil Peep", "Lil Tracy"] },
+  { path: "cobain", name: "Cobain", artists: ["Lil Peep", "Lil Tracy"] },
+  {
+    path: "witchblades",
+    name: "Witchblades",
+    artists: ["Lil Peep", "Lil Tracy"],
+  },
+  {
+    path: "awful-things",
+    name: "Awful Things",
+    artists: ["Lil Peep", "Lil Tracy"],
+  },
+  { path: "beamer-boy", name: "beamer boy", artists: ["Lil Peep", "Nedarb"] },
+  { path: "lil-kennedy", name: "lil kennedy", artists: ["Lil Peep", "Nedarb"] },
+  {
+    path: "california-world",
+    name: "california world",
+    artists: ["Lil Peep", "Nedarb", "Craig Xen"],
+  },
+  { path: "antarctica", name: "Antarctica", artists: ["$uicideboy$"] },
+  { path: "2nd-hand", name: "2nd Hand", artists: ["$uicideboy$"] },
+  { path: "o-pana", name: "O Pana!", artists: ["$uicideboy$"] },
+  { path: "face-it", name: "Face It", artists: ["$uicideboy$"] },
   {
     path: "rag-round-my-skull",
     name: "Rag Round My Skull",
-    artist: "$uicideboy$",
+    artists: ["$uicideboy$"],
   },
   {
     path: "for-the-last-time",
     name: "For the Last Time",
-    artist: "$uicideboy$",
+    artists: ["$uicideboy$"],
   },
-  { path: "oxycodon", name: "Oxycodon", artist: "T-Low" },
-  { path: "curly-fries", name: "Curly Fries", artist: "T-Low" },
-  { path: "crashen", name: "Crashen", artist: "T-Low" },
-  { path: "luxus-leben", name: "Luxus Leben", artist: "T-Low" },
+  { path: "oxycodon", name: "Oxycodon", artists: ["T-Low"] },
+  { path: "curly-fries", name: "Curly Fries", artists: ["T-Low"] },
+  { path: "crashen", name: "Crashen", artists: ["T-Low"] },
+  { path: "luxus-leben", name: "Luxus Leben", artists: ["T-Low"] },
+  { path: "changed", name: "Changed", artists: ["T-Low"] },
+  { path: "bankaccount", name: "BANKACCOUNT", artists: ["T-Low"] },
   {
     path: "vorsichtig",
     name: "Vorsichtig",
-    artist: "T-Low, Sevi Rin, Heinie Nüchtern",
+    artists: ["T-Low", "Sevi Rin", "Heinie Nüchtern"],
   },
-  { path: "sehnsucht", name: "Sehnsucht", artist: "T-Low, Miksu / Macloud" },
-  { path: "changed", name: "Changed", artist: "T-Low" },
-  { path: "bankaccount", name: "BANKACCOUNT", artist: "T-Low" },
-  { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artist: "makko" },
+  {
+    path: "sehnsucht",
+    name: "Sehnsucht",
+    artists: ["T-Low", "Miksu / Macloud"],
+  },
+  { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artists: ["makko"] },
 ];
 let usedVideos = [];
 let repeat = false;
@@ -157,8 +173,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // p = path, m = muted, v = volume, c = currentTime, s = paused, r = repeat, u = urlBoo
-
   /************************************************************************************************\
   *                                        VIDEO MANAGER                                           *
   \************************************************************************************************/
@@ -192,7 +206,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (h1)
       h1.setAttribute(
         "title",
-        `Current video: "${video.name}" by ${video.artist}`
+        `Current video: "${video.name}" by ${video.artists
+          .map((i) => i)
+          .join(", ")}`
       );
 
     let title = video.name
@@ -248,7 +264,8 @@ function playVideo(vid, err = false, pageLoad = false, menu = false) {
     videoE.setAttribute("src", `${pathGen()}/media/${vid.path}.mp4`);
     videoE.play();
 
-    if (!pageLoad) popup(`Now playing: "${vid.name}" by ${vid.artist}`);
+    if (!pageLoad)
+      popup(`Now playing: "${vid.name}" by ${vid.artists.join(", ")}`);
 
     videoE.className = "";
 
@@ -354,11 +371,7 @@ function map(contextMenu = false) {
         .filter((i) => i != video)
         .map(
           (vid) =>
-            `<a id="contextMenuA" onclick="playVideo(\`${
-              vid.path
-            }\`, false, false, true)">"${vid.name}" by ${
-              vid.artist.length > 10 ? vid.artist.split(",")[0] : vid.artist
-            }</a>`
+            `<a id="contextMenuA" onclick="playVideo(\`${vid.path}\`, false, false, true)">"${vid.name}" by ${vid.artists[0]}</a>`
         )
         .join("<br />")
     );
@@ -367,7 +380,11 @@ function map(contextMenu = false) {
       `All ${videos.length} videos: ${videos
         .map(
           (vid) =>
-            `"<a href="https://${location.host}?p=${vid.path}&u=true" id="decorationA">${vid.name}</a>" by ${vid.artist}`
+            `"<a href="https://${location.host}?p=${
+              vid.path
+            }&u=true" class="decorationA">${
+              vid.name
+            }</a>" by ${vid.artists.join(", ")}`
         )
         .join("; ")}`
     );

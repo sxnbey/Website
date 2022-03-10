@@ -98,7 +98,7 @@ a {
   -o-transition: all 300ms;
 }
 
-#decorationA {
+.decorationA {
   text-decoration: underline;
 }
 
