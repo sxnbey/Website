@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Homepage of senbey.net</title>
-    <script src="./js/functions.js?version=118"></script>
+    <script src="./js/functions.js?version=119"></script>
     <link rel="stylesheet" type="text/css" href="./css/style.css?version=27" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -81,10 +81,10 @@
     <div id="settings">
       <img src="./img/settings.svg" alt="Settings" id="settingsSVG" />
       <div id="settingsContent">
-        <a onclick="playVideo(false, video)">New Video</a>
-        <a onclick="repeatVideo()">Repeat Video</a>
-        <a onclick="restartVideo()">Restart Video</a>
-        <a onclick="pauseVideo()">Pause Video</a>
+        <a title='Key: "n"' onclick="playVideo(false, video)">New Video</a>
+        <a title='Key: "r"' onclick="repeatVideo()">Repeat Video</a>
+        <a title='Key: "s"' onclick="restartVideo()">Restart Video</a>
+        <a title='Key: "space bar"' onclick="pauseVideo()">Pause Video</a>
       </div>
     </div>
 
@@ -105,13 +105,18 @@
       <br />
 
       <p>
-        <a href="discord" target="_blank">Discord</a> |
-        <a href="bot" target="_blank">Discord-Bot</a> |
-        <a href="github" target="_blank">GitHub</a> |
-        <a href="twitter" target="_blank">Twitter</a> |
-        <a href="youtube" target="_blank">YouTube</a> |
-        <a href="steam" target="_blank">Steam</a> |
-        <a onclick="redirect(`info`)">Info</a>
+        <a title="My Discord account" href="discord" target="_blank">Discord</a>
+        | <a title="My Discord bot" href="bot" target="_blank">Discord bot</a> |
+        <a title="My GitHub Account" href="github" target="_blank">GitHub</a> |
+        <a title="My Twitter Account" href="twitter" target="_blank">Twitter</a>
+        |
+        <a title="My YouTube Channel" href="youtube" target="_blank">YouTube</a>
+        | <a title="My Steam Account" href="steam" target="_blank">Steam</a> |
+        <a
+          title="Informations, such as controls or a disclaimer"
+          onclick="redirect(`info`)"
+          >Info</a
+        >
       </p>
     </div>
 

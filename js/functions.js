@@ -185,14 +185,9 @@ document.addEventListener("DOMContentLoaded", function () {
     playVideo(true, video);
   };
 
-  document.getElementById("video").onended = function () {
-    const videoE = document.getElementById("video");
-
+  videoE.onended = function () {
     if (!repeat) playVideo(video);
-    else {
-      videoE.currentTime = 0;
-      videoE.play();
-    }
+    else restartVideo();
   };
 
   /************************************************************************************************\
@@ -354,6 +349,15 @@ function repeatVideo(pageload = false) {
 
 function restartVideo() {
   const videoE = document.getElementById("video");
+
+  videoE.className = "";
+
+  paused.className = "";
+
+  settingsContent.innerHTML = settingsContent.innerHTML.replace(
+    "Unpause",
+    "Pause"
+  );
 
   videoE.currentTime = 0;
   videoE.play();
