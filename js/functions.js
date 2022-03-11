@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   /************************************************************************************************\
-  *                                     OTHER IMPORTANT STUFF                                      *
+  *                                        URL CHECK STUFF                                         *
   \************************************************************************************************/
 
   let checkArr = url.filter((i) => i.startsWith("p="));
@@ -201,9 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (h1)
       h1.setAttribute(
         "title",
-        `Current video: "${video.name}" by ${video.artists
-          .map((i) => i)
-          .join(", ")}`
+        `Current video: "${video.name}" by ${video.artists.join(", ")}`
       );
 
     let title = video.name
@@ -256,7 +254,7 @@ function playVideo(vid, err = false, pageLoad = false, menu = false) {
 
     if (usedVideos.length >= videos.length) usedVideos = [];
 
-    videoE.setAttribute("src", `${pathGen()}/media/${vid.path}.mp4`);
+    videoE.src = `${pathGen()}/media/${vid.path}.mp4`;
     videoE.play();
 
     if (!pageLoad)
@@ -436,10 +434,10 @@ function muter() {
 
   if (videoE.muted) {
     videoE.muted = false;
-    mute.setAttribute("src", `${pathGen()}/img/unmuted.svg`);
+    mute.src = `${pathGen()}/img/unmuted.svg`;
   } else {
     videoE.muted = true;
-    mute.setAttribute("src", `${pathGen()}/img/muted.svg`);
+    mute.src = `${pathGen()}/img/muted.svg`;
   }
 }
 
