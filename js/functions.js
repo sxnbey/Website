@@ -462,13 +462,20 @@ async function popup(text, copy = false) {
 
   if (!popupE) return;
 
-  if (popupVisible)
+  if (popupVisible) {
+    if (text.startsWith("Now playing: "))
+      popupQueue = popupQueue.filter(
+        ({ text: ftext }) => !ftext.startsWith("Now playing: ")
+      );
+
     if (
-      lastPopup != text &&
-      lastPopup != `"${text}" has been copied to your clipboard!`
+      ![lastPopup, ...popupQueue.map((i) => i.text)].includes(
+        copy ? `"${text}" has been copied to your clipboard!` : text
+      )
     )
-      return popupQueue.push({ text, copy });
-    else return;
+      popupQueue.push({ text, copy });
+    return;
+  }
 
   if (copy) {
     try {
@@ -495,12 +502,6 @@ async function popup(text, copy = false) {
 
   if (popupQueue.length > 0) {
     let queuePopup = popupQueue.shift();
-
-    while (
-      popupQueue.length > 0 &&
-      popupQueue[0].text.startsWith("Now playing: ")
-    )
-      queuePopup = popupQueue.shift();
 
     popupVisible = false;
 
