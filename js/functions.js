@@ -84,7 +84,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const contextMenu = document.getElementById("contextMenu");
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
-  const h1 = document.getElementById("h1");
 
   /************************************************************************************************\
   *                                CONTEXT MENU AND VOLUME STUFF                                   *
@@ -196,12 +195,6 @@ document.addEventListener("DOMContentLoaded", function () {
   let revIndex = -1;
 
   async function loop(oldTitle = "") {
-    if (h1)
-      h1.setAttribute(
-        "title",
-        `Current video: "${video.name}" by ${video.artists.join(", ")}`
-      );
-
     let title = video.name
       .toUpperCase()
       .replaceAll(" ", "⠀")
@@ -235,6 +228,7 @@ function playVideo(vid, err = false, pageLoad = false, menu = false) {
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
   const contextMenu = document.getElementById("contextMenu");
+  const h1 = document.getElementById("h1");
 
   if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
 
@@ -254,6 +248,9 @@ function playVideo(vid, err = false, pageLoad = false, menu = false) {
 
     videoE.src = `${pathGen()}/media/${vid.path}.mp4`;
     videoE.play();
+
+    if (h1)
+      h1.title = `Current video: "${vid.name}" by ${vid.artists.join(", ")}`;
 
     if (!pageLoad)
       popup(`Now playing: "${vid.name}" by ${vid.artists.join(", ")}`);
