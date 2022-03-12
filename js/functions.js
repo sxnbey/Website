@@ -525,9 +525,7 @@ function redirect(url, videoPath = false, currentTime = true, repeated = true) {
   window.location.href =
     url +
     `?p=${videoPath ? videoPath : video.path}&m=${
-      navigator.userAgent.toLowerCase().indexOf("firefox") > -1
-        ? "true"
-        : videoE.muted
+      !!!window.chrome ? "true" : videoE.muted
     }&v=${Math.round(videoE.volume * 100) / 100}&c=${
       currentTime ? videoE.currentTime : 0
     }&s=${videoE.paused}&r=${repeated ? repeat : false}&u=true`;
