@@ -90,20 +90,18 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                CONTEXT MENU AND VOLUME STUFF                                   *
   \************************************************************************************************/
 
-  document.body.oncontextmenu = function (event) {
+  document.body.oncontextmenu = function (e) {
     contextMenu.style = `display: block; --mouse-x: ${
-      event.clientX - 30
-    }px; --mouse-y: ${event.clientY - 30}px;`;
+      e.clientX - 30
+    }px; --mouse-y: ${e.clientY - 30}px;`;
 
     return false;
   };
 
-  document.body.onclick = function (event) {
-    if (
-      !["contextMenuA", "contextMenu"].some((i) => event.target.id.includes(i))
-    )
+  document.body.addEventListener("click", function (e) {
+    if (e.target.id != "contextMenu" && e.target.className != "contextMenuA")
       contextMenu.style.display = "none";
-  };
+  });
 
   videoE.volume = 0.3;
 
@@ -373,7 +371,7 @@ function map(contextMenu = false) {
         .filter((i) => i != video)
         .map(
           (vid) =>
-            `<a id="contextMenuA" onclick="playVideo(\`${vid.path}\`, false, false, true)">"${vid.name}" by ${vid.artists[0]}</a>`
+            `<a onclick="playVideo('${vid.path}', false, false, true)" class="contextMenuA">"${vid.name}" by ${vid.artists[0]}</a>`
         )
         .join("<br />")
     );
@@ -382,9 +380,9 @@ function map(contextMenu = false) {
       `All ${videos.length} videos: ${videos
         .map(
           (vid) =>
-            `"<a href="https://${location.host}?p=${
+            `"<a onclick="redirect('../', '${
               vid.path
-            }&u=true" class="decorationA">${
+            }', false, false)" class="decorationA disclaimer">${
               vid.name
             }</a>" by ${vid.artists.join(", ")}`
         )
@@ -521,18 +519,18 @@ function pathGen() {
 *                                       REDIRECT FUNCTION                                        *
 \************************************************************************************************/
 
-function redirect(url) {
+function redirect(url, videoPath = false, currentTime = true, repeated = true) {
   const videoE = document.getElementById("video");
 
   window.location.href =
     url +
-    `?p=${video.path}&m=${
+    `?p=${videoPath ? videoPath : video.path}&m=${
       navigator.userAgent.toLowerCase().indexOf("firefox") > -1
         ? "true"
         : videoE.muted
-    }&v=${Math.round(videoE.volume * 100) / 100}&c=${videoE.currentTime}&s=${
-      videoE.paused
-    }&r=${repeat}&u=true`;
+    }&v=${Math.round(videoE.volume * 100) / 100}&c=${
+      currentTime ? videoE.currentTime : 0
+    }&s=${videoE.paused}&r=${repeated ? repeat : false}&u=true`;
 }
 
 /************************************************************************************************\
