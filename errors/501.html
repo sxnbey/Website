@@ -2,8 +2,8 @@
 <html>
   <head>
     <title>Error 501 page of senbey.net</title>
-    <script src="../js/functions.js?version=135"></script>
-    <link rel="stylesheet" type="text/css" href="../css/style.css?version=27" />
+    <script src="../js/functions.js?version=138"></script>
+    <link rel="stylesheet" type="text/css" href="../css/style.css?version=28" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -70,7 +70,7 @@
 
     <img src="../img/muted.svg" alt="Mute/Unmute" id="mute" onclick="muter()" />
 
-    <img src="../img/paused.svg" alt="Paused" id="paused" />
+    <img class="blurred" src="../img/paused.svg" alt="Paused" id="paused" />
 
     <div id="settings">
       <img src="../img/settings.svg" alt="Settings" id="settingsSVG" />
@@ -100,12 +100,8 @@
 
     <div
       id="contextMenu"
-      onmouseleave="document.getElementById('contextMenu').style.display = 'none';"
-    >
-      <p>Choose a song:</p>
-      <script>
-        map(true);
-      </script>
+      onmouseleave="document.getElementById('contextMenu').style.display = 'none'"
+    ></div>
     </div>
   </body>
 </html>

@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (url.some((i) => i == "s=true")) urlBoo = "paused";
 
         playVideo(
-          !i[1] || !videos.find((vid) => vid.path == i[1]) ? video : i[1],
+          !i[1] || !videos.find(({ path }) => path == i[1]) ? video : i[1],
           false,
           true
         );
@@ -236,7 +236,7 @@ function playVideo(vid, err = false, pageLoad = false, menu = false) {
   const settingsContent = document.getElementById("settingsContent");
   const contextMenu = document.getElementById("contextMenu");
 
-  if (typeof vid == "string") vid = videos.find((i) => i.path == vid);
+  if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
 
   video = vid;
 
@@ -260,7 +260,7 @@ function playVideo(vid, err = false, pageLoad = false, menu = false) {
 
     videoE.className = "";
 
-    paused.className = "";
+    paused.className = paused.className.replace(" visible", "");
 
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
       "Unpause",
@@ -348,7 +348,7 @@ function restartVideo() {
 
   videoE.className = "";
 
-  paused.className = "";
+  paused.className = paused.className.replace(" visible", "");
 
   settingsContent.innerHTML = settingsContent.innerHTML.replace(
     "Unpause",
@@ -366,12 +366,12 @@ function restartVideo() {
 function map(contextMenu = false) {
   if (contextMenu)
     return (
-      "<p>Choose a song:</p>" +
+      "<p>Choose a video:</p>" +
       videos
         .filter((i) => i != video)
         .map(
-          (vid) =>
-            `<a onclick="playVideo('${vid.path}', false, false, true)" class="contextMenuA">"${vid.name}" by ${vid.artists[0]}</a>`
+          ({ path, name, artists }) =>
+            `<a onclick="playVideo('${path}', false, false, true)" class="contextMenuA">"${name}" by ${artists[0]}</a>`
         )
         .join("<br />")
     );
@@ -379,12 +379,10 @@ function map(contextMenu = false) {
     document.write(
       `All ${videos.length} videos: ${videos
         .map(
-          (vid) =>
-            `"<a onclick="redirect('../', '${
-              vid.path
-            }', false, false)" class="decorationA disclaimer">${
-              vid.name
-            }</a>" by ${vid.artists.join(", ")}`
+          ({ path, name, artists }) =>
+            `"<a onclick="redirect('../', '${path}', false, false)" class="decorationA disclaimer">${name}</a>" by ${artists.join(
+              ", "
+            )}`
         )
         .join("; ")}`
     );
@@ -403,7 +401,7 @@ async function pauseVideo() {
     videoE.className = "";
     videoE.play();
 
-    paused.className = "";
+    paused.className = paused.className.replace(" visible", "");
 
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
       "Unpause",
@@ -413,7 +411,7 @@ async function pauseVideo() {
     videoE.className = "blurred";
     videoE.pause();
 
-    paused.className = "visible";
+    paused.className += " visible";
 
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
       "Pause",
@@ -467,7 +465,7 @@ async function popup(text, copy = false) {
       );
 
     if (
-      ![lastPopup, ...popupQueue.map((i) => i.text)].includes(
+      ![lastPopup, ...popupQueue.map(({ text }) => text)].includes(
         copy ? `"${text}" has been copied to your clipboard!` : text
       )
     )
