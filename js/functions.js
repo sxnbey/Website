@@ -530,44 +530,39 @@ function redirect(url, videoPath = false, currentTime = true, repeated = true) {
 *                                           KEY EVENT                                            *
 \************************************************************************************************/
 
-document.onkeydown = function (e) {
-  switch (e.keyCode) {
+document.addEventListener("keydown", function (e) {
+  if (!["r", "F5"].some((i) => i == e.key)) e.preventDefault();
+
+  switch (e.key) {
     default:
       break;
 
-    case 78:
+    case "n":
       playVideo(video);
       break;
 
-    case 82:
+    case "r":
       repeatVideo();
       break;
 
-    case 83:
+    case "s":
       restartVideo();
       break;
 
-    case 32:
+    case "Space Character":
       pauseVideo();
       break;
 
-    case 77:
+    case "m":
       muter();
       break;
 
-    case 38:
+    case "ArrowUp":
       volumeUp();
       break;
 
-    case 40:
+    case "ArrowDown":
       volumeDown();
       break;
-
-    case 123:
-    case 73:
-    case 85:
-    case 70:
-    case 114:
-      return false;
   }
-};
+});
