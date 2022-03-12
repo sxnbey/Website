@@ -113,9 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                        URL CHECK STUFF                                         *
   \************************************************************************************************/
 
-  let checkArr = url.filter((i) => i.startsWith("p="));
-  checkArr.shift();
-  checkArr.forEach((i) => url.splice(url.indexOf(i), 1));
+  ["p=", "m=", "v=", "c=", "r=", "u="].forEach((i) => urlCheck(i));
 
   videoE.addEventListener("play", function () {
     if (urlBoo == "paused") {
@@ -169,6 +167,12 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
     }
   });
+
+  function urlCheck(param) {
+    let checkArr = url.filter((i) => i.startsWith(param));
+    checkArr.shift();
+    checkArr.forEach((i) => url.splice(url.indexOf(i), 1));
+  }
 
   /************************************************************************************************\
   *                                        VIDEO MANAGER                                           *
@@ -425,13 +429,9 @@ function muter() {
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
 
-  if (videoE.muted) {
-    videoE.muted = false;
-    mute.src = `${pathGen()}/img/unmuted.svg`;
-  } else {
-    videoE.muted = true;
-    mute.src = `${pathGen()}/img/muted.svg`;
-  }
+  videoE.muted = !videoE.muted;
+
+  mute.src = `${pathGen()}/img/${videoE.muted ? "muted" : "unmuted"}.svg`;
 }
 
 /************************************************************************************************\
@@ -531,29 +531,29 @@ function redirect(url, videoPath = false, currentTime = true, repeated = true) {
 \************************************************************************************************/
 
 document.addEventListener("keydown", function (e) {
-  if (!["r", "F5"].some((i) => i == e.key)) e.preventDefault();
+  if (!["KeyR", "F5"].some((i) => i == e.code)) e.preventDefault();
 
-  switch (e.key) {
+  switch (e.code) {
     default:
       break;
 
-    case "n":
+    case "KeyN":
       playVideo(video);
       break;
 
-    case "r":
+    case "KeyR":
       repeatVideo();
       break;
 
-    case "s":
+    case "KeyS":
       restartVideo();
       break;
 
-    case "Space Character":
+    case "Space":
       pauseVideo();
       break;
 
-    case "m":
+    case "KeyM":
       muter();
       break;
 
