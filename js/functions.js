@@ -380,7 +380,7 @@ function map(contextMenu = false) {
       `All ${videos.length} videos: ${videos
         .map(
           ({ path, name, artists }) =>
-            `"<a onclick="redirect('../', '${path}', false, false)" class="decorationA disclaimer">${name}</a>" by ${artists.join(
+            `"<a onclick="redirect('../', '${path}', false, false, '0')" class="decorationA disclaimer">${name}</a>" by ${artists.join(
               ", "
             )}`
         )
@@ -513,16 +513,26 @@ function pathGen() {
 *                                       REDIRECT FUNCTION                                        *
 \************************************************************************************************/
 
-function redirect(url, videoPath = false, currentTime = true, repeated = true) {
+function redirect(
+  url,
+  customPath = false,
+  customMute = false,
+  customVolume = false,
+  customTime = false,
+  customPause = false,
+  customRepeat = false
+) {
   const videoE = document.getElementById("video");
 
   window.location.href =
     url +
-    `?p=${videoPath ? videoPath : video.path}&m=${
-      !!!window.chrome ? "true" : videoE.muted
-    }&v=${Math.round(videoE.volume * 100) / 100}&c=${
-      currentTime ? videoE.currentTime : 0
-    }&s=${videoE.paused}&r=${repeated ? repeat : false}`;
+    `?p=${customPath ? customPath : video.path}&m=${
+      !!!window.chrome ? "true" : customMute ? customMute : videoE.muted
+    }&v=${
+      customVolume ? customVolume : Math.round(videoE.volume * 100) / 100
+    }&c=${customTime ? customTime : videoE.currentTime}&s=${
+      customPause ? customPause : videoE.paused
+    }&r=${customRepeat ? customRepeat : repeat}`;
 }
 
 /************************************************************************************************\
