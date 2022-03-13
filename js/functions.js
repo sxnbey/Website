@@ -9,6 +9,7 @@ const videos = [
   { path: "gym-class", name: "Gym Class", artists: ["Lil Peep"] },
   { path: "benz-truck", name: "Benz Truck", artists: ["Lil Peep"] },
   { path: "16-lines", name: "16 Lines", artists: ["Lil Peep"] },
+  { path: "the-brightside", name: "The Brightside", artists: ["Lil Peep"] },
   { path: "girls", name: "Girls", artists: ["Lil Peep", "Horsehead"] },
   {
     path: "hollywood-dreaming",
