@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
   url.forEach((i) => {
     i = i.split("=");
 
-    if (url[url.length - 1] != "u=true" || url.length <= 1) return;
+    if (!url.toString().includes("p=")) return;
 
     switch (i[0]) {
       default:
@@ -134,6 +134,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       case "p":
         if (url.some((i) => i == "s=true")) urlBoo = "paused";
+
+        if (urlBoo != "paused") urlBoo = true;
 
         playVideo(
           !i[1] || !videos.find(({ path }) => path == i[1]) ? video : i[1],
@@ -147,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
 
       case "v":
-        videoE.volume = i[1];
+        if (i[1] && i[1] > 0.1 && i[1] < 1) videoE.volume = i[1];
 
         mute.title = `Current volume: ${
           Math.round(videoE.volume * 100) / 10
@@ -160,10 +162,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       case "r":
         if (i[1] == "true") repeatVideo(true);
-        break;
-
-      case "u":
-        if (urlBoo != "paused") urlBoo = true;
         break;
     }
   });
@@ -523,7 +521,7 @@ function redirect(url, videoPath = false, currentTime = true, repeated = true) {
       !!!window.chrome ? "true" : videoE.muted
     }&v=${Math.round(videoE.volume * 100) / 100}&c=${
       currentTime ? videoE.currentTime : 0
-    }&s=${videoE.paused}&r=${repeated ? repeat : false}&u=true`;
+    }&s=${videoE.paused}&r=${repeated ? repeat : false}`;
 }
 
 /************************************************************************************************\
