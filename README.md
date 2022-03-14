@@ -3,10 +3,12 @@
 
   <h3>Table of content</h3>
 
-  1. <a href="#what-is-this-website">What is this website?</a>
-  2. <a href="#controls">Controls</a>
-  3. <a href="#info">Info</a>
-  4. <a href="#license">License</a>
+  <div>
+    1. <a href="#what-is-this-website">What is this website?</a>
+    2. <a href="#controls">Controls</a>
+    3. <a href="#info">Info</a>
+    4. <a href="#license">License</a>
+  </div>
 
   <div id="what-is-this-website">
     <h3>What is this website?</h3>
