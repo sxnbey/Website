@@ -1,26 +1,75 @@
-# senbey.net
+<div align="center">
+  <h1>senbey.net</h1>
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+  <h2>Table of content</h2>
 
-## Table of content
+  1. <a href="#what-is-this-website">What is this website?</a>
 
-1. [What is this page?](#What-is-this-page?)
-2. [Controls](#Controls)
-3. [Info](#Info)
+  <br />
 
-## What is this page?
+  2. <a href="#controls">Controls</a>
 
-This is just my personal website I've coded using JavaScript, HTML and CSS.
+  <br />
 
-## Controls
+  3. <a href="#info">Info</a>
 
-New video: "n"
-Repeat video: "r"
-Restart video: "s"
-Mute/unmute video: "m"
-Pause video: spacebar
-Change volume: up and down arrow keys + scrolling on the mute/unmute icon
+  <br />
 
-## Info
+  4. <a href="#license">License</a>
 
-Audio autoplay after a redirect currently only works on Chromium-based browsers, as it doesn't work in Firefox and I'm too lazy to test it in other browsers.
+  <br />
+  <br />
+
+  <div id="what-is-this-website">
+    <h2>What is this website?</h2>
+
+    <br />
+
+    This is just my personal website I've coded using JavaScript, HTML and CSS.
+  </div>
+
+  <br />
+  <br />
+
+  <div id="controls">
+    <h2>Controls</h2>
+
+    <br />
+
+    New video: "n"
+    <br />
+    Repeat video: "r"
+    <br />
+    Restart video: "s"
+    <br />
+    Mute/unmute video: "m"
+    <br />
+    Pause video: Spacebar
+    <br />
+    Change volume: Up and down arrow keys + scrolling on the mute/unmute icon
+  </div>
+
+  <br />
+  <br />
+
+  <div id="info">
+    <h2>Info</h2>
+
+    <br />
+
+    Audio autoplay after a redirect currently only works on Chromium-based
+    browsers, as it doesn't work in Firefox and I'm too lazy to test it in other
+    browsers.
+  </div>
+
+  <div id="info">
+    <h2>Info</h2>
+
+    <br />
+
+    This repository is licensed under the
+    <a href="https://www.gnu.org/licenses/gpl-3.0"
+      >GNU General Public License 3</a
+    >.
+  </div>
+</div>
