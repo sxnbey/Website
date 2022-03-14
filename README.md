@@ -23,9 +23,12 @@
   <div id="controls">
     <h2>Controls</h2>
 
-    New video: "n" Repeat video: "r" Restart video: "s" Mute/unmute video: "m"
-    Pause video: Spacebar Change volume: Up and down arrow keys + scrolling on
-    the mute/unmute icon
+    New video: "n"
+    Repeat video: "r"
+    Restart video: "s"
+    Mute/unmute video: "m"
+    Pause video: Spacebar
+    Change volume: Up and down arrow keys + scrolling on the mute/unmute icon
   </div>
 
   <div id="info">
