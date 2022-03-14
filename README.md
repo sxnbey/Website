@@ -34,8 +34,8 @@
   <div id="info">
     <h2>Info</h2>
 
-    Audio autoplay after a redirect currently only works on Chromium-based
-    browsers, as it doesn't work in Firefox and I'm too lazy to test it in other browsers.
+    Audio autoplay after a redirect currently only works on Chromium-based browsers,
+    as it doesn't work in Firefox and I'm too lazy to test it in other browsers.
   </div>
 
   <div id="license">
