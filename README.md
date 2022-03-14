@@ -1,4 +1,4 @@
-<div align="center">
+<div>
   <h1>senbey.net</h1>
 
   <h2>Table of content</h2>
