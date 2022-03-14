@@ -1,4 +1,4 @@
-<div align="center">
+<div>
   <h1>senbey.net</h1>
 
   <h3>Table of content</h3>
@@ -24,17 +24,9 @@
 
     <br />
 
-    New video: "n"
-    <br />
-    Repeat video: "r"
-    <br />
-    Restart video: "s"
-    <br />
-    Mute/unmute video: "m"
-    <br />
-    Pause video: Spacebar
-    <br />
-    Change volume: Up and down arrow keys + scrolling on the mute/unmute icon
+    New video: "n" Repeat video: "r" Restart video: "s" Mute/unmute video: "m"
+    Pause video: Spacebar Change volume: Up and down arrow keys + scrolling on
+    the mute/unmute icon
   </div>
 
   <br />
