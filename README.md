@@ -5,8 +5,11 @@
 
   <div>
     1. <a href="#what-is-this-website">What is this website?</a>
+    <br />
     2. <a href="#controls">Controls</a>
+    <br />
     3. <a href="#info">Info</a>
+    <br />
     4. <a href="#license">License</a>
   </div>
 
