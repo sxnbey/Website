@@ -1,27 +1,16 @@
-<div>
+<div align="center">
   <h1>senbey.net</h1>
 
-  <h2>Table of content</h2>
+  <h3>Table of content</h3>
 
-  1. <a href="#what-is-this-website">What is this website?</a>
+  1. <a href="#what-is-this-website">What is this website?</a> 2.
+  <a href="#controls">Controls</a> 3. <a href="#info">Info</a> 4.
+  <a href="#license">License</a>
 
-  <br />
-
-  2. <a href="#controls">Controls</a>
-
-  <br />
-
-  3. <a href="#info">Info</a>
-
-  <br />
-
-  4. <a href="#license">License</a>
-
-  <br />
   <br />
 
   <div id="what-is-this-website">
-    <h2>What is this website?</h2>
+    <h3>What is this website?</h3>
 
     <br />
 
@@ -29,10 +18,9 @@
   </div>
 
   <br />
-  <br />
 
   <div id="controls">
-    <h2>Controls</h2>
+    <h3>Controls</h3>
 
     <br />
 
@@ -50,10 +38,9 @@
   </div>
 
   <br />
-  <br />
 
   <div id="info">
-    <h2>Info</h2>
+    <h3>Info</h3>
 
     <br />
 
@@ -62,8 +49,10 @@
     browsers.
   </div>
 
-  <div id="info">
-    <h2>Info</h2>
+  <br />
+
+  <div id="license">
+    <h3>License</h3>
 
     <br />
 
