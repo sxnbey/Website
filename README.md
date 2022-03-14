@@ -16,7 +16,8 @@
   <div id="what-is-this-website">
     <h2>What is this website?</h2>
 
-    This is just my personal website I've coded using JavaScript, HTML and CSS.
+    This is my personal and non-profitable website, which I programmed with
+    JavaScript, HTML and CSS.
   </div>
 
   <div id="controls">
