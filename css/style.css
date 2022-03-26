@@ -135,6 +135,12 @@ h1 {
   -webkit-animation: fadein 1s;
   -ms-animation: fadein 1s;
   -o-animation: fadein 1s;
+
+  transition: all 300ms;
+  -moz-transition: all 300ms;
+  -webkit-transition: all 300ms;
+  -ms-transition: all 300ms;
+  -o-transition: all 300ms;
 }
 
 #text.main {
@@ -156,7 +162,7 @@ h1 {
   width: fit-content;
   max-width: 80vw;
   left: 50vw;
-  top: 50vh;
+  top: 70vh;
   border-radius: 1rem;
   padding: 0.5rem;
   transform: translate(-50%, -50%);
@@ -170,10 +176,6 @@ h1 {
   -webkit-transition: all 500ms;
   -ms-transition: all 500ms;
   -o-transition: all 500ms;
-}
-
-#popup.main {
-  top: 70vh;
 }
 
 #popup.visible {

@@ -74,6 +74,7 @@ const videos = [
   { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artists: ["makko"] },
 ];
 let usedVideos = [];
+let previousVideo;
 let repeat = false;
 let video = newVideoF();
 let urlBoo = false;
@@ -114,8 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                        URL CHECK STUFF                                         *
   \************************************************************************************************/
 
-  ["p=", "m=", "v=", "c=", "r=", "u="].forEach((i) => urlCheck(i));
-
   videoE.addEventListener("play", function () {
     if (urlBoo == "paused") {
       pauseVideo();
@@ -123,6 +122,8 @@ document.addEventListener("DOMContentLoaded", function () {
       urlBoo = true;
     }
   });
+
+  ["p=", "m=", "v=", "c=", "r=", "u="].forEach((i) => urlCheck(i));
 
   url.forEach((i) => {
     i = i.split("=");
@@ -226,7 +227,12 @@ document.addEventListener("DOMContentLoaded", function () {
 *                                    VIDEO MANAGER FUNCTIONS                                     *
 \************************************************************************************************/
 
-function playVideo(vid, err = false, pageLoad = false, menu = false) {
+function playPreviousVideo() {
+  if (previousVideo) playVideo(previousVideo, false, false, true);
+  else popup("⚠ | There is no previous video.");
+}
+
+function playVideo(vid, err = false, pageLoad = false, ignoreIfUsed = false) {
   const videoE = document.getElementById("video");
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
@@ -237,8 +243,13 @@ function playVideo(vid, err = false, pageLoad = false, menu = false) {
 
   video = vid;
 
+  if (videoE.src)
+    previousVideo = videoE.getAttribute("src").split("/")[2].split(".")[0];
+
   if (
-    (usedVideos.includes(vid) && usedVideos.length != videos.length && !menu) ||
+    (usedVideos.includes(vid) &&
+      usedVideos.length != videos.length &&
+      !ignoreIfUsed) ||
     err
   ) {
     video = newVideoF();
@@ -256,7 +267,7 @@ function playVideo(vid, err = false, pageLoad = false, menu = false) {
       h1.title = `Current video: "${vid.name}" by ${vid.artists.join(", ")}`;
 
     if (!pageLoad)
-      popup(`Now playing: "${vid.name}" by ${vid.artists.join(", ")}`);
+      popup(`▶ | Now playing: "${vid.name}" by ${vid.artists.join(", ")}`);
 
     videoE.className = "";
 
@@ -297,7 +308,7 @@ function volumeUp() {
     videoE.volume = videoE.volume + 0.1;
 
     mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
-  } else popup("The volume is on maximum.");
+  } else popup("⚠ | The volume is on maximum.");
 }
 
 function volumeDown() {
@@ -308,7 +319,7 @@ function volumeDown() {
     videoE.volume = videoE.volume - 0.1;
 
     mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
-  } else popup("The volume is on minimum.");
+  } else popup("⚠ | The volume is on minimum.");
 }
 
 /************************************************************************************************\
@@ -326,7 +337,7 @@ function repeatVideo(pageload = false) {
 
     repeat = false;
 
-    if (!pageload) popup("The video is now unrepeated.");
+    if (!pageload) popup("⟳ | The video is now unrepeated.");
   } else {
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
       "Repeat",
@@ -335,7 +346,7 @@ function repeatVideo(pageload = false) {
 
     repeat = true;
 
-    if (!pageload) popup("The video is now repeated.");
+    if (!pageload) popup("⟳ | The video is now repeated.");
   }
 }
 
@@ -451,13 +462,14 @@ let popupVisible = false;
 
 async function popup(text, copy = false) {
   const popupE = document.getElementById("popup");
+  const textE = document.getElementById("text");
 
   if (!popupE) return;
 
   if (popupVisible) {
-    if (text.startsWith("Now playing: "))
+    if (text.startsWith("▶ | Now playing: "))
       popupQueue = popupQueue.filter(
-        ({ text: ftext }) => !ftext.startsWith("Now playing: ")
+        ({ text: ftext }) => !ftext.startsWith("▶ | Now playing: ")
       );
 
     if (
@@ -483,12 +495,17 @@ async function popup(text, copy = false) {
 
   popupVisible = true;
 
+  if (popupE.className.includes("muchText")) textE.className += " blurred";
+
   popupE.innerHTML = text;
   popupE.className += " visible";
 
   await wait(2000);
 
   popupE.className = popupE.className.replace(" visible", "");
+
+  if (popupE.className.includes("muchText"))
+    textE.className = textE.className.replace(" blurred", "");
 
   await wait(1000);
 
@@ -536,6 +553,26 @@ function redirect(
 }
 
 /************************************************************************************************\
+*                                       5S SKIP FUNCTIONS                                        *
+\************************************************************************************************/
+
+function fiveSecBack() {
+  const videoE = document.getElementById("video");
+
+  videoE.currentTime -= 5;
+
+  popup("⤌ | 5 seconds were rewound.");
+}
+
+function fiveSecForward() {
+  const videoE = document.getElementById("video");
+
+  videoE.currentTime += 5;
+
+  popup("⤍ | 5 seconds were fast forwarded.");
+}
+
+/************************************************************************************************\
 *                                           KEY EVENT                                            *
 \************************************************************************************************/
 
@@ -558,12 +595,16 @@ document.addEventListener("keydown", function (e) {
       restartVideo();
       break;
 
-    case "Space":
-      pauseVideo();
-      break;
-
     case "KeyM":
       muter();
+      break;
+
+    case "KeyP":
+      playPreviousVideo();
+      break;
+
+    case "Space":
+      pauseVideo();
       break;
 
     case "ArrowUp":
@@ -572,6 +613,14 @@ document.addEventListener("keydown", function (e) {
 
     case "ArrowDown":
       volumeDown();
+      break;
+
+    case "ArrowLeft":
+      fiveSecBack();
+      break;
+
+    case "ArrowRight":
+      fiveSecForward();
       break;
   }
 });

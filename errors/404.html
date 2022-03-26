@@ -2,8 +2,8 @@
 <html>
   <head>
     <title>Error 404 page of senbey.net</title>
-    <script src="../js/functions.js?version=150"></script>
-    <link rel="stylesheet" type="text/css" href="../css/style.css?version=28" />
+    <script src="../js/functions.js?version=158"></script>
+    <link rel="stylesheet" type="text/css" href="../css/style.css?version=29" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -75,7 +75,8 @@
     <div id="settings">
       <img src="../img/settings.svg" alt="Settings" id="settingsSVG" />
       <div id="settingsContent">
-        <a title='Key: "n"' onclick="playVideo(false, video)">New video</a>
+        <a title='Key: "n"' onclick="playVideo(false, video)">Next video</a>
+        <a title='Key: "p"' onclick="playPreviousVideo()">Previous video</a>
         <a title='Key: "r"' onclick="repeatVideo()">Repeat video</a>
         <a title='Key: "s"' onclick="restartVideo()">Restart video</a>
         <a title="Key: Spacebar" onclick="pauseVideo()">Pause video</a>
@@ -96,12 +97,11 @@
       <a class="decorationA" onclick="redirect('../')">Back to the website</a>
     </div>
 
-    <div id="popup"></div>
+    <div id="popup" class="muchText"></div>
 
     <div
       id="contextMenu"
       onmouseleave="document.getElementById('contextMenu').style.display = 'none'"
     ></div>
-    </div>
   </body>
 </html>
