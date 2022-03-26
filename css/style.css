@@ -58,6 +58,29 @@ body {
   -o-animation: spin 0.3s;
 }
 
+#back {
+  position: fixed;
+  height: 4vh;
+  left: 1vh;
+  bottom: 1vh;
+
+  transition: all 300ms;
+  -moz-transition: all 300ms;
+  -webkit-transition: all 300ms;
+  -ms-transition: all 300ms;
+  -o-transition: all 300ms;
+}
+
+#back:hover {
+  opacity: 0.5;
+
+  animation: spin 0.3s;
+  -moz-animation: spin 0.3s;
+  -webkit-animation: spin 0.3s;
+  -ms-animation: spin 0.3s;
+  -o-animation: spin 0.3s;
+}
+
 #paused {
   position: absolute;
   visibility: hidden;

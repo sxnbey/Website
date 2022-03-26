@@ -2,8 +2,8 @@
 <html>
   <head>
     <title>Info page of senbey.net</title>
-    <script src="../js/functions.js?version=158"></script>
-    <link rel="stylesheet" type="text/css" href="../css/style.css?version=29" />
+    <script src="../js/functions.js?version=159"></script>
+    <link rel="stylesheet" type="text/css" href="../css/style.css?version=30" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -70,6 +70,14 @@
 
     <img src="../img/muted.svg" alt="Mute/Unmute" id="mute" onclick="muter()" />
 
+    <img
+      src="../img/back.svg"
+      alt="Back to homepage"
+      id="back"
+      onclick="redirect('../')"
+      title="Back to homepage"
+    />
+
     <img class="blurred" src="../img/paused.svg" alt="Paused" id="paused" />
 
     <div id="settings">
@@ -100,9 +108,6 @@
         to get a menu from which you can select songs. And if you want to watch
         the videos without text, click
         <a onclick="redirect('../clear')" class="decorationA">here</a>.
-        <br />
-        <br />
-        <a class="decorationA" onclick="redirect('../')">Back to the website</a>
       </p>
     </div>
 

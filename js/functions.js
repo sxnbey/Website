@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
 
       case "v":
-        if (i[1] && i[1] > 0.1 && i[1] <= 1) videoE.volume = i[1];
+        if (i[1] && i[1] >= 0.1 && i[1] <= 1) videoE.volume = i[1];
 
         mute.title = `Current volume: ${
           Math.round(videoE.volume * 100) / 10
