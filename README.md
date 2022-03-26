@@ -29,6 +29,7 @@
     Mute/unmute video: "m"
     Pause video: Spacebar
     Change volume: Up and down arrow keys + scrolling on the mute/unmute icon
+    Fast forward/rewind: Left and right arrow keys
   </div>
 
   <div id="info">
