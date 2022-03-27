@@ -61,7 +61,7 @@ body {
 #back {
   position: fixed;
   height: 4vh;
-  left: 1vh;
+  right: 1vh;
   bottom: 1vh;
 
   transition: all 300ms;

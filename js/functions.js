@@ -77,7 +77,6 @@ let usedVideos = [];
 let previousVideo;
 let repeat = false;
 let video = newVideoF();
-let urlBoo = false;
 let url = window.location.search.substring(1).toLowerCase().split("&");
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -86,6 +85,30 @@ document.addEventListener("DOMContentLoaded", function () {
   const contextMenu = document.getElementById("contextMenu");
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
+
+  // let bufferBoo = false;
+
+  // videoE.addEventListener("waiting", async function () {
+  //   console.log(bufferBoo);
+
+  //   if (bufferBoo) return;
+
+  //   bufferBoo = true;
+
+  //   await wait(2000);
+
+  //   if (videoE.networkState == 2 && videoE.currentTime > 5 && !videoE.paused) {
+  //     pauseVideo();
+
+  //     popup("⚠ | The video was paused for 5s due to buffering.");
+
+  //     await wait(5000);
+
+  //     if (videoE.paused) pauseVideo();
+  //   }
+
+  //   bufferBoo = false;
+  // });
 
   /************************************************************************************************\
   *                                CONTEXT MENU AND VOLUME STUFF                                   *
@@ -114,6 +137,8 @@ document.addEventListener("DOMContentLoaded", function () {
   /************************************************************************************************\
   *                                        URL CHECK STUFF                                         *
   \************************************************************************************************/
+
+  let urlBoo = false;
 
   videoE.addEventListener("play", function () {
     if (urlBoo == "paused") {
@@ -186,10 +211,10 @@ document.addEventListener("DOMContentLoaded", function () {
     playVideo(true, video);
   };
 
-  videoE.onended = function () {
+  videoE.addEventListener("ended", function () {
     if (!repeat) playVideo(video);
     else restartVideo();
-  };
+  });
 
   /************************************************************************************************\
   *                               TITLE STUFF (thank you malte <3)                                 *
