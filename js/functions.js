@@ -86,30 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
 
-  // let bufferBoo = false;
-
-  // videoE.addEventListener("waiting", async function () {
-  //   console.log(bufferBoo);
-
-  //   if (bufferBoo) return;
-
-  //   bufferBoo = true;
-
-  //   await wait(2000);
-
-  //   if (videoE.networkState == 2 && videoE.currentTime > 5 && !videoE.paused) {
-  //     pauseVideo();
-
-  //     popup("⚠ | The video was paused for 5s due to buffering.");
-
-  //     await wait(5000);
-
-  //     if (videoE.paused) pauseVideo();
-  //   }
-
-  //   bufferBoo = false;
-  // });
-
   /************************************************************************************************\
   *                                CONTEXT MENU AND VOLUME STUFF                                   *
   \************************************************************************************************/
@@ -499,7 +475,7 @@ async function popup(text, copy = false) {
 
     if (
       ![lastPopup, ...popupQueue.map(({ text }) => text)].includes(
-        copy ? `"${text}" has been copied to your clipboard!` : text
+        copy ? `✓ | "${text}" has been copied to your clipboard!` : text
       )
     )
       popupQueue.push({ text, copy });
@@ -510,9 +486,9 @@ async function popup(text, copy = false) {
     try {
       await navigator.clipboard.writeText(text);
 
-      text = `"${text}" has been copied to your clipboard!`;
+      text = `✓ | "${text}" has been copied to your clipboard!`;
     } catch (e) {
-      text = "The text could not be copied, the page was not focused.";
+      text = "⚠ | The text could not be copied, the page was not focused.";
     }
   }
 
