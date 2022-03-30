@@ -55,23 +55,24 @@ const videos = [
     name: "For the Last Time",
     artists: ["$uicideboy$"],
   },
-  { path: "oxycodon", name: "Oxycodon", artists: ["T-Low"] },
-  { path: "curly-fries", name: "Curly Fries", artists: ["T-Low"] },
-  { path: "crashen", name: "Crashen", artists: ["T-Low"] },
-  { path: "luxus-leben", name: "Luxus Leben", artists: ["T-Low"] },
-  { path: "changed", name: "Changed", artists: ["T-Low"] },
-  { path: "bankaccount", name: "BANKACCOUNT", artists: ["T-Low"] },
+  { path: "oxycodon", name: "Oxycodon", artists: ["t-low"] },
+  { path: "curly-fries", name: "Curly Fries", artists: ["t-low"] },
+  { path: "crashen", name: "Crashen", artists: ["t-low"] },
+  { path: "luxus-leben", name: "Luxus Leben", artists: ["t-low"] },
+  { path: "changed", name: "Changed", artists: ["t-low"] },
+  { path: "bankaccount", name: "BANKACCOUNT", artists: ["t-low"] },
   {
     path: "vorsichtig",
     name: "Vorsichtig",
-    artists: ["T-Low", "Sevi Rin", "Heinie Nüchtern"],
+    artists: ["t-low", "Sevi Rin", "Heinie Nüchtern"],
   },
   {
     path: "sehnsucht",
     name: "Sehnsucht",
-    artists: ["T-Low", "Miksu / Macloud"],
+    artists: ["t-low", "Miksu / Macloud"],
   },
   { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artists: ["makko"] },
+  { path: "switch-heel", name: "Switch Heel", artists: ["makko"] },
 ];
 let usedVideos = [];
 let previousVideo;
