@@ -90,13 +90,13 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                CONTEXT MENU AND VOLUME STUFF                                   *
   \************************************************************************************************/
 
-  document.body.oncontextmenu = function (e) {
+  document.body.addEventListener("contextmenu", function (e) {
     contextMenu.style = `display: block; --mouse-x: ${
       e.clientX - 30
     }px; --mouse-y: ${e.clientY - 30}px;`;
 
-    return false;
-  };
+    e.preventDefault();
+  });
 
   document.body.addEventListener("click", function (e) {
     if (e.target.id != "contextMenu" && e.target.className != "contextMenuA")
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  ["p=", "m=", "v=", "c=", "r=", "u="].forEach((i) => urlCheck(i));
+  ["p=", "m=", "v=", "c=", "r="].forEach((i) => urlCheck(i));
 
   url.forEach((i) => {
     i = i.split("=");
@@ -183,9 +183,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   requestAnimationFrame(loop);
 
-  videoE.onerror = function () {
+  videoE.addEventListener("error", function () {
     playVideo(true, video);
-  };
+  });
 
   videoE.addEventListener("ended", function () {
     if (!repeat) playVideo(video);
@@ -530,6 +530,8 @@ function pathGen() {
 /************************************************************************************************\
 *                                       REDIRECT FUNCTION                                        *
 \************************************************************************************************/
+
+// if a custom thing is not true, put it in a string //
 
 function redirect(
   url,
