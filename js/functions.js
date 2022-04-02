@@ -257,10 +257,9 @@ function playVideo(vid, err = false, pageLoad = false, ignoreIfUsed = false) {
 
   if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
 
-  video = vid;
+  previousVideo = video;
 
-  if (videoE.src)
-    previousVideo = videoE.getAttribute("src").split("/")[2].split(".")[0];
+  video = vid;
 
   if (
     (usedVideos.includes(vid) &&
