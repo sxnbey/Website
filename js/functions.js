@@ -78,14 +78,28 @@ let usedVideos = [];
 let previousVideo;
 let repeat = false;
 let video = newVideoF();
-let url = window.location.search.substring(1).toLowerCase().split("&");
+let url = location.search.substring(1).toLowerCase().split("&");
+
+history.pushState(null, null, location.href.split("?")[0]);
 
 document.addEventListener("DOMContentLoaded", function () {
-  history.pushState(null, null, location.href.split("?")[0]);
-
   const contextMenu = document.getElementById("contextMenu");
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
+
+  /************************************************************************************************\
+  *                                        404 PAGE STUFF                                          *
+  \************************************************************************************************/
+
+  if (document.getElementsByClassName("404")[0]?.className == "404") {
+    let errorPath = location.href.replace(
+      `${location.protocol}//${location.host}`,
+      ""
+    );
+
+    document.getElementById("errorPath").innerHTML =
+      errorPath == "/errors/404.html" ? "" : errorPath;
+  }
 
   /************************************************************************************************\
   *                                CONTEXT MENU AND VOLUME STUFF                                   *
@@ -525,7 +539,11 @@ async function popup(text, copy = false) {
 \************************************************************************************************/
 
 function pathGen() {
-  return document.getElementById("main") ? "." : "..";
+  return document.getElementsByClassName("404")[0]
+    ? `${location.protocol}//${location.host}`
+    : document.getElementById("main")
+    ? "."
+    : "..";
 }
 
 /************************************************************************************************\
@@ -545,15 +563,13 @@ function redirect(
 ) {
   const videoE = document.getElementById("video");
 
-  window.location.href =
+  location.href =
     url +
-    `?p=${customPath ? customPath : video.path}&m=${
-      !!!window.chrome ? "true" : customMute ? customMute : videoE.muted
-    }&v=${
-      customVolume ? customVolume : Math.round(videoE.volume * 100) / 100
-    }&c=${customTime ? customTime : videoE.currentTime}&s=${
-      customPause ? customPause : videoE.paused
-    }&r=${customRepeat ? customRepeat : repeat}`;
+    `?p=${customPath || video.path}&m=${
+      !!!chrome ? "true" : customMute || videoE.muted
+    }&v=${customVolume || Math.round(videoE.volume * 100) / 100}&c=${
+      customTime || videoE.currentTime
+    }&s=${customPause || videoE.paused}&r=${customRepeat || repeat}`;
 }
 
 /************************************************************************************************\
