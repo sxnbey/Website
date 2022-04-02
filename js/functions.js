@@ -257,7 +257,7 @@ function playVideo(vid, err = false, pageLoad = false, ignoreIfUsed = false) {
 
   if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
 
-  previousVideo = video;
+  if (!pageLoad) previousVideo = video;
 
   video = vid;
 
