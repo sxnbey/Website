@@ -55,6 +55,7 @@ const videos = [
     name: "For the Last Time",
     artists: ["$uicideboy$"],
   },
+  { path: "alone", name: "Alone", artists: ["Night Lovell"] },
   { path: "oxycodon", name: "Oxycodon", artists: ["t-low"] },
   { path: "curly-fries", name: "Curly Fries", artists: ["t-low"] },
   { path: "crashen", name: "Crashen", artists: ["t-low"] },
