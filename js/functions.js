@@ -298,6 +298,8 @@ function playVideo(vid, err = false, pageLoad = false, ignoreIfUsed = false) {
       "Repeat"
     );
 
+    repeat = false;
+
     if (!usedVideos.includes(video)) usedVideos.push(video);
   }
 }
