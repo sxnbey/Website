@@ -97,9 +97,13 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.body.addEventListener("click", function (e) {
+    console.log(
+      e.target.id != "contextMenu" &&
+        !e.target.className.includes("contextMenuA")
+    );
     if (
       e.target.id != "contextMenu" &&
-      e.target.className.includes("contextMenuA")
+      !e.target.className.includes("contextMenuA")
     )
       contextMenu.style.display = "none";
   });
