@@ -260,7 +260,7 @@ function playPreviousVideo() {
   else popup("⚠ | There is no previous video.");
 }
 
-function playVideo(vid, err = false, pageLoad = false, ignoreIfUsed = false) {
+function playVideo(vid, err = false, noPopup = false, ignoreIfUsed = false) {
   const videoE = document.getElementById("video");
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
@@ -285,7 +285,7 @@ function playVideo(vid, err = false, pageLoad = false, ignoreIfUsed = false) {
 
     if (usedVideos.length >= videos.length) usedVideos = [];
 
-    if (!pageLoad) previousVideo = videoE.src.split("/")[4].split(".")[0];
+    if (!noPopup) previousVideo = videoE.src.split("/")[4].split(".")[0];
 
     videoE.src = `${pathGen()}/media/${vid.path}.mp4`;
     videoE.play();
@@ -293,7 +293,7 @@ function playVideo(vid, err = false, pageLoad = false, ignoreIfUsed = false) {
     if (h1)
       h1.title = `Current video: "${vid.name}" by ${vid.artists.join(", ")}`;
 
-    if (!pageLoad)
+    if (!noPopup)
       popup(`▶ | Now playing: "${vid.name}" by ${vid.artists.join(", ")}`);
 
     videoE.className = videoE.className.replace(" blurred", "");
@@ -355,7 +355,7 @@ function volumeDown() {
 *                                     REPEAT VIDEO FUNCTION                                      *
 \************************************************************************************************/
 
-function repeatVideo(pageload = false) {
+function repeatVideo(noPopup = false) {
   const settingsContent = document.getElementById("settingsContent");
 
   if (repeat) {
@@ -366,7 +366,7 @@ function repeatVideo(pageload = false) {
 
     repeat = false;
 
-    if (!pageload) popup("⟳ | The video is now unrepeated.");
+    if (!noPopup) popup("⟳ | The video is now unrepeated.");
   } else {
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
       "Repeat",
@@ -375,7 +375,7 @@ function repeatVideo(pageload = false) {
 
     repeat = true;
 
-    if (!pageload) popup("⟳ | The video is now repeated.");
+    if (!noPopup) popup("⟳ | The video is now repeated.");
   }
 }
 
