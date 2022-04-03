@@ -69,6 +69,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const contextMenu = document.getElementById("contextMenu");
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
+  const h1 = document.getElementById("h1");
+  const a = Array.from(document.getElementsByTagName("a")).filter((i) =>
+    i.className.includes("animate")
+  );
 
   /************************************************************************************************\
   *                                        404 PAGE STUFF                                          *
@@ -222,6 +226,28 @@ document.addEventListener("DOMContentLoaded", function () {
     await wait(index > title.length + 1 ? 100 : 300);
 
     requestAnimationFrame(() => loop(title));
+  }
+
+  /************************************************************************************************\
+  *                                         ANIMATION STUFF                                         *
+  \************************************************************************************************/
+
+  [h1, ...a].forEach((i) => animation(i));
+
+  function animation(el) {
+    if (!el) return;
+
+    el.addEventListener("mouseover", function (e) {
+      el.className +=
+        e.clientX - el.getBoundingClientRect().left >
+        el.getBoundingClientRect().width / 2
+          ? " right"
+          : " left";
+    });
+
+    el.addEventListener("mouseout", function () {
+      el.className = el.className.replace(" right", "").replace(" left", "");
+    });
   }
 });
 

@@ -27,14 +27,6 @@ body {
   -o-transition: all 300ms;
 }
 
-.blurred {
-  filter: blur(10px);
-  -moz-filter: blur(10px);
-  -webkit-filter: blur(10px);
-  -ms-filter: blur(10px);
-  -o-filter: blur(10px);
-}
-
 #mute {
   position: fixed;
   height: 4vh;
@@ -104,6 +96,14 @@ body {
   visibility: visible;
 }
 
+.blurred {
+  filter: blur(10px);
+  -moz-filter: blur(10px);
+  -webkit-filter: blur(10px);
+  -ms-filter: blur(10px);
+  -o-filter: blur(10px);
+}
+
 a {
   cursor: url("../img/cursor.cur"), auto;
   text-decoration: none;
@@ -117,20 +117,6 @@ a {
 
 .decorationA {
   text-decoration: underline;
-}
-
-#h1:hover,
-a:hover {
-  text-shadow: 0 0 10px rgba(8, 230, 255, 1), 0 0 20px rgba(8, 230, 255, 1),
-    0 0 30px rgba(255, 0, 0, 1), 0 0 40px rgba(255, 0, 0, 1),
-    0 0 50px rgba(255, 0, 0, 1), 0 0 60px rgba(8, 230, 255, 1),
-    0 0 70px rgba(8, 230, 255, 1);
-}
-
-a.rotate:hover {
-  transform: rotate(5deg);
-
-  font-size: 2.5vh;
 }
 
 p,
@@ -153,12 +139,6 @@ h1 {
   -webkit-transition: all 300ms;
   -ms-transition: all 300ms;
   -o-transition: all 300ms;
-}
-
-#h1:hover {
-  transform: rotate(5deg);
-
-  font-size: 5.5vh;
 }
 
 #errorH1 {
@@ -191,6 +171,32 @@ h1 {
 
 #text.main {
   top: 80vh;
+}
+
+/* HOVER EFFECT STUFF */
+
+#h1:hover,
+a:hover {
+  text-shadow: 0 0 10px rgba(8, 230, 255, 1), 0 0 20px rgba(8, 230, 255, 1),
+    0 0 30px rgba(255, 0, 0, 1), 0 0 40px rgba(255, 0, 0, 1),
+    0 0 50px rgba(255, 0, 0, 1), 0 0 60px rgba(8, 230, 255, 1),
+    0 0 70px rgba(8, 230, 255, 1);
+}
+
+a.animate:hover {
+  font-size: 2.5vh;
+}
+
+#h1:hover {
+  font-size: 5.5vh;
+}
+
+.left {
+  transform: rotate(5deg);
+}
+
+.right {
+  transform: rotate(-5deg);
 }
 
 /* COPY URL POPUP  */
