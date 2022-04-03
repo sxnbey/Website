@@ -193,10 +193,18 @@ a.animate:hover {
 
 .left {
   transform: rotate(5deg);
+  -moz-transform: rotate(5deg);
+  -webkit-transform: rotate(5deg);
+  -ms-transform: rotate(5deg);
+  -o-transform: rotate(5deg);
 }
 
 .right {
   transform: rotate(-5deg);
+  -moz-transform: rotate(-5deg);
+  -webkit-transform: rotate(-5deg);
+  -ms-transform: rotate(-5deg);
+  -o-transform: rotate(-5deg);
 }
 
 /* COPY URL POPUP  */
