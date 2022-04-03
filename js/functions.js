@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                        404 PAGE STUFF                                          *
   \************************************************************************************************/
 
-  if (document.getElementsByClassName("404")[0]?.className == "404") {
+  if (document.getElementsByClassName("404")[0]?.className.includes("404")) {
     let errorPath = location.href.replace(
       `${location.protocol}//${location.host}`,
       ""
@@ -97,7 +97,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.body.addEventListener("click", function (e) {
-    if (e.target.id != "contextMenu" && e.target.className != "contextMenuA")
+    if (
+      e.target.id != "contextMenu" &&
+      e.target.className.includes("contextMenuA")
+    )
       contextMenu.style.display = "none";
   });
 
@@ -267,7 +270,7 @@ function playVideo(vid, err = false, pageLoad = false, ignoreIfUsed = false) {
     if (!pageLoad)
       popup(`▶ | Now playing: "${vid.name}" by ${vid.artists.join(", ")}`);
 
-    videoE.className = "";
+    videoE.className = videoE.className.replace(" blurred", "");
 
     paused.className = paused.className.replace(" visible", "");
 
@@ -357,7 +360,7 @@ function repeatVideo(pageload = false) {
 function restartVideo() {
   const videoE = document.getElementById("video");
 
-  videoE.className = "";
+  videoE.className = videoE.className.replace(" blurred", "");
 
   paused.className = paused.className.replace(" visible", "");
 
@@ -409,7 +412,7 @@ async function pauseVideo() {
   const settingsContent = document.getElementById("settingsContent");
 
   if (videoE.paused) {
-    videoE.className = "";
+    videoE.className = videoE.className.replace(" blurred", "");
     videoE.play();
 
     paused.className = paused.className.replace(" visible", "");
@@ -419,7 +422,7 @@ async function pauseVideo() {
       "Pause"
     );
   } else {
-    videoE.className = "blurred";
+    videoE.className += " blurred";
     videoE.pause();
 
     paused.className += " visible";

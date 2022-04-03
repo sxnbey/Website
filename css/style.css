@@ -127,7 +127,7 @@ a:hover {
     0 0 70px rgba(8, 230, 255, 1);
 }
 
-a.main:hover {
+a.rotate:hover {
   transform: rotate(5deg);
 
   font-size: 2.5vh;
