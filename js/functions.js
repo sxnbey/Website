@@ -97,10 +97,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.body.addEventListener("click", function (e) {
-    console.log(
-      e.target.id != "contextMenu" &&
-        !e.target.className.includes("contextMenuA")
-    );
     if (
       e.target.id != "contextMenu" &&
       !e.target.className.includes("contextMenuA")
@@ -247,8 +243,6 @@ function playVideo(vid, err = false, pageLoad = false, ignoreIfUsed = false) {
 
   if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
 
-  if (!pageLoad) previousVideo = video;
-
   video = vid;
 
   if (
@@ -264,6 +258,8 @@ function playVideo(vid, err = false, pageLoad = false, ignoreIfUsed = false) {
     contextMenu.innerHTML = map(true);
 
     if (usedVideos.length >= videos.length) usedVideos = [];
+
+    if (!pageLoad) previousVideo = videoE.src.split("/")[4].split(".")[0];
 
     videoE.src = `${pathGen()}/media/${vid.path}.mp4`;
     videoE.play();
