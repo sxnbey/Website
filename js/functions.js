@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                        404 PAGE STUFF                                          *
   \************************************************************************************************/
 
-  if (document.getElementsByClassName("404")[0]?.className.includes("404")) {
+  if (document.getElementsByClassName("404")[0]) {
     let errorPath = location.href.replace(
       `${location.protocol}//${location.host}`,
       ""
