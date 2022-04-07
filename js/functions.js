@@ -56,6 +56,7 @@ const videos = [
   },
   { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artists: ["makko"] },
   { path: "switch-heel", name: "Switch Heel", artists: ["makko"] },
+  { path: "sending-money", name: "sending money Edit", artists: ["senbey"] },
 ];
 let usedVideos = [];
 let previousVideo;
@@ -85,7 +86,11 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
     document.getElementById("errorPath").innerHTML =
-      errorPath == "/errors/404.html" ? "" : errorPath;
+      errorPath == "/errors/404.html"
+        ? ""
+        : errorPath.length > 35
+        ? errorPath.slice(0, 35) + "..."
+        : errorPath;
   }
 
   /************************************************************************************************\
@@ -146,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (urlBoo != "paused") urlBoo = true;
 
         playVideo(
-          !i[1] || !videos.find(({ path }) => path == i[1]) ? video : i[1],
+          !videos.find(({ path }) => path == i[1]) ? video : i[1],
           false,
           true
         );
@@ -563,7 +568,7 @@ function pathGen() {
 *                                       REDIRECT FUNCTION                                        *
 \************************************************************************************************/
 
-// if a custom thing is not true, put it in a string //
+// if a custom thing is false, put it in a string //
 
 function redirect(
   url,
