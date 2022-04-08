@@ -56,7 +56,11 @@ const videos = [
   },
   { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artists: ["makko"] },
   { path: "switch-heel", name: "Switch Heel", artists: ["makko"] },
-  { path: "sending-money", name: "sending money Edit", artists: ["senbey"] },
+  {
+    path: "speed-demon",
+    name: "sスピードデーモン Edit",
+    artists: ["senbey"],
+  },
 ];
 let usedVideos = [];
 let previousVideo;
