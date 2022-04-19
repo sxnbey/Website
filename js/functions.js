@@ -584,7 +584,7 @@ function redirect(
   location.href =
     url +
     `?p=${customPath || video.path}&m=${
-      !!!chrome ? "true" : customMute || videoE.muted
+      !!!window.chrome ? "true" : customMute || videoE.muted
     }&v=${customVolume || Math.round(videoE.volume * 100) / 100}&c=${
       customTime || videoE.currentTime
     }&s=${customPause || videoE.paused}&r=${customRepeat || repeat}`;
