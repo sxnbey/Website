@@ -56,11 +56,6 @@ const videos = [
   },
   { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artists: ["makko"] },
   { path: "switch-heel", name: "Switch Heel", artists: ["makko"] },
-  {
-    path: "speed-demon",
-    name: "sスピードデーモン Edit",
-    artists: ["senbey"],
-  },
 ];
 let usedVideos = [];
 let previousVideo;
@@ -76,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const mute = document.getElementById("mute");
   const h1 = document.getElementById("h1");
   const a = Array.from(document.getElementsByTagName("a")).filter((i) =>
-    i.className.includes("animate")
+    i.classList.contains("animate")
   );
 
   /************************************************************************************************\
@@ -112,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.body.addEventListener("click", function (e) {
     if (
       e.target.id != "contextMenu" &&
-      !e.target.className.includes("contextMenuA")
+      !e.target.classList.contains("contextMenuA")
     )
       contextMenu.style.display = "none";
   });
@@ -247,15 +242,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!el) return;
 
     el.addEventListener("mouseover", function (e) {
-      el.className +=
+      el.classList.add(
         e.clientX - el.getBoundingClientRect().left >
-        el.getBoundingClientRect().width / 2
-          ? " right"
-          : " left";
+          el.getBoundingClientRect().width / 2
+          ? "right"
+          : "left"
+      );
     });
 
     el.addEventListener("mouseout", function () {
-      el.className = el.className.replace(" right", "").replace(" left", "");
+      el.classList.remove("right", "left");
     });
   }
 });
@@ -305,9 +301,9 @@ function playVideo(vid, err = false, noPopup = false, ignoreIfUsed = false) {
     if (!noPopup)
       popup(`▶ | Now playing: "${vid.name}" by ${vid.artists.join(", ")}`);
 
-    videoE.className = videoE.className.replace(" blurred", "");
+    videoE.classList.remove("blurred");
 
-    paused.className = paused.className.replace(" visible", "");
+    paused.classList.remove("visible");
 
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
       "Unpause",
@@ -395,9 +391,9 @@ function repeatVideo(noPopup = false) {
 function restartVideo() {
   const videoE = document.getElementById("video");
 
-  videoE.className = videoE.className.replace(" blurred", "");
+  videoE.classList.remove("blurred");
 
-  paused.className = paused.className.replace(" visible", "");
+  paused.classList.remove("visible");
 
   settingsContent.innerHTML = settingsContent.innerHTML.replace(
     "Unpause",
@@ -447,20 +443,21 @@ async function pauseVideo() {
   const settingsContent = document.getElementById("settingsContent");
 
   if (videoE.paused) {
-    videoE.className = videoE.className.replace(" blurred", "");
+    videoE.classList.remove("blurred");
+
     videoE.play();
 
-    paused.className = paused.className.replace(" visible", "");
+    paused.classList.remove("visible");
 
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
       "Unpause",
       "Pause"
     );
   } else {
-    videoE.className += " blurred";
+    videoE.classList.add("blurred");
     videoE.pause();
 
-    paused.className += " visible";
+    paused.classList.add("visible");
 
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
       "Pause",
@@ -533,17 +530,16 @@ async function popup(text, copy = false) {
 
   popupVisible = true;
 
-  if (popupE.className.includes("muchText")) textE.className += " blurred";
+  if (popupE.classList.contains("muchText")) textE.classList.add("blurred");
 
   popupE.innerHTML = text;
-  popupE.className += " visible";
+  popupE.classList.add("visible");
 
   await wait(2000);
 
-  popupE.className = popupE.className.replace(" visible", "");
+  popupE.classList.remove("visible");
 
-  if (popupE.className.includes("muchText"))
-    textE.className = textE.className.replace(" blurred", "");
+  if (popupE.classList.contains("muchText")) textE.classList.remove("blurred");
 
   await wait(1000);
 
@@ -666,3 +662,12 @@ document.addEventListener("keydown", function (e) {
       break;
   }
 });
+
+//  $$$$$$\  $$$$$$$$\ $$\   $$\ $$$$$$$\  $$$$$$$$\ $$\     $$\
+// $$  __$$\ $$  _____|$$$\  $$ |$$  __$$\ $$  _____|\$$\   $$  |
+// $$ /  \__|$$ |      $$$$\ $$ |$$ |  $$ |$$ |       \$$\ $$  /
+// \$$$$$$\  $$$$$\    $$ $$\$$ |$$$$$$$\ |$$$$$\      \$$$$  /
+//  \____$$\ $$  __|   $$ \$$$$ |$$  __$$\ $$  __|      \$$  /
+// $$\   $$ |$$ |      $$ |\$$$ |$$ |  $$ |$$ |          $$ |
+// \$$$$$$  |$$$$$$$$\ $$ | \$$ |$$$$$$$  |$$$$$$$$\     $$ |
+//  \______/ \________|\__|  \__|\_______/ \________|    \__|
