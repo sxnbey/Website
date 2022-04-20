@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
   requestAnimationFrame(loop);
 
   videoE.addEventListener("error", function () {
-    playVideo(true, video);
+    playVideo(video, true);
   });
 
   videoE.addEventListener("ended", function () {
@@ -444,7 +444,6 @@ async function pauseVideo() {
 
   if (videoE.paused) {
     videoE.classList.remove("blurred");
-
     videoE.play();
 
     paused.classList.remove("visible");
