@@ -54,6 +54,11 @@ const videos = [
     name: "Sehnsucht",
     artists: ["t-low", "Miksu / Macloud"],
   },
+  {
+    path: "we-made-it",
+    name: "We Made It",
+    artists: ["t-low", "Miksu / Macloud"],
+  },
   { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artists: ["makko"] },
   { path: "switch-heel", name: "Switch Heel", artists: ["makko"] },
 ];
@@ -265,7 +270,12 @@ function playPreviousVideo() {
   else popup("⚠ | There is no previous video.");
 }
 
-function playVideo(vid, err = false, noPopup = false, ignoreIfUsed = false) {
+function playVideo(
+  vid = video,
+  err = false,
+  noPopup = false,
+  ignoreIfUsed = false
+) {
   const videoE = document.getElementById("video");
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
@@ -284,7 +294,7 @@ function playVideo(vid, err = false, noPopup = false, ignoreIfUsed = false) {
   ) {
     video = newVideoF();
 
-    playVideo(video);
+    playVideo();
   } else {
     contextMenu.innerHTML = map(true);
 
@@ -621,7 +631,7 @@ document.addEventListener("keydown", function (e) {
       break;
 
     case "KeyN":
-      playVideo(video);
+      playVideo();
       break;
 
     case "KeyR":
