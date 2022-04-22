@@ -421,7 +421,7 @@ function restartVideo() {
 function map(contextMenu = false) {
   if (contextMenu)
     return (
-      "<p>Choose a video:</p><br />" +
+      "<p class='contextMenuP'>Choose a video:</p><br />" +
       videos
         .filter((i) => i != video)
         .map(

@@ -276,7 +276,7 @@ a.animate:hover {
 }
 
 #settings {
-  position: absolute;
+  position: fixed;
   right: 1vw;
   top: 5vh;
   width: fit-content;
@@ -420,6 +420,40 @@ a.animate:hover {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* MOBILE RESPONSIVENESS */
+
+@media only screen and (max-width: 1080px) {
+  body#main h1 {
+    font-size: 7vh;
+  }
+
+  body#main a,
+  .contextMenuP,
+  .contextMenuA,
+  #settingsContent a,
+  #popup {
+    font-size: 3vh;
+  }
+
+  #popup {
+    top: 55vh;
+  }
+
+  #contextMenu {
+    max-height: 25vh;
+  }
+
+  #text.main {
+    top: 75vh;
+  }
+
+  #mute,
+  #back,
+  #settingsSVG {
+    height: 5vh;
   }
 }
 

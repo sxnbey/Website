@@ -2,8 +2,8 @@
 <html>
   <head>
     <title>Error 500 page of senbey.net</title>
-    <script src="../js/functions.js?version=215"></script>
-    <link rel="stylesheet" type="text/css" href="../css/style.css?version=39" />
+    <script src="../js/functions.js?version=217"></script>
+    <link rel="stylesheet" type="text/css" href="../css/style.css?version=53" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -67,17 +67,6 @@
 
     <img src="../img/paused.svg" alt="Paused" id="paused" class="blurred" />
 
-    <div id="settings">
-      <img src="../img/settings.svg" alt="Settings" id="settingsSVG" />
-      <div id="settingsContent">
-        <a title='Key: "n"' onclick="playVideo()">New video</a>
-        <a title='Key: "p"' onclick="playPreviousVideo()">Previous video</a>
-        <a title='Key: "r"' onclick="repeatVideo()">Repeat video</a>
-        <a title='Key: "s"' onclick="restartVideo()">Restart video</a>
-        <a title="Key: Spacebar" onclick="pauseVideo()">Pause video</a>
-      </div>
-    </div>
-
     <div id="text">
       <h1 id="errorH1">Oh no! It looks like error 404 occured!</h1>
 
@@ -88,6 +77,17 @@
         The server encountered an internal error or misconfiguration and was
         unable to complete your request.
       </p>
+    </div>
+
+    <div id="settings">
+      <img src="../img/settings.svg" alt="Settings" id="settingsSVG" />
+      <div id="settingsContent">
+        <a title='Key: "n"' onclick="playVideo()">New video</a>
+        <a title='Key: "p"' onclick="playPreviousVideo()">Previous video</a>
+        <a title='Key: "r"' onclick="repeatVideo()">Repeat video</a>
+        <a title='Key: "s"' onclick="restartVideo()">Restart video</a>
+        <a title="Key: Spacebar" onclick="pauseVideo()">Pause video</a>
+      </div>
     </div>
 
     <div id="popup" class="muchText"></div>

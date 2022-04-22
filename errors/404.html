@@ -2,11 +2,11 @@
 <html>
   <head>
     <title>Error 404 page of senbey.net</title>
-    <script src="https://senbey.net/js/functions.js?version=215"></script>
+    <script src="https://senbey.net/js/functions.js?version=217"></script>
     <link
       rel="stylesheet"
       type="text/css"
-      href="https://senbey.net/css/style.css?version=39"
+      href="https://senbey.net/css/style.css?version=53"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -87,6 +87,19 @@
       id="paused"
     />
 
+    <div id="text">
+      <h1 id="errorH1" class="404">Oh no! It looks like error 404 occured!</h1>
+
+      <br />
+      <br />
+
+      <p>
+        The requested URL
+        <span id="errorPath"></span>
+        was not found on this server.
+      </p>
+    </div>
+
     <div id="settings">
       <img
         src="https://senbey.net/img/settings.svg"
@@ -100,19 +113,6 @@
         <a title='Key: "s"' onclick="restartVideo()">Restart video</a>
         <a title="Key: Spacebar" onclick="pauseVideo()">Pause video</a>
       </div>
-    </div>
-
-    <div id="text">
-      <h1 id="errorH1" class="404">Oh no! It looks like error 404 occured!</h1>
-
-      <br />
-      <br />
-
-      <p>
-        The requested URL
-        <span id="errorPath"></span>
-        was not found on this server.
-      </p>
     </div>
 
     <div id="popup" class="muchText"></div>
