@@ -438,6 +438,14 @@ a.animate:hover {
     font-size: 3vh;
   }
 
+  #h1:hover {
+    font-size: 7.5vh;
+  }
+
+  a.animate:hover {
+    font-size: 3.5vh;
+  }
+
   #popup {
     top: 55vh;
   }

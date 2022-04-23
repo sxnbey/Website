@@ -62,11 +62,11 @@ const videos = [
   { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artists: ["makko"] },
   { path: "switch-heel", name: "Switch Heel", artists: ["makko"] },
 ];
+const url = location.search.substring(1).toLowerCase().split("&");
 let usedVideos = [];
 let previousVideo;
 let repeat = false;
 let video = newVideoF();
-let url = location.search.substring(1).toLowerCase().split("&");
 
 history.pushState(null, null, location.href.split("?")[0]);
 
