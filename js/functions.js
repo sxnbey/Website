@@ -579,7 +579,7 @@ function pathGen() {
 
 // if a custom thing is false, put it in a string //
 
-function redirect(
+async function redirect(
   url,
   customPath = false,
   customMute = false,
@@ -589,6 +589,11 @@ function redirect(
   customRepeat = false
 ) {
   const videoE = document.getElementById("video");
+  const textE = document.getElementById("text");
+
+  textE.classList.add("fadeout");
+
+  await wait(300);
 
   location.href =
     url +

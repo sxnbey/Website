@@ -10,6 +10,7 @@ body {
   cursor: url("../img/cursor.cur"), auto;
   text-align: center;
   font-family: "M PLUS Code Latin", sans-serif;
+  overflow-x: hidden;
 }
 
 #video {
@@ -171,6 +172,16 @@ h1 {
 
 #text.main {
   top: 80vh;
+}
+
+#text.fadeout {
+  animation: fadeout 300ms;
+  -moz-animation: fadeout 300ms;
+  -webkit-animation: fadeout 300ms;
+  -ms-animation: fadeout 300ms;
+  -o-animation: fadeout 300ms;
+
+  opacity: 0;
 }
 
 /* HOVER EFFECT STUFF */
@@ -373,6 +384,53 @@ a.animate:hover {
   to {
     opacity: 1;
     left: 50vw;
+  }
+}
+
+/* FADE OUT END ANIMATION */
+
+@keyframes fadeout {
+  from {
+    left: 50vw;
+  }
+  to {
+    left: 100vw;
+  }
+}
+
+@-moz-keyframes fadein {
+  from {
+    left: 50vw;
+  }
+  to {
+    left: 100vw;
+  }
+}
+
+@-webkit-keyframes fadein {
+  from {
+    left: 50vw;
+  }
+  to {
+    left: 100vw;
+  }
+}
+
+@-ms-keyframes fadein {
+  from {
+    left: 50vw;
+  }
+  to {
+    left: 100vw;
+  }
+}
+
+@-o-keyframes fadein {
+  from {
+    left: 50vw;
+  }
+  to {
+    left: 100vw;
   }
 }
 
