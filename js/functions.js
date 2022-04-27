@@ -50,6 +50,11 @@ const videos = [
     artists: ["t-low", "Sevi Rin", "Heinie Nüchtern"],
   },
   {
+    path: "fliegen-laesst",
+    name: "Fliegen lässt",
+    artists: ["t-low", "Sevi Rin", "Heinie Nüchtern"],
+  },
+  {
     path: "sehnsucht",
     name: "Sehnsucht",
     artists: ["t-low", "Miksu / Macloud"],
@@ -63,6 +68,7 @@ const videos = [
   { path: "switch-heel", name: "Switch Heel", artists: ["makko"] },
 ];
 const url = location.search.substring(1).toLowerCase().split("&");
+let bufferCount = 0;
 let usedVideos = [];
 let previousVideo;
 let repeat = false;
@@ -96,6 +102,28 @@ document.addEventListener("DOMContentLoaded", function () {
         ? errorPath.slice(0, 35) + "..."
         : errorPath;
   }
+
+  /************************************************************************************************\
+  *                                       BUFFERING STUFF                                          *
+  \************************************************************************************************/
+
+  videoE.addEventListener("waiting", async function () {
+    if (videoE.networkState == 2 && videoE.currentTime > 0.2) bufferCount++;
+
+    if (bufferCount >= 3) {
+      bufferCount = 0;
+
+      if (!videoE.paused) {
+        pauseVideo();
+
+        popup("⚠ | The video was paused for 10s due to connection problems.");
+
+        await wait(10000);
+
+        if (videoE.paused) pauseVideo();
+      }
+    }
+  });
 
   /************************************************************************************************\
   *                                CONTEXT MENU AND VOLUME STUFF                                   *
@@ -297,6 +325,8 @@ function playVideo(
     playVideo();
   } else {
     contextMenu.innerHTML = map(true);
+
+    bufferCount = 0;
 
     if (usedVideos.length >= videos.length) usedVideos = [];
 
