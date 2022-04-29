@@ -14,19 +14,8 @@ const videos = [
   },
   { path: "backseat", name: "Backseat", artists: ["Lil Peep", "Lil Tracy"] },
   { path: "white-tee", name: "White Tee", artists: ["Lil Peep", "Lil Tracy"] },
-  { path: "cobain", name: "Cobain", artists: ["Lil Peep", "Lil Tracy"] },
-  {
-    path: "witchblades",
-    name: "Witchblades",
-    artists: ["Lil Peep", "Lil Tracy"],
-  },
   { path: "beamer-boy", name: "beamer boy", artists: ["Lil Peep", "Nedarb"] },
   { path: "lil-kennedy", name: "lil kennedy", artists: ["Lil Peep", "Nedarb"] },
-  {
-    path: "california-world",
-    name: "california world",
-    artists: ["Lil Peep", "Nedarb", "Craig Xen"],
-  },
   { path: "2nd-hand", name: "2nd Hand", artists: ["$uicideboy$"] },
   { path: "o-pana", name: "O Pana!", artists: ["$uicideboy$"] },
   { path: "face-it", name: "Face It", artists: ["$uicideboy$"] },
@@ -40,9 +29,7 @@ const videos = [
     name: "For the Last Time",
     artists: ["$uicideboy$"],
   },
-  { path: "alone", name: "Alone", artists: ["Night Lovell"] },
   { path: "oxycodon", name: "Oxycodon", artists: ["t-low"] },
-  { path: "curly-fries", name: "Curly Fries", artists: ["t-low"] },
   { path: "bankaccount", name: "BANKACCOUNT", artists: ["t-low"] },
   {
     path: "vorsichtig",
@@ -55,17 +42,15 @@ const videos = [
     artists: ["t-low", "Sevi Rin", "Heinie Nüchtern"],
   },
   {
-    path: "sehnsucht",
-    name: "Sehnsucht",
-    artists: ["t-low", "Miksu / Macloud"],
-  },
-  {
     path: "we-made-it",
     name: "We Made It",
     artists: ["t-low", "Miksu / Macloud"],
   },
-  { path: "grad-mal-ein-jahr", name: "Grad mal ein Jahr", artists: ["makko"] },
-  { path: "switch-heel", name: "Switch Heel", artists: ["makko"] },
+  {
+    path: "powerade",
+    name: "Powerade",
+    artists: ["Ion Miles", "SiraOne", "BHZ"],
+  },
 ];
 const url = location.search.substring(1).toLowerCase().split("&");
 let bufferCount = 0;
