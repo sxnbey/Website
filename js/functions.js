@@ -58,6 +58,7 @@ let usedVideos = [];
 let previousVideo;
 let repeat = false;
 let video = newVideoF();
+let vVolume = 0.3;
 
 history.pushState(null, null, location.href.split("?")[0]);
 
@@ -130,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
       contextMenu.style.display = "none";
   });
 
-  videoE.volume = 0.3;
+  videoE.volume = vVolume;
 
   mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
   mute.addEventListener("wheel", function (e) {
@@ -179,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
 
       case "v":
-        if (i[1] >= 0.1 && i[1] <= 1) videoE.volume = i[1];
+        if (i[1] >= 0.1 && i[1] <= 1) vVolume = i[1];
 
         mute.title = `Current volume: ${i[1] * 10}/10`;
         break;
@@ -292,7 +293,6 @@ async function playVideo(
   const settingsContent = document.getElementById("settingsContent");
   const contextMenu = document.getElementById("contextMenu");
   const h1 = document.getElementById("h1");
-  const vVolume = videoE.volume;
 
   if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
 
@@ -629,12 +629,12 @@ async function redirect(
   const textE = document.getElementById("text");
   const vVolume = videoE.volume;
 
-  textE.classList.add("fadeout");
+  if (textE) textE.classList.add("fadeout");
 
   $("#video").animate(
     {
-      volume: 0.0,
-      opacity: 0.0,
+      volume: 0,
+      opacity: 0,
     },
     300
   );
