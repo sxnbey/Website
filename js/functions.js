@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
         playVideo(
           !videos.find(({ path }) => path == i[1]) ? video : i[1],
           false,
-          true
+          false
         );
         break;
 
@@ -181,9 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
       case "v":
         if (i[1] >= 0.1 && i[1] <= 1) videoE.volume = i[1];
 
-        mute.title = `Current volume: ${
-          Math.round(videoE.volume * 100) / 10
-        }/10`;
+        mute.title = `Current volume: ${i[1] * 10}/10`;
         break;
 
       case "c":
@@ -206,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                        VIDEO MANAGER                                           *
   \************************************************************************************************/
 
-  if (!urlBoo) playVideo(video, false, true);
+  if (!urlBoo) playVideo(video, false, false);
 
   requestAnimationFrame(loop);
 
@@ -279,14 +277,14 @@ document.addEventListener("DOMContentLoaded", function () {
 \************************************************************************************************/
 
 function playPreviousVideo() {
-  if (previousVideo) playVideo(previousVideo, false, false, true);
+  if (previousVideo) playVideo(previousVideo, false, true, true);
   else popup("⚠ | There is no previous video.");
 }
 
-function playVideo(
+async function playVideo(
   vid = video,
   err = false,
-  noPopup = false,
+  otherStuff = true,
   ignoreIfUsed = false
 ) {
   const videoE = document.getElementById("video");
@@ -294,6 +292,7 @@ function playVideo(
   const settingsContent = document.getElementById("settingsContent");
   const contextMenu = document.getElementById("contextMenu");
   const h1 = document.getElementById("h1");
+  const vVolume = videoE.volume;
 
   if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
 
@@ -309,21 +308,44 @@ function playVideo(
 
     playVideo();
   } else {
+    if (!otherStuff) {
+      videoE.volume = 0;
+      videoE.style.opacity = 0;
+    }
+
     contextMenu.innerHTML = map(true);
 
     bufferCount = 0;
 
     if (usedVideos.length >= videos.length) usedVideos = [];
 
-    if (!noPopup) previousVideo = videoE.src.split("/")[4].split(".")[0];
+    if (otherStuff) previousVideo = videoE.src.split("/")[4].split(".")[0];
+
+    $("#video").animate(
+      {
+        volume: 0,
+        opacity: 0,
+      },
+      300
+    );
+
+    await wait(otherStuff ? 300 : 0);
 
     videoE.src = `${pathGen()}/media/${vid.path}.mp4`;
     videoE.play();
 
+    $("#video").animate(
+      {
+        volume: vVolume,
+        opacity: 1,
+      },
+      300
+    );
+
     if (h1)
       h1.title = `Current video: "${vid.name}" by ${vid.artists.join(", ")}`;
 
-    if (!noPopup)
+    if (otherStuff)
       popup(`▶ | Now playing: "${vid.name}" by ${vid.artists.join(", ")}`);
 
     videoE.classList.remove("blurred");
@@ -441,7 +463,7 @@ function map(contextMenu = false) {
         .filter((i) => i != video)
         .map(
           ({ path, name, artists }) =>
-            `<a onclick="playVideo('${path}', false, false, true)" class="contextMenuA">"${name}" by ${artists[0]}</a>`
+            `<a onclick="playVideo('${path}', false, true, true)" class="contextMenuA">"${name}" by ${artists[0]}</a>`
         )
         .join("<br />")
     );
@@ -605,8 +627,17 @@ async function redirect(
 ) {
   const videoE = document.getElementById("video");
   const textE = document.getElementById("text");
+  const vVolume = videoE.volume;
 
   textE.classList.add("fadeout");
+
+  $("#video").animate(
+    {
+      volume: 0.0,
+      opacity: 0.0,
+    },
+    300
+  );
 
   await wait(300);
 
@@ -614,7 +645,7 @@ async function redirect(
     url +
     `?p=${customPath || video.path}&m=${
       !!!window.chrome ? "true" : customMute || videoE.muted
-    }&v=${customVolume || Math.round(videoE.volume * 100) / 100}&c=${
+    }&v=${customVolume || Math.round(vVolume * 100) / 100}&c=${
       customTime || videoE.currentTime
     }&s=${customPause || videoE.paused}&r=${customRepeat || repeat}`;
 }
