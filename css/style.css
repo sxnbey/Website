@@ -254,6 +254,16 @@ a.animate:hover {
   visibility: visible;
 }
 
+#cookieNO {
+  color: rgba(255, 0, 0, 1);
+  /* text-shadow: none; */
+}
+
+#cookieYES {
+  color: rgba(0, 255, 55, 1);
+  /* text-shadow: none; */
+}
+
 /* CONTEXT MENU */
 
 #contextMenu {

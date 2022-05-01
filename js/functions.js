@@ -714,7 +714,10 @@ async function redirect(
 ) {
   const videoE = document.getElementById("video");
   const textE = document.getElementById("text");
+  const paused = document.getElementById("paused");
   const vVolume = videoE.volume;
+
+  paused.style.display = "none";
 
   if (textE) textE.classList.add("fadeout");
 
