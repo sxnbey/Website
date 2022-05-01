@@ -66,10 +66,25 @@ document.addEventListener("DOMContentLoaded", function () {
   const contextMenu = document.getElementById("contextMenu");
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
+  const paused = document.getElementById("paused");
   const h1 = document.getElementById("h1");
   const a = Array.from(document.getElementsByTagName("a")).filter((i) =>
     i.classList.contains("animate")
   );
+
+  /************************************************************************************************\
+  *                                       PAUSE ICON STUFF                                         *
+  \************************************************************************************************/
+
+  pauseIcon();
+
+  async function pauseIcon() {
+    paused.style.display = "none";
+
+    await wait(500);
+
+    paused.style.display = "block";
+  }
 
   /************************************************************************************************\
   *                                        404 PAGE STUFF                                          *
@@ -202,6 +217,32 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /************************************************************************************************\
+  *                                          COOKIE STUFF                                          *
+  \************************************************************************************************/
+
+  if (!Cookies.get("cookiesAccepted")) popup(false, false, true);
+
+  if (
+    Cookies.get("cookiesAccepted") == "true" &&
+    Cookies.get("currentTime") &&
+    Cookies.get("path") &&
+    !urlBoo
+  ) {
+    playVideo(Cookies.get("path"), false, false);
+
+    videoE.currentTime = Cookies.get("currentTime");
+
+    urlBoo = true;
+  }
+
+  videoE.addEventListener("timeupdate", function () {
+    if (Cookies.get("cookiesAccepted") == "true") {
+      Cookies.set("currentTime", videoE.currentTime, { expires: 365 });
+      Cookies.set("path", video.path, { expires: 365 });
+    }
+  });
+
+  /************************************************************************************************\
   *                                        VIDEO MANAGER                                           *
   \************************************************************************************************/
 
@@ -272,6 +313,20 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+/************************************************************************************************\
+*                                          COOKIE STUFF                                          *
+\************************************************************************************************/
+
+function cookieYesF() {
+  Cookies.set("cookiesAccepted", true, { expires: 365 });
+}
+
+function cookieNoF() {
+  Cookies.set("cookiesAccepted", false, { expires: 365 });
+  Cookies.remove("currentTime");
+  Cookies.remove("path");
+}
 
 /************************************************************************************************\
 *                                    VIDEO MANAGER FUNCTIONS                                     *
@@ -541,11 +596,43 @@ let popupQueue = [];
 let lastPopup;
 let popupVisible = false;
 
-async function popup(text, copy = false) {
+async function popup(text, copy = false, cookiePopup = false) {
   const popupE = document.getElementById("popup");
   const textE = document.getElementById("text");
 
-  if (!popupE) return;
+  if (cookiePopup) {
+    popupE.innerHTML =
+      "This website uses cookies to improve your experience. If you don't agree, click the cross. <br /> <a id='cookieYES'><b>✓ I agree</b></a> <a id='cookieNO'><b>✗ I don't agree</b></a>";
+
+    const cookieYES = document.getElementById("cookieYES");
+    const cookieNO = document.getElementById("cookieNO");
+
+    popupVisible = "cookiePopup";
+
+    if (popupE.classList.contains("muchText")) textE.classList.add("blurred");
+
+    popupE.classList.add("visible");
+
+    [cookieYES, cookieNO].forEach((i) =>
+      i.addEventListener(
+        "click",
+        function () {
+          if (i.id == "cookieYES") cookieYesF();
+          else cookieNoF();
+
+          popupE.classList.remove("visible");
+
+          if (popupE.classList.contains("muchText"))
+            textE.classList.remove("blurred");
+
+          popupVisible = false;
+        },
+        { once: true }
+      )
+    );
+  }
+
+  if (!popupE || popupVisible == "cookiePopup") return;
 
   if (popupVisible) {
     if (text.startsWith("▶ | Now playing: "))
