@@ -20,7 +20,7 @@ body:not(.loaded) #settingsSVG {
 }
 
 #video {
-  position: fixed;
+  position: absolute;
   right: 0;
   bottom: 0;
   min-width: 100vw;
@@ -153,7 +153,7 @@ h1 {
 }
 
 #text {
-  position: fixed;
+  position: absolute;
   width: 80vw;
   left: 50vw;
   top: 70vh;
