@@ -4,8 +4,8 @@
     <title>Error 501 page of senbey.net</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
-    <script src="../js/functions.js?version=5"></script>
-    <link rel="stylesheet" type="text/css" href="../css/style.css?version=57" />
+    <script src="../js/functions.js?version=10"></script>
+    <link rel="stylesheet" type="text/css" href="../css/style.css?version=66" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -52,7 +52,10 @@
     <link rel="shortcut icon" href="../img/favicon/favicon.ico" />
   </head>
 
-  <body ondragstart="return false">
+  <body
+    ondragstart="return false"
+    onload="document.body.classList.add('loaded')"
+  >
     <video autoplay muted id="video">
       <source src="../media/keep-my-coo.mp4" type="video/mp4" />
     </video>

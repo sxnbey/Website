@@ -66,25 +66,32 @@ document.addEventListener("DOMContentLoaded", function () {
   const contextMenu = document.getElementById("contextMenu");
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
-  const paused = document.getElementById("paused");
   const h1 = document.getElementById("h1");
   const a = Array.from(document.getElementsByTagName("a")).filter((i) =>
     i.classList.contains("animate")
   );
 
   /************************************************************************************************\
-  *                                       PAUSE ICON STUFF                                         *
+  *                                       iOS CHECK STUFF                                          *
   \************************************************************************************************/
 
-  pauseIcon();
-
-  async function pauseIcon() {
-    paused.style.display = "none";
-
-    await wait(500);
-
-    paused.style.display = "block";
-  }
+  if (
+    [
+      "iPad Simulator",
+      "iPhone Simulator",
+      "iPod Simulator",
+      "iPad",
+      "iPhone",
+      "iPod",
+    ].includes(navigator.platform) ||
+    (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  )
+    popup(
+      "It seems that you are using an iOS device. This website is not optimized for iOS devices as I am not able to test the site on them.",
+      false,
+      false,
+      5000
+    );
 
   /************************************************************************************************\
   *                                        404 PAGE STUFF                                          *
@@ -183,11 +190,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (urlBoo != "paused") urlBoo = true;
 
-        playVideo(
-          !videos.find(({ path }) => path == i[1]) ? video : i[1],
-          false,
-          false
-        );
+        if (cookieCheck() && !url.find((u) => u == "c=0"))
+          playVideo(Cookies.get("path"), false, false);
+        else
+          playVideo(
+            !videos.find(({ path }) => path == i[1]) ? video : i[1],
+            false,
+            false
+          );
         break;
 
       case "m":
@@ -201,7 +211,9 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
 
       case "c":
-        videoE.currentTime = i[1];
+        if (cookieCheck() && i[1] != "0")
+          videoE.currentTime = Cookies.get("currentTime");
+        else videoE.currentTime = i[1];
         break;
 
       case "r":
@@ -220,14 +232,14 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                          COOKIE STUFF                                          *
   \************************************************************************************************/
 
-  if (!Cookies.get("cookiesAccepted")) popup(false, false, true);
+  if (!Cookies.get("cookiesAccepted"))
+    popup(
+      "This website uses cookies to improve your experience. If you don't agree, click the cross. <br /> <a id='cookieYES'><b>✓ I agree</b></a> <a id='cookieNO'><b>✗ I don't agree</b></a>",
+      false,
+      true
+    );
 
-  if (
-    Cookies.get("cookiesAccepted") == "true" &&
-    Cookies.get("currentTime") &&
-    Cookies.get("path") &&
-    !urlBoo
-  ) {
+  if (cookieCheck() && !urlBoo) {
     playVideo(Cookies.get("path"), false, false);
 
     videoE.currentTime = Cookies.get("currentTime");
@@ -241,6 +253,14 @@ document.addEventListener("DOMContentLoaded", function () {
       Cookies.set("path", video.path, { expires: 365 });
     }
   });
+
+  function cookieCheck() {
+    return Cookies.get("cookiesAccepted") == "true" &&
+      Cookies.get("currentTime") &&
+      Cookies.get("path")
+      ? true
+      : false;
+  }
 
   /************************************************************************************************\
   *                                        VIDEO MANAGER                                           *
@@ -596,13 +616,29 @@ let popupQueue = [];
 let lastPopup;
 let popupVisible = false;
 
-async function popup(text, copy = false, cookiePopup = false) {
+async function popup(text, copy = false, cookiePopup = false, time = 2000) {
   const popupE = document.getElementById("popup");
   const textE = document.getElementById("text");
 
+  if (popupVisible == "cookiePopup" || !popupE) return;
+
+  if (popupVisible) {
+    if (text.startsWith("▶ | Now playing: "))
+      popupQueue = popupQueue.filter(
+        ({ text: ftext }) => !ftext.startsWith("▶ | Now playing: ")
+      );
+
+    if (
+      ![lastPopup, ...popupQueue.map(({ text }) => text)].includes(
+        copy ? `✓ | "${text}" has been copied to your clipboard!` : text
+      )
+    )
+      popupQueue.push({ text, copy, cookiePopup, time });
+    return;
+  }
+
   if (cookiePopup) {
-    popupE.innerHTML =
-      "This website uses cookies to improve your experience. If you don't agree, click the cross. <br /> <a id='cookieYES'><b>✓ I agree</b></a> <a id='cookieNO'><b>✗ I don't agree</b></a>";
+    popupE.innerHTML = text;
 
     const cookieYES = document.getElementById("cookieYES");
     const cookieNO = document.getElementById("cookieNO");
@@ -630,22 +666,6 @@ async function popup(text, copy = false, cookiePopup = false) {
         { once: true }
       )
     );
-  }
-
-  if (!popupE || popupVisible == "cookiePopup") return;
-
-  if (popupVisible) {
-    if (text.startsWith("▶ | Now playing: "))
-      popupQueue = popupQueue.filter(
-        ({ text: ftext }) => !ftext.startsWith("▶ | Now playing: ")
-      );
-
-    if (
-      ![lastPopup, ...popupQueue.map(({ text }) => text)].includes(
-        copy ? `✓ | "${text}" has been copied to your clipboard!` : text
-      )
-    )
-      popupQueue.push({ text, copy });
     return;
   }
 
@@ -668,7 +688,7 @@ async function popup(text, copy = false, cookiePopup = false) {
   popupE.innerHTML = text;
   popupE.classList.add("visible");
 
-  await wait(2000);
+  await wait(time);
 
   popupE.classList.remove("visible");
 
@@ -681,7 +701,12 @@ async function popup(text, copy = false, cookiePopup = false) {
 
     popupVisible = false;
 
-    popup(queuePopup.text, queuePopup.copy);
+    popup(
+      queuePopup.text,
+      queuePopup.copy,
+      queuePopup.cookiePopup,
+      queuePopup.time
+    );
   } else popupVisible = false;
 }
 
@@ -714,10 +739,7 @@ async function redirect(
 ) {
   const videoE = document.getElementById("video");
   const textE = document.getElementById("text");
-  const paused = document.getElementById("paused");
   const vVolume = videoE.volume;
-
-  paused.style.display = "none";
 
   if (textE) textE.classList.add("fadeout");
 

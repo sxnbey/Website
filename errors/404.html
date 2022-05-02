@@ -2,11 +2,11 @@
 <html>
   <head>
     <title>Error 404 page of senbey.net</title>
-    <script src="https://senbey.net/js/functions.js?version=5"></script>
+    <script src="https://senbey.net/js/functions.js?version=10"></script>
     <link
       rel="stylesheet"
       type="text/css"
-      href="https://senbey.net/css/style.css?version=57"
+      href="https://senbey.net/css/style.css?version=66"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -60,7 +60,10 @@
     />
   </head>
 
-  <body ondragstart="return false">
+  <body
+    ondragstart="return false"
+    onload="document.body.classList.add('loaded')"
+  >
     <video autoplay muted id="video">
       <source src="https://senbey.net/media/keep-my-coo.mp4" type="video/mp4" />
     </video>
