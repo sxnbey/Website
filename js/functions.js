@@ -2,56 +2,6 @@
 *                                          DECLARATION                                           *
 \************************************************************************************************/
 
-const videos = [
-  { path: "keep-my-coo", name: "Keep My Coo", artists: ["Lil Peep"] },
-  { path: "live-forever", name: "Live Forever", artists: ["Lil Peep"] },
-  { path: "gym-class", name: "Gym Class", artists: ["Lil Peep"] },
-  { path: "the-brightside", name: "The Brightside", artists: ["Lil Peep"] },
-  {
-    path: "hollywood-dreaming",
-    name: "Hollywood Dreaming",
-    artists: ["Lil Peep", "Gab3"],
-  },
-  { path: "backseat", name: "Backseat", artists: ["Lil Peep", "Lil Tracy"] },
-  { path: "white-tee", name: "White Tee", artists: ["Lil Peep", "Lil Tracy"] },
-  { path: "beamer-boy", name: "beamer boy", artists: ["Lil Peep", "Nedarb"] },
-  { path: "lil-kennedy", name: "lil kennedy", artists: ["Lil Peep", "Nedarb"] },
-  { path: "2nd-hand", name: "2nd Hand", artists: ["$uicideboy$"] },
-  { path: "o-pana", name: "O Pana!", artists: ["$uicideboy$"] },
-  { path: "face-it", name: "Face It", artists: ["$uicideboy$"] },
-  {
-    path: "rag-round-my-skull",
-    name: "Rag Round My Skull",
-    artists: ["$uicideboy$"],
-  },
-  {
-    path: "for-the-last-time",
-    name: "For the Last Time",
-    artists: ["$uicideboy$"],
-  },
-  { path: "oxycodon", name: "Oxycodon", artists: ["t-low"] },
-  { path: "bankaccount", name: "BANKACCOUNT", artists: ["t-low"] },
-  {
-    path: "vorsichtig",
-    name: "Vorsichtig",
-    artists: ["t-low", "Sevi Rin", "Heinie Nüchtern"],
-  },
-  {
-    path: "fliegen-laesst",
-    name: "Fliegen lässt",
-    artists: ["t-low", "Sevi Rin", "Heinie Nüchtern"],
-  },
-  {
-    path: "we-made-it",
-    name: "We Made It",
-    artists: ["t-low", "Miksu / Macloud"],
-  },
-  {
-    path: "powerade",
-    name: "Powerade",
-    artists: ["Ion Miles", "SiraOne", "BHZ"],
-  },
-];
 const url = location.search.substring(1).toLowerCase().split("&");
 let bufferCount = 0;
 let usedVideos = [];
@@ -66,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const contextMenu = document.getElementById("contextMenu");
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
+  const settingsSVG = document.getElementById("settingsSVG");
+  const settings = document.getElementById("settings");
   const h1 = document.getElementById("h1");
   const a = Array.from(document.getElementsByTagName("a")).filter((i) =>
     i.classList.contains("animate")
@@ -231,35 +183,28 @@ document.addEventListener("DOMContentLoaded", function () {
   /************************************************************************************************\
   *                                          COOKIE STUFF                                          *
   \************************************************************************************************/
+  if (typeof custom == "undefined") {
+    if (!Cookies.get("cookiesAccepted"))
+      popup(
+        "This website uses cookies to improve your experience. If you don't agree, click the cross. <br /> <a id='cookieYES'><b>✓ I agree</b></a> <a id='cookieNO'><b>✗ I don't agree</b></a>",
+        false,
+        true
+      );
 
-  if (!Cookies.get("cookiesAccepted"))
-    popup(
-      "This website uses cookies to improve your experience. If you don't agree, click the cross. <br /> <a id='cookieYES'><b>✓ I agree</b></a> <a id='cookieNO'><b>✗ I don't agree</b></a>",
-      false,
-      true
-    );
+    if (cookieCheck() && !urlBoo) {
+      playVideo(Cookies.get("path"), false, false);
 
-  if (cookieCheck() && !urlBoo) {
-    playVideo(Cookies.get("path"), false, false);
+      videoE.currentTime = Cookies.get("currentTime");
 
-    videoE.currentTime = Cookies.get("currentTime");
-
-    urlBoo = true;
-  }
-
-  videoE.addEventListener("timeupdate", function () {
-    if (Cookies.get("cookiesAccepted") == "true") {
-      Cookies.set("currentTime", videoE.currentTime, { expires: 365 });
-      Cookies.set("path", video.path, { expires: 365 });
+      urlBoo = true;
     }
-  });
 
-  function cookieCheck() {
-    return Cookies.get("cookiesAccepted") == "true" &&
-      Cookies.get("currentTime") &&
-      Cookies.get("path")
-      ? true
-      : false;
+    videoE.addEventListener("timeupdate", function () {
+      if (Cookies.get("cookiesAccepted") == "true") {
+        Cookies.set("currentTime", videoE.currentTime, { expires: 365 });
+        Cookies.set("path", video.path, { expires: 365 });
+      }
+    });
   }
 
   /************************************************************************************************\
@@ -311,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /************************************************************************************************\
-  *                                         ANIMATION STUFF                                         *
+  *                                EVERYTHING CSS/ANIMATION RELATED                                *
   \************************************************************************************************/
 
   [h1, ...a].forEach((i) => animation(i));
@@ -332,6 +277,29 @@ document.addEventListener("DOMContentLoaded", function () {
       el.classList.remove("right", "left");
     });
   }
+
+  settingsSVG.addEventListener("mouseover", function () {
+    settings.classList.add("hover");
+    settingsSVG.classList.add("hover");
+  });
+
+  settingsSVG.addEventListener("mouseout", async function () {
+    await wait(50);
+
+    if (settings.matches(":hover") || settingsSVG.matches(":hover")) return;
+
+    settings.classList.remove("hover");
+    settingsSVG.classList.remove("hover");
+  });
+
+  settings.addEventListener("mouseout", async function () {
+    await wait(50);
+
+    if (settings.matches(":hover") || settingsSVG.matches(":hover")) return;
+
+    settings.classList.remove("hover");
+    settingsSVG.classList.remove("hover");
+  });
 });
 
 /************************************************************************************************\
@@ -346,6 +314,15 @@ function cookieNoF() {
   Cookies.set("cookiesAccepted", false, { expires: 365 });
   Cookies.remove("currentTime");
   Cookies.remove("path");
+}
+
+function cookieCheck() {
+  return Cookies.get("cookiesAccepted") == "true" &&
+    Cookies.get("currentTime") &&
+    Cookies.get("path") &&
+    typeof custom == "undefined"
+    ? true
+    : false;
 }
 
 /************************************************************************************************\
@@ -406,7 +383,7 @@ async function playVideo(
 
     await wait(otherStuff ? 300 : 0);
 
-    videoE.src = `${pathGen()}/media/${vid.path}.mp4`;
+    videoE.src = `${pathGen("media")}/${vid.path}.mp4`;
     videoE.play();
 
     $("#video").animate(
@@ -597,7 +574,7 @@ function muter() {
 
   videoE.muted = !videoE.muted;
 
-  mute.src = `${pathGen()}/img/${videoE.muted ? "muted" : "unmuted"}.svg`;
+  mute.src = `${pathGen("img")}/${videoE.muted ? "muted" : "unmuted"}.svg`;
 }
 
 /************************************************************************************************\
@@ -686,6 +663,7 @@ async function popup(text, copy = false, cookiePopup = false, time = 2000) {
   if (popupE.classList.contains("muchText")) textE.classList.add("blurred");
 
   popupE.innerHTML = text;
+
   popupE.classList.add("visible");
 
   await wait(time);
@@ -714,12 +692,16 @@ async function popup(text, copy = false, cookiePopup = false, time = 2000) {
 *                                         PATH FUNCTION                                          *
 \************************************************************************************************/
 
-function pathGen() {
+function pathGen(folder) {
   return document.getElementsByClassName("404")[0]
     ? `${location.protocol}//${location.host}`
     : document.getElementById("main")
-    ? "."
-    : "..";
+    ? typeof custom != "undefined"
+      ? `../${folder}${folder == "media" ? "/custom" : ""}`
+      : `./${folder}`
+    : typeof custom != "undefined"
+    ? `../../${folder}${folder == "media" ? "/custom" : ""}`
+    : `../${folder}`;
 }
 
 /************************************************************************************************\
