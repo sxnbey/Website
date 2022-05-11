@@ -104,11 +104,11 @@ body:not(.loaded) #settingsSVG {
 }
 
 .blurred {
-  filter: blur(10px);
-  -moz-filter: blur(10px);
-  -webkit-filter: blur(10px);
-  -ms-filter: blur(10px);
-  -o-filter: blur(10px);
+  filter: blur(0.625rem);
+  -moz-filter: blur(625rem);
+  -webkit-filter: blur(625rem);
+  -ms-filter: blur(625rem);
+  -o-filter: blur(625rem);
 }
 
 a {
@@ -130,8 +130,8 @@ p,
 h1,
 a {
   color: #f1f1f1;
-  text-shadow: 1px 1px 0px rgba(8, 230, 255, 1),
-    -1px -1px 0px rgba(255, 0, 0, 1);
+  text-shadow: 0.063rem 0.063rem 0rem rgba(8, 230, 255, 1),
+    -0.063rem -0.063rem 0rem rgba(255, 0, 0, 1);
   font-size: 2vh;
   display: inline-block;
 }
@@ -194,10 +194,10 @@ h1 {
 
 #h1:hover,
 a:hover {
-  text-shadow: 0 0 10px rgba(8, 230, 255, 1), 0 0 20px rgba(8, 230, 255, 1),
-    0 0 30px rgba(255, 0, 0, 1), 0 0 40px rgba(255, 0, 0, 1),
-    0 0 50px rgba(255, 0, 0, 1), 0 0 60px rgba(8, 230, 255, 1),
-    0 0 70px rgba(8, 230, 255, 1);
+  text-shadow: 0 0 625rem rgba(8, 230, 255, 1), 0 0 1.25rem rgba(8, 230, 255, 1),
+    0 0 1.875rem rgba(255, 0, 0, 1), 0 0 2.5rem rgba(255, 0, 0, 1),
+    0 0 3.125rem rgba(255, 0, 0, 1), 0 0 3.75rem rgba(8, 230, 255, 1),
+    0 0 4.375rem rgba(8, 230, 255, 1);
 }
 
 a.animate:hover {
@@ -229,15 +229,15 @@ a.animate:hover {
 #popup {
   background-color: rgba(0, 0, 0, 0.2);
   color: #b8b8b8;
-  text-shadow: 1px 1px 0px rgba(8, 230, 255, 1),
-    -1px -1px 0px rgba(255, 0, 0, 1);
+  text-shadow: 0.063rem 0.063rem 0rem rgba(8, 230, 255, 1),
+    -0.063rem -0.063rem 0rem rgba(255, 0, 0, 1);
   font-size: 2vh;
 
   padding: 1rem;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
-  box-shadow: 0 4px 2rem rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0.25rem 2rem rgba(0, 0, 0, 0.1);
+  border: 0.063rem solid rgba(0, 0, 0, 0.3);
 
   position: absolute;
   visibility: hidden;
@@ -252,11 +252,11 @@ a.animate:hover {
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
 
-  backdrop-filter: blur(5px);
-  -moz-backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  -ms-backdrop-filter: blur(5px);
-  -o-backdrop-filter: blur(5px);
+  backdrop-filter: blur(0.313rem);
+  -moz-backdrop-filter: blur(0.313rem);
+  -webkit-backdrop-filter: blur(0.313rem);
+  -ms-backdrop-filter: blur(0.313rem);
+  -o-backdrop-filter: blur(0.313rem);
 
   transition: all 500ms;
   -moz-transition: all 500ms;
@@ -288,16 +288,16 @@ a.animate:hover {
   padding: 1rem;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 1rem;
-  box-shadow: 0 4px 2rem rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0.25rem 2rem rgba(0, 0, 0, 0.1);
+  border: 0.063rem solid rgba(0, 0, 0, 0.3);
   transform: translateX(min(var(--mouse-x), calc(100vw - 100%)))
     translateY(min(var(--mouse-y), calc(100vh - 100%)));
 
-  backdrop-filter: blur(5px);
-  -moz-backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  -ms-backdrop-filter: blur(5px);
-  -o-backdrop-filter: blur(5px);
+  backdrop-filter: blur(0.313rem);
+  -moz-backdrop-filter: blur(0.313rem);
+  -webkit-backdrop-filter: blur(0.313rem);
+  -ms-backdrop-filter: blur(0.313rem);
+  -o-backdrop-filter: blur(0.313rem);
 }
 
 #contextMenu::-webkit-scrollbar {
@@ -359,14 +359,14 @@ a.animate:hover {
   border-radius: 1rem;
   padding: 1rem;
   background: rgba(0, 0, 0, 0.2);
-  box-shadow: 0 4px 2rem rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0.25rem 2rem rgba(0, 0, 0, 0.1);
+  border: 0.063rem solid rgba(0, 0, 0, 0.3);
 
-  backdrop-filter: blur(5px);
-  -moz-backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  -ms-backdrop-filter: blur(5px);
-  -o-backdrop-filter: blur(5px);
+  backdrop-filter: blur(0.313rem);
+  -moz-backdrop-filter: blur(0.313rem);
+  -webkit-backdrop-filter: blur(0.313rem);
+  -ms-backdrop-filter: blur(0.313rem);
+  -o-backdrop-filter: blur(0.313rem);
 }
 
 /* FADE IN START ANIMATION */
@@ -549,6 +549,10 @@ a.animate:hover {
 
   #contextMenu {
     max-height: 25vh;
+  }
+
+  #settings {
+    top: 6vh;
   }
 
   #text.main {
