@@ -694,7 +694,7 @@ async function popup(text, copy = false, cookiePopup = false, time = 2000) {
 
 function pathGen(folder) {
   return document.getElementsByClassName("404")[0]
-    ? `${location.protocol}//${location.host}`
+    ? `${location.protocol}//${location.host}/${folder}`
     : document.getElementById("main")
     ? typeof custom != "undefined"
       ? `../${folder}${folder == "media" ? "/custom" : ""}`

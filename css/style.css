@@ -105,10 +105,10 @@ body:not(.loaded) #settingsSVG {
 
 .blurred {
   filter: blur(0.625rem);
-  -moz-filter: blur(625rem);
-  -webkit-filter: blur(625rem);
-  -ms-filter: blur(625rem);
-  -o-filter: blur(625rem);
+  -moz-filter: blur(0.625rem);
+  -webkit-filter: blur(0.625rem);
+  -ms-filter: blur(0.625rem);
+  -o-filter: blur(0.625rem);
 }
 
 a {
@@ -194,10 +194,10 @@ h1 {
 
 #h1:hover,
 a:hover {
-  text-shadow: 0 0 625rem rgba(8, 230, 255, 1), 0 0 1.25rem rgba(8, 230, 255, 1),
-    0 0 1.875rem rgba(255, 0, 0, 1), 0 0 2.5rem rgba(255, 0, 0, 1),
-    0 0 3.125rem rgba(255, 0, 0, 1), 0 0 3.75rem rgba(8, 230, 255, 1),
-    0 0 4.375rem rgba(8, 230, 255, 1);
+  text-shadow: 0 0 0.625rem rgba(8, 230, 255, 1),
+    0 0 1.25rem rgba(8, 230, 255, 1), 0 0 1.875rem rgba(255, 0, 0, 1),
+    0 0 2.5rem rgba(255, 0, 0, 1), 0 0 3.125rem rgba(255, 0, 0, 1),
+    0 0 3.75rem rgba(8, 230, 255, 1), 0 0 4.375rem rgba(8, 230, 255, 1);
 }
 
 a.animate:hover {
