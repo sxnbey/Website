@@ -50,17 +50,12 @@ document.addEventListener("DOMContentLoaded", function () {
   \************************************************************************************************/
 
   if (document.getElementsByClassName("404")[0]) {
-    let errorPath = location.href.replace(
-      `${location.protocol}//${location.host}`,
-      ""
-    );
-
     document.getElementById("errorPath").innerHTML =
-      errorPath == "/errors/404.html"
+      location.pathname == "/errors/404.html"
         ? ""
-        : errorPath.length > 35
-        ? errorPath.slice(0, 35) + "..."
-        : errorPath;
+        : location.pathname.length > 35
+        ? location.pathname.slice(0, 35) + "..."
+        : location.pathname;
   }
 
   /************************************************************************************************\
@@ -142,14 +137,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (urlBoo != "paused") urlBoo = true;
 
-        if (cookieCheck() && !url.find((u) => u == "c=0"))
-          playVideo(Cookies.get("path"), false, false);
-        else
-          playVideo(
-            !videos.find(({ path }) => path == i[1]) ? video : i[1],
-            false,
-            false
-          );
+        playVideo(
+          cookieCheck() && !url.find((u) => u == "c=0")
+            ? Cookies.get("path")
+            : !videos.find(({ path }) => path == i[1])
+            ? video
+            : i[1],
+          false,
+          false
+        );
         break;
 
       case "m":
@@ -163,9 +159,8 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
 
       case "c":
-        if (cookieCheck() && i[1] != "0")
-          videoE.currentTime = Cookies.get("currentTime");
-        else videoE.currentTime = i[1];
+        videoE.currentTime =
+          cookieCheck() && i[1] != "0" ? Cookies.get("currentTime") : i[1];
         break;
 
       case "r":
@@ -183,6 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
   /************************************************************************************************\
   *                                          COOKIE STUFF                                          *
   \************************************************************************************************/
+
   if (typeof custom == "undefined") {
     if (!Cookies.get("cookiesAccepted"))
       popup(
@@ -283,23 +279,16 @@ document.addEventListener("DOMContentLoaded", function () {
     settingsSVG.classList.add("hover");
   });
 
-  settingsSVG.addEventListener("mouseout", async function () {
-    await wait(50);
+  [settings, settingsSVG].forEach((el) =>
+    el.addEventListener("mouseout", async function () {
+      await wait(50);
 
-    if (settings.matches(":hover") || settingsSVG.matches(":hover")) return;
+      if (settings.matches(":hover") || settingsSVG.matches(":hover")) return;
 
-    settings.classList.remove("hover");
-    settingsSVG.classList.remove("hover");
-  });
-
-  settings.addEventListener("mouseout", async function () {
-    await wait(50);
-
-    if (settings.matches(":hover") || settingsSVG.matches(":hover")) return;
-
-    settings.classList.remove("hover");
-    settingsSVG.classList.remove("hover");
-  });
+      settings.classList.remove("hover");
+      settingsSVG.classList.remove("hover");
+    })
+  );
 });
 
 /************************************************************************************************\
