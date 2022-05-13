@@ -507,7 +507,7 @@ function restartVideo() {
 *                                         VIDEO MAPPER                                           *
 \************************************************************************************************/
 
-function map(contextMenu = false) {
+function map(contextMenu = false, page) {
   if (contextMenu)
     return (
       "<p class='contextMenuP'>Choose a video:</p><br />" +
@@ -524,7 +524,9 @@ function map(contextMenu = false) {
       `All ${videos.length} videos: ${videos
         .map(
           ({ path, name, artists }) =>
-            `"<a onclick="redirect('../', '${path}', false, false, '0')" class="decorationA disclaimer">${name}</a>" by ${artists.join(
+            `"<a onclick="redirect('../${
+              typeof custom != "undefined" ? `../../custom/${page}` : ""
+            }', '${path}', false, false, '0')" class="decorationA disclaimer">${name}</a>" by ${artists.join(
               ", "
             )}`
         )
