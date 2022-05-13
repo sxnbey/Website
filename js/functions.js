@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
     (navigator.userAgent.includes("Mac") && "ontouchend" in document)
   )
     popup(
-      "It seems that you are using an iOS device. This website is not optimized for iOS devices as I am not able to test the site on them.",
+      "⚠ | It seems that you are using an iOS device. This website is not optimized for iOS devices as I am not able to test the site on them.",
       false,
       false,
       5000
@@ -312,6 +312,14 @@ function cookieCheck() {
     typeof custom == "undefined"
     ? true
     : false;
+}
+
+function removeAllCookies() {
+  Cookies.remove("cookiesAccepted");
+  Cookies.remove("currentTime");
+  Cookies.remove("path");
+
+  popup("✓ | All cookies have been deleted.");
 }
 
 /************************************************************************************************\
