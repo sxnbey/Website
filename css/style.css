@@ -554,6 +554,22 @@ a.animate:hover {
   }
 }
 
+/* FIREFOX BS */
+
+@-moz-document url-prefix() {
+  #settings.hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  #contextMenu {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  #popup {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
 /*
 
 

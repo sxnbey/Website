@@ -437,6 +437,8 @@ function volumeUp() {
   if (Math.round(videoE.volume * 100) / 100 < 1) {
     videoE.volume = videoE.volume + 0.1;
 
+    vVolume = videoE.volume;
+
     mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
   } else popup("⚠ | The volume is on maximum.");
 }
@@ -447,6 +449,8 @@ function volumeDown() {
 
   if (Math.round(videoE.volume * 100) / 100 > 0.1) {
     videoE.volume = videoE.volume - 0.1;
+
+    vVolume = videoE.volume;
 
     mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
   } else popup("⚠ | The volume is on minimum.");
@@ -720,7 +724,6 @@ async function redirect(
 ) {
   const videoE = document.getElementById("video");
   const textE = document.getElementById("text");
-  const vVolume = videoE.volume;
 
   if (textE) textE.classList.add("fadeout");
 
