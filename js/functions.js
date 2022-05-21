@@ -196,6 +196,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     videoE.addEventListener("timeupdate", function () {
+      if (h1)
+        h1.title = `Current video: "${video.name}" by ${video.artists.join(
+          ", "
+        )} - ${progressBar()}`;
+
       if (Cookies.get("cookiesAccepted") == "true") {
         Cookies.set("currentTime", videoE.currentTime, { expires: 365 });
         Cookies.set("path", video.path, { expires: 365 });
@@ -341,7 +346,6 @@ async function playVideo(
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
   const contextMenu = document.getElementById("contextMenu");
-  const h1 = document.getElementById("h1");
 
   if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
 
@@ -390,9 +394,6 @@ async function playVideo(
       },
       300
     );
-
-    if (h1)
-      h1.title = `Current video: "${vid.name}" by ${vid.artists.join(", ")}`;
 
     if (otherStuff)
       popup(`▶ | Now playing: "${vid.name}" by ${vid.artists.join(", ")}`);
@@ -516,7 +517,10 @@ function map(contextMenu = false, page) {
         .filter((i) => i != video)
         .map(
           ({ path, name, artists }) =>
-            `<a onclick="playVideo('${path}', false, true, true)" class="contextMenuA">"${name}" by ${artists[0]}</a>`
+            `<a onclick="playVideo('${path}', false, true, true)" class="contextMenuA">"${name.replace(
+              " ",
+              "&nbsp;"
+            )}" by ${artists[0].replace(" ", "&nbsp;")}</a>`
         )
         .join("<br />")
     );
@@ -527,9 +531,10 @@ function map(contextMenu = false, page) {
           ({ path, name, artists }) =>
             `"<a onclick="redirect('../${
               typeof custom != "undefined" ? `../../custom/${page}` : ""
-            }', '${path}', false, false, '0')" class="decorationA disclaimer">${name}</a>" by ${artists.join(
-              ", "
-            )}`
+            }', '${path}', false, false, '0')" class="decorationA disclaimer">${name.replace(
+              " ",
+              "&nbsp;"
+            )}</a>" by ${artists.join(", ").replace(" ", "&nbsp;")}`
         )
         .join("; ")}`
     );
@@ -603,9 +608,9 @@ async function popup(text, copy = false, cookiePopup = false, time = 2000) {
   if (popupVisible == "cookiePopup" || !popupE) return;
 
   if (popupVisible) {
-    if (text.startsWith("▶ | Now playing: "))
+    if (text.startsWith("▶ |"))
       popupQueue = popupQueue.filter(
-        ({ text: ftext }) => !ftext.startsWith("▶ | Now playing: ")
+        ({ text: ftext }) => !ftext.startsWith("▶ |")
       );
 
     if (
@@ -767,6 +772,42 @@ function fiveSecForward() {
 }
 
 /************************************************************************************************\
+*                                     PROGRESS BAR FUNCTION                                      *
+\************************************************************************************************/
+
+function progressBar(triggerPopup = false, char = "▰") {
+  if (triggerPopup)
+    return popup(
+      `▶ | Current video: "${video.name.replace(
+        " ",
+        "&nbsp;"
+      )}" by ${video.artists.join(", ")}<br />${progressBar()}`,
+      false,
+      false,
+      5000
+    );
+
+  const videoE = document.getElementById("video");
+  const percent = Math.floor((videoE.currentTime / videoE.duration) * 10) || 1;
+  const mins = Math.floor(videoE.currentTime / 60) % 60;
+  const secs = Math.floor(videoE.currentTime % 60);
+  const fullMins = Math.floor(videoE.duration / 60) % 60;
+  const fullSecs = Math.floor(videoE.duration % 60);
+  const bar = "══════════".split("");
+  const front = "╞";
+  const end = "╡";
+
+  bar.splice(percent - 1, 0, char);
+  bar.splice(percent, 1);
+
+  return `${front}${bar.join("")}${end} ${mins
+    .toString()
+    .padStart(2, "0")}:${secs.toString().padStart(2, "0")}/${fullMins
+    .toString()
+    .padStart(2, "0")}:${fullSecs.toString().padStart(2, "0")}`;
+}
+
+/************************************************************************************************\
 *                                           KEY EVENT                                            *
 \************************************************************************************************/
 
@@ -795,6 +836,10 @@ document.addEventListener("keydown", function (e) {
 
     case "KeyP":
       playPreviousVideo();
+      break;
+
+    case "KeyI":
+      progressBar(true);
       break;
 
     case "Space":
