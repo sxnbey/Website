@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (h1)
         h1.title = `Current video: "${video.name}" by ${video.artists.join(
           ", "
-        )} - ${progressBar()}`;
+        )} - ${progressBar(false, true)}`;
 
       if (Cookies.get("cookiesAccepted") == "true") {
         Cookies.set("currentTime", videoE.currentTime, { expires: 365 });
@@ -775,7 +775,7 @@ function fiveSecForward() {
 *                                     PROGRESS BAR FUNCTION                                      *
 \************************************************************************************************/
 
-function progressBar(triggerPopup = false, char = "▰") {
+function progressBar(triggerPopup = false, title = false) {
   if (triggerPopup)
     return popup(
       `▶ | Current video: "${video.name.replace(
@@ -793,6 +793,7 @@ function progressBar(triggerPopup = false, char = "▰") {
   const secs = Math.floor(videoE.currentTime % 60);
   const fullMins = Math.floor(videoE.duration / 60) % 60;
   const fullSecs = Math.floor(videoE.duration % 60);
+  const char = "▰";
   const bar = "══════════".split("");
   const front = "╞";
   const end = "╡";
@@ -802,9 +803,11 @@ function progressBar(triggerPopup = false, char = "▰") {
 
   return `${front}${bar.join("")}${end} ${mins
     .toString()
-    .padStart(2, "0")}:${secs.toString().padStart(2, "0")}/${fullMins
+    .padStart(2, "0")}:${secs.toString().padStart(2, "0")}${
+    title ? " " : "&nbsp;"
+  }/${title ? " " : "&nbsp;"}${fullMins.toString().padStart(2, "0")}:${fullSecs
     .toString()
-    .padStart(2, "0")}:${fullSecs.toString().padStart(2, "0")}`;
+    .padStart(2, "0")}`;
 }
 
 /************************************************************************************************\
