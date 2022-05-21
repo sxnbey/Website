@@ -33,11 +33,6 @@ const videos = [
     artists: ["t-low", "Sevi Rin", "Heinie Nüchtern"],
   },
   {
-    path: "packs-auf-mir",
-    name: "Packs auf mir",
-    artists: ["102 Boyz", "65Goonz", "Chapo102", "Addikt102"],
-  },
-  {
     path: "jungs-mit-rueckgrat",
     name: "Jungs mit Rückgrat",
     artists: ["102 Boyz", "Chapo102", "Stacks102"],
@@ -59,6 +54,16 @@ const videos = [
     path: "uber-xl",
     name: "Uber XL",
     artists: ["Addikt102", "Stacks102", "102 Boyz"],
+  },
+  {
+    path: "packs-auf-mir",
+    name: "Packs auf mir",
+    artists: ["102 Boyz", "65Goonz", "Chapo102", "Addikt102"],
+  },
+  {
+    path: "4-schritte",
+    name: "4 Schritte",
+    artists: ["65Goonz", "TM", "Endzone"],
   },
   { path: "mr-x", name: "Mr. X", artists: ["Lucio101"] },
   {
