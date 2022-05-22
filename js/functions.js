@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
     popup(
       "⚠ | It seems that you are using an iOS device. This website is not optimized for iOS devices as I am not able to test the site on them.",
       false,
-      false,
       5000
     );
 
@@ -184,7 +183,8 @@ document.addEventListener("DOMContentLoaded", function () {
       popup(
         "This website uses cookies to improve your experience. If you don't agree, click the cross. <br /> <a id='cookieYES'><b>✓ I agree</b></a> <a id='cookieNO'><b>✗ I don't agree</b></a>",
         false,
-        true
+        0,
+        "cookie"
       );
 
     if (cookieCheck() && !urlBoo) {
@@ -196,11 +196,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     videoE.addEventListener("timeupdate", function () {
-      if (h1)
-        h1.title = `Current video: "${video.name}" by ${video.artists.join(
-          ", "
-        )} - ${progressBar(false, true)}`;
-
       if (Cookies.get("cookiesAccepted") == "true") {
         Cookies.set("currentTime", videoE.currentTime, { expires: 365 });
         Cookies.set("path", video.path, { expires: 365 });
@@ -297,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /************************************************************************************************\
-*                                          COOKIE STUFF                                          *
+*                                        COOKIE FUNCTIONS                                        *
 \************************************************************************************************/
 
 function cookieYesF() {
@@ -355,7 +350,8 @@ async function playVideo(
     (usedVideos.includes(vid) &&
       usedVideos.length != videos.length &&
       !ignoreIfUsed) ||
-    err
+    err ||
+    previousVideo == vid.path
   ) {
     video = newVideoF();
 
@@ -396,7 +392,12 @@ async function playVideo(
     );
 
     if (otherStuff)
-      popup(`▶ | Now playing: "${vid.name}" by ${vid.artists.join(", ")}`);
+      popup(
+        `▶ | Now playing: <b>${vid.name.replace(
+          " ",
+          "&nbsp;"
+        )}</b> by ${vid.artists.join(", ").replace(" ", "&nbsp;")}`
+      );
 
     videoE.classList.remove("blurred");
 
@@ -517,10 +518,10 @@ function map(contextMenu = false, page) {
         .filter((i) => i != video)
         .map(
           ({ path, name, artists }) =>
-            `<a onclick="playVideo('${path}', false, true, true)" class="contextMenuA">"${name.replace(
+            `<a onclick="playVideo('${path}', false, true, true)" class="contextMenuA"><b>${name.replace(
               " ",
               "&nbsp;"
-            )}" by ${artists[0].replace(" ", "&nbsp;")}</a>`
+            )}</b> by ${artists[0].replace(" ", "&nbsp;")}</a>`
         )
         .join("<br />")
     );
@@ -601,7 +602,7 @@ let popupQueue = [];
 let lastPopup;
 let popupVisible = false;
 
-async function popup(text, copy = false, cookiePopup = false, time = 2000) {
+async function popup(text, copy = false, time = 2000, other = false) {
   const popupE = document.getElementById("popup");
   const textE = document.getElementById("text");
 
@@ -618,11 +619,11 @@ async function popup(text, copy = false, cookiePopup = false, time = 2000) {
         copy ? `✓ | "${text}" has been copied to your clipboard!` : text
       )
     )
-      popupQueue.push({ text, copy, cookiePopup, time });
+      popupQueue.push({ text, copy, time, other });
     return;
   }
 
-  if (cookiePopup) {
+  if (other == "cookie") {
     popupE.innerHTML = text;
 
     const cookieYES = document.getElementById("cookieYES");
@@ -670,9 +671,22 @@ async function popup(text, copy = false, cookiePopup = false, time = 2000) {
 
   if (popupE.classList.contains("muchText")) textE.classList.add("blurred");
 
-  popupE.innerHTML = text;
+  if (other == "info") popupE.innerHTML = progressBar("string");
+  else popupE.innerHTML = text;
 
   popupE.classList.add("visible");
+
+  if (other == "info") {
+    let int = 0;
+
+    const interval = setInterval(function () {
+      popupE.innerHTML = progressBar("string");
+
+      if (++int === 5) {
+        clearInterval(interval);
+      }
+    }, 1000);
+  }
 
   await wait(time);
 
@@ -687,12 +701,7 @@ async function popup(text, copy = false, cookiePopup = false, time = 2000) {
 
     popupVisible = false;
 
-    popup(
-      queuePopup.text,
-      queuePopup.copy,
-      queuePopup.cookiePopup,
-      queuePopup.time
-    );
+    popup(queuePopup.text, queuePopup.copy, queuePopup.time, queuePopup.other);
   } else popupVisible = false;
 }
 
@@ -775,17 +784,13 @@ function fiveSecForward() {
 *                                     PROGRESS BAR FUNCTION                                      *
 \************************************************************************************************/
 
-function progressBar(triggerPopup = false, title = false) {
-  if (triggerPopup)
-    return popup(
-      `▶ | Current video: "${video.name.replace(
-        " ",
-        "&nbsp;"
-      )}" by ${video.artists.join(", ")}<br />${progressBar()}`,
-      false,
-      false,
-      5000
-    );
+function progressBar(popupThing = false, title = false) {
+  if (popupThing == "string")
+    return `▶ | <b>${video.name.replace(" ", "&nbsp;")}</b> by ${video.artists
+      .join(", ")
+      .replace(" ", "&nbsp;")}<br />${progressBar()}`;
+
+  if (popupThing) return popup("", false, 5000, "info");
 
   const videoE = document.getElementById("video");
   const percent = Math.floor((videoE.currentTime / videoE.duration) * 10) || 1;
