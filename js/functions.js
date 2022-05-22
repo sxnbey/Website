@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!videoE.paused) {
         pauseVideo();
 
-        popup("⚠ | The video was paused for 10s due to connection problems.");
+        popup("⚠ | The video was paused for 10s due to buffering.");
 
         await wait(10000);
 
@@ -350,8 +350,7 @@ async function playVideo(
     (usedVideos.includes(vid) &&
       usedVideos.length != videos.length &&
       !ignoreIfUsed) ||
-    err ||
-    previousVideo == vid.path
+    err
   ) {
     video = newVideoF();
 
@@ -769,7 +768,7 @@ function fiveSecBack() {
 
   videoE.currentTime -= 5;
 
-  popup("⤌ | 5 seconds were rewound.");
+  // popup("⤌ | 5 seconds were rewound.");
 }
 
 function fiveSecForward() {
@@ -777,7 +776,7 @@ function fiveSecForward() {
 
   videoE.currentTime += 5;
 
-  popup("⤍ | 5 seconds were fast forwarded.");
+  // popup("⤍ | 5 seconds were fast forwarded.");
 }
 
 /************************************************************************************************\
