@@ -94,7 +94,9 @@ document.addEventListener("DOMContentLoaded", function () {
   document.body.addEventListener("click", function (e) {
     if (
       e.target.id != "contextMenu" &&
-      !e.target.classList.contains("contextMenuA")
+      ["contextMenuA", "contextMenuB"].some(
+        (i) => !e.target.classList.contains(i)
+      )
     )
       contextMenu.style.display = "none";
   });
@@ -137,7 +139,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (urlBoo != "paused") urlBoo = true;
 
         playVideo(
-          cookieCheck() && !url.find((u) => u == "c=0")
+          cookieCheck() &&
+            url.toString().replace(/[^=]/g, "").length != 1 &&
+            !url.find((u) => u == "c=0")
             ? Cookies.get("path")
             : !videos.find(({ path }) => path == i[1])
             ? video
@@ -517,7 +521,7 @@ function map(contextMenu = false, page) {
         .filter((i) => i != video)
         .map(
           ({ path, name, artists }) =>
-            `<a onclick="playVideo('${path}', false, true, true)" class="contextMenuA"><b>${name.replace(
+            `<a onclick="playVideo('${path}', false, true, true)" class="contextMenuA"><b class="contextMenuB">${name.replace(
               " ",
               "&nbsp;"
             )}</b> by ${artists[0].replace(" ", "&nbsp;")}</a>`
@@ -798,12 +802,11 @@ function progressBar(popupThing = false, title = false) {
   const fullMins = Math.floor(videoE.duration / 60) % 60;
   const fullSecs = Math.floor(videoE.duration % 60);
   const char = "▰";
-  const bar = "══════════".split("");
+  const bar = "═════════".split("");
   const front = "╞";
   const end = "╡";
 
   bar.splice(percent - 1, 0, char);
-  bar.splice(percent, 1);
 
   return `${front}${bar.join("")}${end} ${mins
     .toString()
