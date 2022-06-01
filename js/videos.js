@@ -32,6 +32,7 @@ const videos = [
     name: "Fliegen lässt",
     artists: ["t-low", "Sevi Rin", "Heinie Nüchtern"],
   },
+  { path: "besser-allein", name: "Besser allein", artists: ["Sevi Rin"] },
   {
     path: "jungs-mit-rueckgrat",
     name: "Jungs mit Rückgrat",
@@ -63,7 +64,7 @@ const videos = [
   {
     path: "4-schritte",
     name: "4 Schritte",
-    artists: ["65Goonz", "TM", "Endzone"],
+    artists: ["65Goonz", "TM", "Endzone", "Ezco 44"],
   },
   { path: "mr-x", name: "Mr. X", artists: ["Lucio101"] },
   {
