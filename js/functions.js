@@ -803,9 +803,11 @@ function progressBar(popupThing = false) {
       .join(", ")
       .replace(" ", "&nbsp;")}<br />${progressBar()}<br /><a onclick='popup(\`${
       location.protocol
-    }//${location.host}?p=${
-      video.path
-    }\`, true, 2000, "copy")'><b>Copy link</b></a>`;
+    }//${location.host}${
+      typeof folder != undefined
+        ? `/${typeof folder != "undefined" ? folder : ""}`
+        : ""
+    }?p=${video.path}\`, true, 2000, "copy")'><b>Copy link</b></a>`;
 
   if (popupThing) return popup("", false, 5000, "info");
 
