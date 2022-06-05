@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.body.addEventListener("click", function (e) {
     if (
       e.target.id != "contextMenu" &&
-      ["contextMenuA", "contextMenuB"].some(
+      ["contextMenuA", "contextMenuB"].every(
         (i) => !e.target.classList.contains(i)
       )
     )
@@ -611,7 +611,14 @@ async function popup(text, copy = false, time = 2000, other = false) {
 
   if (popupVisible == "cookiePopup" || !popupE) return;
 
-  if (popupVisible) {
+  if (other == "copy") {
+    popupE.classList.remove("visible");
+
+    if (popupE.classList.contains("muchText"))
+      textE.classList.remove("blurred");
+
+    await wait(1000);
+  } else if (popupVisible) {
     if (text.startsWith("▶ |"))
       popupQueue = popupQueue.filter(
         ({ text: ftext }) => !ftext.startsWith("▶ |")
@@ -683,6 +690,9 @@ async function popup(text, copy = false, time = 2000, other = false) {
     let int = 0;
 
     const interval = setInterval(function () {
+      if (popupE.innerHTML.includes("has been copied to your clipboard!"))
+        return clearInterval(interval);
+
       popupE.innerHTML = progressBar("string");
 
       if (++int === 5) {
@@ -787,11 +797,15 @@ function fiveSecForward() {
 *                                     PROGRESS BAR FUNCTION                                      *
 \************************************************************************************************/
 
-function progressBar(popupThing = false, title = false) {
+function progressBar(popupThing = false) {
   if (popupThing == "string")
     return `▶ | <b>${video.name.replace(" ", "&nbsp;")}</b> by ${video.artists
       .join(", ")
-      .replace(" ", "&nbsp;")}<br />${progressBar()}`;
+      .replace(" ", "&nbsp;")}<br />${progressBar()}<br /><a onclick='popup(\`${
+      location.protocol
+    }//${location.host}?p=${
+      video.path
+    }\`, true, 2000, "copy")'><b>Copy link</b></a>`;
 
   if (popupThing) return popup("", false, 5000, "info");
 
@@ -810,11 +824,11 @@ function progressBar(popupThing = false, title = false) {
 
   return `${front}${bar.join("")}${end} ${mins
     .toString()
-    .padStart(2, "0")}:${secs.toString().padStart(2, "0")}${
-    title ? " " : "&nbsp;"
-  }/${title ? " " : "&nbsp;"}${fullMins.toString().padStart(2, "0")}:${fullSecs
+    .padStart(2, "0")}:${secs
     .toString()
-    .padStart(2, "0")}`;
+    .padStart(2, "0")}&nbsp;/&nbsp;${fullMins
+    .toString()
+    .padStart(2, "0")}:${fullSecs.toString().padStart(2, "0")}`;
 }
 
 /************************************************************************************************\
