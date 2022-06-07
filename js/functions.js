@@ -624,10 +624,12 @@ async function popup(text, time = 2000, other = false) {
 
     if (
       ![lastPopup, ...popupQueue.map(({ text }) => text)].includes(
-        copy ? `✓ | "${text}" has been copied to your clipboard!` : text
+        other == "copy"
+          ? `✓ | "${text}" has been copied to your clipboard!`
+          : text
       )
     )
-      popupQueue.push({ text, copy, time, other });
+      popupQueue.push({ text, time, other });
     return;
   }
 
@@ -726,7 +728,7 @@ async function popup(text, time = 2000, other = false) {
 
     popupVisible = false;
 
-    popup(queuePopup.text, queuePopup.copy, queuePopup.time, queuePopup.other);
+    popup(queuePopup.text, queuePopup.time, queuePopup.other);
   } else popupVisible = false;
 }
 
