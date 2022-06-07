@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
   )
     popup(
       "⚠ | It seems that you are using an iOS device. This website is not optimized for iOS devices as I am not able to test the site on them.",
-      false,
       5000
     );
 
@@ -186,7 +185,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!Cookies.get("cookiesAccepted"))
       popup(
         "This website uses cookies to improve your experience. If you don't agree, click the cross. <br /> <a id='cookieYES'><b>✓ I agree</b></a> <a id='cookieNO'><b>✗ I don't agree</b></a>",
-        false,
         0,
         "cookie"
       );
@@ -605,7 +603,7 @@ let popupQueue = [];
 let lastPopup;
 let popupVisible = false;
 
-async function popup(text, copy = false, time = 2000, other = false) {
+async function popup(text, time = 2000, other = false) {
   const popupE = document.getElementById("popup");
   const textE = document.getElementById("text");
 
@@ -665,13 +663,13 @@ async function popup(text, copy = false, time = 2000, other = false) {
     return;
   }
 
-  if (copy) {
+  if (other == "copy") {
     try {
       await navigator.clipboard.writeText(text);
 
       text = `✓ | "${text}" has been copied to your clipboard!`;
     } catch (e) {
-      text = "⚠ | The text could not be copied, the page was not focused.";
+      text = `⚠ | The text could not be copied. Error: ${e}`;
     }
   }
 
@@ -690,7 +688,12 @@ async function popup(text, copy = false, time = 2000, other = false) {
     let int = 0;
 
     const interval = setInterval(function () {
-      if (popupE.innerHTML.includes("has been copied to your clipboard!"))
+      if (
+        [
+          "has been copied to your clipboard!",
+          "The text could not be copied.",
+        ].some((i) => popupE.innerHTML.includes(i))
+      )
         return clearInterval(interval);
 
       popupE.innerHTML = progressBar("string");
@@ -702,6 +705,15 @@ async function popup(text, copy = false, time = 2000, other = false) {
   }
 
   await wait(time);
+
+  if (
+    other == "info" &&
+    [
+      "has been copied to your clipboard!",
+      "The text could not be copied.",
+    ].some((i) => popupE.innerHTML.includes(i))
+  )
+    return;
 
   popupE.classList.remove("visible");
 
@@ -807,9 +819,9 @@ function progressBar(popupThing = false) {
       typeof folder != undefined
         ? `/${typeof folder != "undefined" ? folder : ""}`
         : ""
-    }?p=${video.path}\`, true, 2000, "copy")'><b>Copy link</b></a>`;
+    }?p=${video.path}\`, 2000, "copy")'><b>Copy link</b></a>`;
 
-  if (popupThing) return popup("", false, 5000, "info");
+  if (popupThing) return popup("", 5000, "info");
 
   const videoE = document.getElementById("video");
   const percent = Math.floor((videoE.currentTime / videoE.duration) * 10) || 1;
