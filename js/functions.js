@@ -689,6 +689,7 @@ async function popup(text, time = 2000, other = false) {
   if (other == "info") {
     let int = 0;
 
+    const popupSpan = document.getElementById("popupSpan");
     const interval = setInterval(function () {
       if (
         [
@@ -698,7 +699,7 @@ async function popup(text, time = 2000, other = false) {
       )
         return clearInterval(interval);
 
-      popupE.innerHTML = progressBar("string");
+      popupSpan.innerHTML = progressBar("span");
 
       if (++int === 5) {
         clearInterval(interval);
@@ -812,16 +813,22 @@ function fiveSecForward() {
 \************************************************************************************************/
 
 function progressBar(popupThing = false) {
-  if (popupThing == "string")
-    return `▶ | <b>${video.name.replace(" ", "&nbsp;")}</b> by ${video.artists
+  if (popupThing == "span")
+    return `<span id="popupSpan">▶ | <b>${video.name.replace(
+      " ",
+      "&nbsp;"
+    )}</b> by ${video.artists
       .join(", ")
-      .replace(" ", "&nbsp;")}<br />${progressBar()}<br /><a onclick='popup(\`${
-      location.protocol
-    }//${location.host}${
+      .replace(" ", "&nbsp;")}<br />${progressBar()}</span>`;
+
+  if (popupThing == "copy")
+    return `<br /><a onclick='popup(\`${location.protocol}//${location.host}${
       typeof folder != undefined
         ? `/${typeof folder != "undefined" ? folder : ""}`
         : ""
     }?p=${video.path}\`, 2000, "copy")'><b>Copy link</b></a>`;
+
+  if (popupThing == "string") return progressBar("span") + progressBar("copy");
 
   if (popupThing) return popup("", 5000, "info");
 
