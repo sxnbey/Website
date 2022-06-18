@@ -607,16 +607,18 @@ async function popup(text, time = 2000, other = false) {
   const popupE = document.getElementById("popup");
   const textE = document.getElementById("text");
 
-  if (popupVisible == "cookiePopup" || !popupE) return;
+  // queue check
 
-  if (other == "copy") {
-    popupE.classList.remove("visible");
+  if (
+    popupVisible == "cookiePopup" ||
+    !popupE ||
+    (popupVisible == "infoPopup" && other != "copy")
+  )
+    return;
 
-    if (popupE.classList.contains("muchText"))
-      textE.classList.remove("blurred");
-
-    await wait(1000);
-  } else if (popupVisible) {
+  if (other == "copy" || (other == "info" && !popupE.innerHTML.includes("▰")))
+    await popupOut(true, popupVisible ? true : false);
+  else if (popupVisible) {
     if (text.startsWith("▶ |"))
       popupQueue = popupQueue.filter(
         ({ text: ftext }) => !ftext.startsWith("▶ |")
@@ -630,8 +632,11 @@ async function popup(text, time = 2000, other = false) {
       )
     )
       popupQueue.push({ text, time, other });
+
     return;
   }
+
+  // cookie popup
 
   if (other == "cookie") {
     popupE.innerHTML = text;
@@ -652,18 +657,16 @@ async function popup(text, time = 2000, other = false) {
           if (i.id == "cookieYES") cookieYesF();
           else cookieNoF();
 
-          popupE.classList.remove("visible");
-
-          if (popupE.classList.contains("muchText"))
-            textE.classList.remove("blurred");
-
-          popupVisible = false;
+          popupOut(true, false);
         },
         { once: true }
       )
     );
+
     return;
   }
+
+  // copy popup
 
   if (other == "copy") {
     try {
@@ -675,9 +678,12 @@ async function popup(text, time = 2000, other = false) {
     }
   }
 
+  // normal popup shit
+
   lastPopup = text;
 
-  popupVisible = true;
+  if (other == "info") popupVisible = "infoPopup";
+  else popupVisible = true;
 
   if (popupE.classList.contains("muchText")) textE.classList.add("blurred");
 
@@ -686,22 +692,20 @@ async function popup(text, time = 2000, other = false) {
 
   popupE.classList.add("visible");
 
+  // info popup
+
   if (other == "info") {
     let int = 0;
 
     const popupSpan = document.getElementById("popupSpan");
-    const interval = setInterval(function () {
-      if (
-        [
-          "has been copied to your clipboard!",
-          "The text could not be copied.",
-        ].some((i) => popupE.innerHTML.includes(i))
-      )
-        return clearInterval(interval);
+    const interval = setInterval(async function () {
+      if (popupE.innerHTML.includes("copied")) return clearInterval(interval);
 
       popupSpan.innerHTML = progressBar("span");
 
       if (++int === 5) {
+        await popupOut();
+
         clearInterval(interval);
       }
     }, 1000);
@@ -709,20 +713,9 @@ async function popup(text, time = 2000, other = false) {
 
   await wait(time);
 
-  if (
-    other == "info" &&
-    [
-      "has been copied to your clipboard!",
-      "The text could not be copied.",
-    ].some((i) => popupE.innerHTML.includes(i))
-  )
-    return;
+  if (other == "info" || popupE.innerHTML.includes("▰")) return;
 
-  popupE.classList.remove("visible");
-
-  if (popupE.classList.contains("muchText")) textE.classList.remove("blurred");
-
-  await wait(1000);
+  await popupOut(false);
 
   if (popupQueue.length > 0) {
     let queuePopup = popupQueue.shift();
@@ -731,6 +724,18 @@ async function popup(text, time = 2000, other = false) {
 
     popup(queuePopup.text, queuePopup.time, queuePopup.other);
   } else popupVisible = false;
+}
+
+async function popupOut(booChange = true, waitt = true) {
+  const popupE = document.getElementById("popup");
+
+  popupE.classList.remove("visible");
+
+  if (popupE.classList.contains("muchText")) textE.classList.remove("blurred");
+
+  if (booChange) popupVisible = false;
+
+  if (waitt) await wait(1000);
 }
 
 /************************************************************************************************\

@@ -33,6 +33,7 @@ const videos = [
     artists: ["t-low", "Sevi Rin", "Heinie Nüchtern"],
   },
   { path: "besser-allein", name: "Besser allein", artists: ["Sevi Rin"] },
+  { path: "aufgehoert", name: "Aufgehört", artists: ["Sevi Rin", "t-low"] },
   {
     path: "jungs-mit-rueckgrat",
     name: "Jungs mit Rückgrat",
