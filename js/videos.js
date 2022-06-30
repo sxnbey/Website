@@ -78,4 +78,14 @@ const videos = [
     name: "Powerade",
     artists: ["Ion Miles", "SiraOne", "BHZ"],
   },
+  {
+    path: "top-auf",
+    name: "Top Auf",
+    artists: ["Ion Miles", "BHZ"],
+  },
+  {
+    path: "kalenji",
+    name: "Kalenji",
+    artists: ["G.FiT", "Keanu"],
+  },
 ];

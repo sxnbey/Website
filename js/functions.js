@@ -138,13 +138,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (urlBoo != "paused") urlBoo = true;
 
         playVideo(
-          cookieCheck() &&
-            url.toString().replace(/[^=]/g, "").length != 1 &&
-            !url.find((u) => u == "c=0")
-            ? Cookies.get("path")
-            : !videos.find(({ path }) => path == i[1])
-            ? video
-            : i[1],
+          cookieCheck() && // just to make sure the cookies store a video and the current site is the main page
+            url.toString().replace(/[^=]/g, "").length != 1 && // is to make sure that the url is not one attribute long
+            !url.find((u) => u == "c=0") // is to make sure that the url is not from the disclaimer page
+            ? Cookies.get("path") // is both true, the video from the cookie is played
+            : !videos.find(({ path }) => path == i[1]) // if not, it checks if the video from the url is not in the videos array
+            ? video // if true, if plays the default video
+            : i[1], // if false, it plays the url video
           false,
           false
         );
@@ -728,6 +728,7 @@ async function popup(text, time = 2000, other = false) {
 
 async function popupOut(booChange = true, waitt = true) {
   const popupE = document.getElementById("popup");
+  const textE = document.getElementById("text");
 
   popupE.classList.remove("visible");
 
