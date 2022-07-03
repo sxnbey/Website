@@ -74,6 +74,11 @@ const videos = [
     artists: ["Lucio101", "Nizi19", "Omar101"],
   },
   {
+    path: "bunte-papiere",
+    name: "Bunte Papiere",
+    artists: ["Lucio101", "Lerizzle", "Omar101"],
+  },
+  {
     path: "powerade",
     name: "Powerade",
     artists: ["Ion Miles", "SiraOne", "BHZ"],

@@ -343,6 +343,7 @@ async function playVideo(
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
   const contextMenu = document.getElementById("contextMenu");
+  const popupE = document.getElementById("popup");
 
   if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
 
@@ -383,6 +384,9 @@ async function playVideo(
 
     videoE.src = `${pathGen("media")}/${vid.path}.mp4`;
     videoE.play();
+
+    if (popupE && popupE.innerHTML.includes("Copy link"))
+      popupE.innerHTML = popupE.innerHTML.replace(previousVideo, video.path);
 
     $("#video").animate(
       {
@@ -697,18 +701,19 @@ async function popup(text, time = 2000, other = false) {
   if (other == "info") {
     let int = 0;
 
-    const popupSpan = document.getElementById("popupSpan");
     const interval = setInterval(async function () {
+      const popupSpan = document.getElementById("popupSpan");
+
       if (popupE.innerHTML.includes("copied")) return clearInterval(interval);
 
-      popupSpan.innerHTML = progressBar("span");
+      popupSpan.innerHTML = progressBar("spanInner");
 
-      if (++int === 5) {
+      if (++int === 100) {
         await popupOut();
 
         clearInterval(interval);
       }
-    }, 1000);
+    }, 50);
   }
 
   await wait(time);
@@ -819,31 +824,37 @@ function fiveSecForward() {
 \************************************************************************************************/
 
 function progressBar(popupThing = false) {
+  const videoE = document.getElementById("video");
+
   if (popupThing == "span")
-    return `<span id="popupSpan">▶ | <b>${video.name.replace(
-      " ",
-      "&nbsp;"
-    )}</b> by ${video.artists
+    return `<span id="popupSpan">${progressBar("spanInner")}</span>`;
+
+  if (popupThing == "spanInner")
+    return `▶ | <b>${video.name.replace(" ", "&nbsp;")}</b> by ${video.artists
       .join(", ")
-      .replace(" ", "&nbsp;")}<br />${progressBar()}</span>`;
+      .replace(" ", "&nbsp;")} | ${
+      Math.round(vVolume * 100) / 10
+    }/10 <a onclick='muter()'>${
+      videoE.muted ? "🔇" : "🔊"
+    }</a><br />${progressBar()}`;
 
-  if (popupThing == "copy")
-    return `<br /><a onclick='popup(\`${location.protocol}//${location.host}${
-      typeof folder != undefined
-        ? `/${typeof folder != "undefined" ? folder : ""}`
-        : ""
-    }?p=${video.path}\`, 2000, "copy")'><b>Copy link</b></a>`;
-
-  if (popupThing == "string") return progressBar("span") + progressBar("copy");
+  if (popupThing == "string")
+    return (
+      progressBar("span") +
+      `<br /><a onclick='popup(\`${location.protocol}//${location.host}${
+        typeof folder != undefined
+          ? `/${typeof folder != "undefined" ? folder : ""}`
+          : ""
+      }?p=${video.path}\`, 2000, "copy")'><b>Copy link</b></a>`
+    );
 
   if (popupThing) return popup("", 5000, "info");
 
-  const videoE = document.getElementById("video");
   const percent = Math.floor((videoE.currentTime / videoE.duration) * 10) || 1;
-  const mins = Math.floor(videoE.currentTime / 60) % 60;
-  const secs = Math.floor(videoE.currentTime % 60);
-  const fullMins = Math.floor(videoE.duration / 60) % 60;
-  const fullSecs = Math.floor(videoE.duration % 60);
+  const mins = Math.floor(videoE.currentTime / 60) % 60 || 0;
+  const secs = Math.floor(videoE.currentTime % 60) || 0;
+  const fullMins = Math.floor(videoE.duration / 60) % 60 || 0;
+  const fullSecs = Math.floor(videoE.duration % 60) || 0;
   const char = "▰";
   const bar = "═════════".split("");
   const front = "╞";
