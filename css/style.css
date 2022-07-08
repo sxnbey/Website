@@ -425,7 +425,7 @@ a.animate:hover {
   }
 }
 
-@-moz-keyframes fadein {
+@-moz-keyframes fadeout {
   from {
     left: 50vw;
   }
@@ -434,7 +434,7 @@ a.animate:hover {
   }
 }
 
-@-webkit-keyframes fadein {
+@-webkit-keyframes fadeout {
   from {
     left: 50vw;
   }
@@ -443,7 +443,7 @@ a.animate:hover {
   }
 }
 
-@-ms-keyframes fadein {
+@-ms-keyframes fadeout {
   from {
     left: 50vw;
   }
@@ -452,7 +452,7 @@ a.animate:hover {
   }
 }
 
-@-o-keyframes fadein {
+@-o-keyframes fadeout {
   from {
     left: 50vw;
   }

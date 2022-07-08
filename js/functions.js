@@ -27,21 +27,21 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                       iOS CHECK STUFF                                          *
   \************************************************************************************************/
 
-  if (
-    [
-      "iPad Simulator",
-      "iPhone Simulator",
-      "iPod Simulator",
-      "iPad",
-      "iPhone",
-      "iPod",
-    ].includes(navigator.platform) ||
-    (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-  )
-    popup(
-      "⚠ | It seems that you are using an iOS device. This website is not optimized for iOS devices as I am not able to test the site on them.",
-      5000
-    );
+  // if (
+  //   [
+  //     "iPad Simulator",
+  //     "iPhone Simulator",
+  //     "iPod Simulator",
+  //     "iPad",
+  //     "iPhone",
+  //     "iPod",
+  //   ].includes(navigator.platform) ||
+  //   (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  // )
+  //   popup(
+  //     "⚠ | It seems that you are using an iOS device. This website is not optimized for iOS devices as I am not able to test the site on them.",
+  //     5000
+  //   );
 
   /************************************************************************************************\
   *                                        404 PAGE STUFF                                          *
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ? video // if true, if plays the default video
             : i[1], // if false, it plays the url video
           false,
-          false
+          true
         );
         break;
 
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
     if (cookieCheck() && !urlBoo) {
-      playVideo(Cookies.get("path"), false, false);
+      playVideo(Cookies.get("path"), false, true);
 
       videoE.currentTime = Cookies.get("currentTime");
 
@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                        VIDEO MANAGER                                           *
   \************************************************************************************************/
 
-  if (!urlBoo) playVideo(video, false, false);
+  if (!urlBoo) playVideo(video, false, true);
 
   requestAnimationFrame(loop);
 
@@ -329,25 +329,27 @@ function removeAllCookies() {
 \************************************************************************************************/
 
 function playPreviousVideo() {
-  if (previousVideo) playVideo(previousVideo, false, true, true);
+  if (previousVideo) playVideo(previousVideo, false, false, true);
   else popup("⚠ | There is no previous video.");
 }
 
 async function playVideo(
   vid = video,
   err = false,
-  otherStuff = true,
+  pageLoad = false,
   ignoreIfUsed = false
 ) {
   const videoE = document.getElementById("video");
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
   const contextMenu = document.getElementById("contextMenu");
-  const popupE = document.getElementById("popup");
+  let apple = navigator.vendor == "Apple Computer, Inc.";
 
   if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
 
   video = vid;
+
+  if (pageLoad && apple) videoE.autoplay = false;
 
   if (
     (usedVideos.includes(vid) &&
@@ -359,7 +361,7 @@ async function playVideo(
 
     playVideo();
   } else {
-    if (!otherStuff) {
+    if (pageLoad) {
       videoE.volume = 0;
       videoE.style.opacity = 0;
     }
@@ -370,7 +372,7 @@ async function playVideo(
 
     if (usedVideos.length >= videos.length) usedVideos = [];
 
-    if (otherStuff) previousVideo = videoE.src.split("/")[4].split(".")[0];
+    if (!pageLoad) previousVideo = videoE.src.split("/")[4].split(".")[0];
 
     $("#video").animate(
       {
@@ -380,13 +382,21 @@ async function playVideo(
       300
     );
 
-    await wait(otherStuff ? 300 : 0);
+    await wait(!pageLoad ? 300 : 0);
 
     videoE.src = `${pathGen("media")}/${vid.path}.mp4`;
-    videoE.play();
 
-    if (popupE && popupE.innerHTML.includes("Copy link"))
-      popupE.innerHTML = popupE.innerHTML.replace(previousVideo, video.path);
+    if (!(pageLoad && apple)) videoE.play();
+    else {
+      videoE.classList.add("blurred");
+
+      paused.classList.add("visible");
+
+      settingsContent.innerHTML = settingsContent.innerHTML.replace(
+        "Pause",
+        "Unpause"
+      );
+    }
 
     $("#video").animate(
       {
@@ -396,7 +406,7 @@ async function playVideo(
       300
     );
 
-    if (otherStuff)
+    if (!pageLoad)
       popup(
         `▶ | Now playing: <b>${vid.name.replace(
           " ",
@@ -404,19 +414,21 @@ async function playVideo(
         )}</b> by ${vid.artists.join(", ").replace(" ", "&nbsp;")}`
       );
 
-    videoE.classList.remove("blurred");
+    if (!(pageLoad && apple)) {
+      videoE.classList.remove("blurred");
 
-    paused.classList.remove("visible");
+      paused.classList.remove("visible");
 
-    settingsContent.innerHTML = settingsContent.innerHTML.replace(
-      "Unpause",
-      "Pause"
-    );
+      settingsContent.innerHTML = settingsContent.innerHTML.replace(
+        "Unpause",
+        "Pause"
+      );
 
-    settingsContent.innerHTML = settingsContent.innerHTML.replace(
-      "Unrepeat",
-      "Repeat"
-    );
+      settingsContent.innerHTML = settingsContent.innerHTML.replace(
+        "Unrepeat",
+        "Repeat"
+      );
+    }
 
     repeat = false;
 
@@ -523,7 +535,7 @@ function map(contextMenu = false, page) {
         .filter((i) => i != video)
         .map(
           ({ path, name, artists }) =>
-            `<a onclick="playVideo('${path}', false, true, true)" class="contextMenuA"><b class="contextMenuB">${name.replace(
+            `<a onclick="playVideo('${path}', false, false, true)" class="contextMenuA"><b class="contextMenuB">${name.replace(
               " ",
               "&nbsp;"
             )}</b> by ${artists[0].replace(" ", "&nbsp;")}</a>`
@@ -850,7 +862,7 @@ function progressBar(popupThing = false) {
 
   if (popupThing) return popup("", 5000, "info");
 
-  const percent = Math.floor((videoE.currentTime / videoE.duration) * 10) || 1;
+  const percent = percentF() || 1;
   const mins = Math.floor(videoE.currentTime / 60) % 60 || 0;
   const secs = Math.floor(videoE.currentTime % 60) || 0;
   const fullMins = Math.floor(videoE.duration / 60) % 60 || 0;
@@ -869,6 +881,14 @@ function progressBar(popupThing = false) {
     .padStart(2, "0")}&nbsp;/&nbsp;${fullMins
     .toString()
     .padStart(2, "0")}:${fullSecs.toString().padStart(2, "0")}`;
+}
+
+// for loop 9x
+
+function percentF() {
+  const videoE = document.getElementById("video");
+
+  return Math.floor((videoE.currentTime / videoE.duration) * 10);
 }
 
 /************************************************************************************************\
