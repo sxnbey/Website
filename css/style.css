@@ -257,6 +257,14 @@ a.animate:hover {
   visibility: visible;
 }
 
+.red {
+  color: rgb(255, 0, 0);
+}
+
+.green {
+  color: rgb(0, 255, 55);
+}
+
 #cookieNO {
   color: rgb(255, 0, 0);
 }

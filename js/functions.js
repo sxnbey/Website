@@ -9,6 +9,7 @@ let previousVideo;
 let repeat = false;
 let video = newVideoF();
 let vVolume = 0.3;
+let lastPercent;
 
 history.pushState(null, null, location.href.split("?")[0]);
 
@@ -343,7 +344,9 @@ async function playVideo(
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
   const contextMenu = document.getElementById("contextMenu");
-  let apple = navigator.vendor == "Apple Computer, Inc.";
+  const pauseA = document.getElementById("pauseA");
+  const repeatA = document.getElementById("repeatA");
+  const apple = navigator.vendor == "Apple Computer, Inc.";
 
   if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
 
@@ -428,6 +431,10 @@ async function playVideo(
         "Unrepeat",
         "Repeat"
       );
+
+      if (pauseA) pauseA.innerHTML = "▶️";
+
+      if (repeatA) repeatA.className = "red";
     }
 
     repeat = false;
@@ -452,27 +459,35 @@ function volume(e) {
 function volumeUp() {
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
+  const volumeSpan = document.getElementById("volumeSpan");
 
   if (Math.round(videoE.volume * 100) / 100 < 1) {
-    videoE.volume = videoE.volume + 0.1;
+    videoE.volume =
+      Math.round((Math.round(videoE.volume * 10) / 10 + 0.1) * 10) / 10;
 
     vVolume = videoE.volume;
 
     mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
   } else popup("⚠ | The volume is on maximum.");
+
+  if (volumeSpan) volumeSpan.innerHTML = progressBar("volume");
 }
 
 function volumeDown() {
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
+  const volumeSpan = document.getElementById("volumeSpan");
 
   if (Math.round(videoE.volume * 100) / 100 > 0.1) {
-    videoE.volume = videoE.volume - 0.1;
+    videoE.volume =
+      Math.round((Math.round(videoE.volume * 10) / 10 - 0.1) * 10) / 10;
 
     vVolume = videoE.volume;
 
     mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
   } else popup("⚠ | The volume is on minimum.");
+
+  if (volumeSpan) volumeSpan.innerHTML = progressBar("volume");
 }
 
 /************************************************************************************************\
@@ -481,6 +496,7 @@ function volumeDown() {
 
 function repeatVideo(noPopup = false) {
   const settingsContent = document.getElementById("settingsContent");
+  const repeatA = document.getElementById("repeatA");
 
   if (repeat) {
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
@@ -501,6 +517,9 @@ function repeatVideo(noPopup = false) {
 
     if (!noPopup) popup("⟳ | The video is now repeated.");
   }
+
+  if (repeatA?.className == "green") repeatA.className = "red";
+  else if (repeatA?.className == "red") repeatA.className = "green";
 }
 
 /************************************************************************************************\
@@ -547,7 +566,7 @@ function map(contextMenu = false, page) {
       `All ${videos.length} videos: ${videos
         .map(
           ({ path, name, artists }) =>
-            `"<a onclick="redirect('../${
+            `<a onclick="redirect('../${
               typeof custom != "undefined" ? `../../custom/${page}` : ""
             }', '${path}', false, false, '0')" class="decorationA disclaimer">${name.replace(
               " ",
@@ -566,6 +585,7 @@ async function pauseVideo() {
   const videoE = document.getElementById("video");
   const paused = document.getElementById("paused");
   const settingsContent = document.getElementById("settingsContent");
+  const pauseA = document.getElementById("pauseA");
 
   if (videoE.paused) {
     videoE.classList.remove("blurred");
@@ -577,6 +597,8 @@ async function pauseVideo() {
       "Unpause",
       "Pause"
     );
+
+    if (pauseA) pauseA.innerHTML = "▶️";
   } else {
     videoE.classList.add("blurred");
     videoE.pause();
@@ -587,6 +609,8 @@ async function pauseVideo() {
       "Pause",
       "Unpause"
     );
+
+    if (pauseA) pauseA.innerHTML = "⏸️";
   }
 }
 
@@ -597,10 +621,14 @@ async function pauseVideo() {
 function muter() {
   const videoE = document.getElementById("video");
   const mute = document.getElementById("mute");
+  const muteA = document.getElementById("muteA");
 
   videoE.muted = !videoE.muted;
 
   mute.src = `${pathGen("img")}/${videoE.muted ? "muted" : "unmuted"}.svg`;
+
+  if (muteA && videoE.muted) muteA.innerHTML = "🔇";
+  else if (muteA) muteA.innerHTML = "🔊";
 }
 
 /************************************************************************************************\
@@ -714,11 +742,24 @@ async function popup(text, time = 2000, other = false) {
     let int = 0;
 
     const interval = setInterval(async function () {
-      const popupSpan = document.getElementById("popupSpan");
+      const progressBarSpan = document.getElementById("progressBarSpan");
+      const artistsSpan = document.getElementById("artistsSpan");
+      const timeSpan = document.getElementById("timeSpan");
+      const percent = percentF();
 
       if (popupE.innerHTML.includes("copied")) return clearInterval(interval);
 
-      popupSpan.innerHTML = progressBar("spanInner");
+      if (
+        lastPercent != percent ||
+        !artistsSpan?.innerHTML.split("b")[0] ==
+          progressBar("artists").split("b")[0] ||
+        !progressBarSpan?.innerHTML
+      )
+        progressBarSpan.innerHTML = progressBar();
+
+      artistsSpan.innerHTML = progressBar("artists");
+
+      timeSpan.innerHTML = progressBar("time");
 
       if (++int === 100) {
         await popupOut();
@@ -751,9 +792,9 @@ async function popupOut(booChange = true, waitt = true) {
 
   if (popupE.classList.contains("muchText")) textE.classList.remove("blurred");
 
-  if (booChange) popupVisible = false;
+  if (waitt) await wait(500);
 
-  if (waitt) await wait(1000);
+  if (booChange) popupVisible = false;
 }
 
 /************************************************************************************************\
@@ -837,59 +878,82 @@ function fiveSecForward() {
 
 function progressBar(popupThing = false) {
   const videoE = document.getElementById("video");
-
-  if (popupThing == "span")
-    return `<span id="popupSpan">${progressBar("spanInner")}</span>`;
-
-  if (popupThing == "spanInner")
-    return `▶ | <b>${video.name.replace(" ", "&nbsp;")}</b> by ${video.artists
-      .join(", ")
-      .replace(" ", "&nbsp;")} | ${
-      Math.round(vVolume * 100) / 10
-    }/10 <a onclick='muter()'>${
-      videoE.muted ? "🔇" : "🔊"
-    }</a><br />${progressBar()}`;
-
-  if (popupThing == "string")
-    return (
-      progressBar("span") +
-      `<br /><a onclick='popup(\`${location.protocol}//${location.host}${
-        typeof folder != undefined
-          ? `/${typeof folder != "undefined" ? folder : ""}`
-          : ""
-      }?p=${video.path}\`, 2000, "copy")'><b>Copy link</b></a>`
-    );
-
-  if (popupThing) return popup("", 5000, "info");
-
-  const percent = percentF() || 1;
+  const percent = percentF();
+  lastPercent = percent;
   const mins = Math.floor(videoE.currentTime / 60) % 60 || 0;
   const secs = Math.floor(videoE.currentTime % 60) || 0;
   const fullMins = Math.floor(videoE.duration / 60) % 60 || 0;
   const fullSecs = Math.floor(videoE.duration % 60) || 0;
+
+  if (popupThing == "string")
+    return `<span id="artistsSpan">${progressBar(
+      "artists"
+    )}</span><span id="progressBarSpan" style="white-space: nowrap;">${progressBar()}</span> <span id="timeSpan">${progressBar(
+      "time"
+    )}</span><br /><span id="controlsSpan">${progressBar("controls")}</span>`;
+
+  if (popupThing == "time")
+    return `${mins.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}&nbsp;/&nbsp;${fullMins
+      .toString()
+      .padStart(2, "0")}:${fullSecs.toString().padStart(2, "0")}`;
+
+  if (popupThing == "artists")
+    return `<b>${video.name.replace(" ", "&nbsp;")}</b> by ${video.artists
+      .join(", ")
+      .replace(" ", "&nbsp;")}<br />`;
+
+  if (popupThing == "controls")
+    return `<b><a title="Copy link" onclick="popup('${location.protocol}//${
+      location.host
+    }${typeof folder != "undefined" ? `/${folder}` : ""}?p=${
+      video.path
+    }', 2000, 'copy')">🔗</a>&nbsp;|&nbsp;<a title="Repeat/Unrepeat" id="repeatA" onclick="repeatVideo()" class="${
+      repeat ? "green" : "red"
+    }">⟳</a>&nbsp;|&nbsp;<a title="Pause/Unpause" id="pauseA" onclick="pauseVideo()">${
+      videoE.paused ? "⏸️" : "▶️"
+    }</a>&nbsp;|&nbsp;<a title="New video" onclick="playVideo()">⏭</a>&nbsp;|&nbsp;<a title="Mute/Unmute" id="muteA" onclick="muter()">${
+      videoE.muted ? "🔇" : "🔊"
+    }</a>&nbsp;<a onclick="volumeDown()">-</a>&nbsp;<span id="volumeSpan">${progressBar(
+      "volume"
+    )}</span>/10&nbsp;<a onclick="volumeUp()">+</a></b>`;
+
+  if (popupThing == "volume") return Math.round(vVolume * 100) / 10;
+
+  if (popupThing) return popup("", 5000, "info");
+
+  let bar = new Array(10).fill("═");
   const char = "▰";
-  const bar = "═════════".split("");
   const front = "╞";
   const end = "╡";
 
-  bar.splice(percent - 1, 0, char);
+  bar.splice(percent, 0, char);
 
-  return `${front}${bar.join("")}${end} ${mins
-    .toString()
-    .padStart(2, "0")}:${secs
-    .toString()
-    .padStart(2, "0")}&nbsp;/&nbsp;${fullMins
-    .toString()
-    .padStart(2, "0")}:${fullSecs.toString().padStart(2, "0")}`;
+  bar = bar.map((item, i) => {
+    if (item == char) return item;
+
+    return `<a onclick='skipTo(${i})'>${item}</a>`;
+  });
+
+  return `${front}${bar.join("")}${end}`;
 }
-
-// for loop 9x
 
 function percentF() {
   const videoE = document.getElementById("video");
 
   return Math.floor((videoE.currentTime / videoE.duration) * 10);
 }
+
+function skipTo(percent) {
+  const videoE = document.getElementById("video");
+
+  videoE.currentTime = (percent / 10) * videoE.duration;
+}
+
+/************************************************************************************************\
+*                                         MOBILE CHECK                                           *
+\************************************************************************************************/
 
 /************************************************************************************************\
 *                                           KEY EVENT                                            *
