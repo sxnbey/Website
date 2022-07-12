@@ -747,7 +747,8 @@ async function popup(text, time = 2000, other = false) {
       const timeSpan = document.getElementById("timeSpan");
       const percent = percentF();
 
-      if (popupE.innerHTML.includes("copied")) return clearInterval(interval);
+      if (!progressBarSpan || !artistsSpan || !timeSpan)
+        return clearInterval(interval);
 
       if (
         lastPercent != percent ||
@@ -950,10 +951,6 @@ function skipTo(percent) {
 
   videoE.currentTime = (percent / 10) * videoE.duration;
 }
-
-/************************************************************************************************\
-*                                         MOBILE CHECK                                           *
-\************************************************************************************************/
 
 /************************************************************************************************\
 *                                           KEY EVENT                                            *
