@@ -528,6 +528,7 @@ function repeatVideo(noPopup = false) {
 
 function restartVideo() {
   const videoE = document.getElementById("video");
+  const pauseA = document.getElementById("pauseA");
 
   videoE.classList.remove("blurred");
 
@@ -537,6 +538,8 @@ function restartVideo() {
     "Unpause",
     "Pause"
   );
+
+  if (pauseA) pauseA.innerHTML = "▶️";
 
   videoE.currentTime = 0;
   videoE.play();
