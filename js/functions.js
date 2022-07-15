@@ -765,7 +765,7 @@ async function popup(text, time = 2000, other = false) {
 
       timeSpan.innerHTML = progressBar("time");
 
-      if (++int === 100) {
+      if (++int == 140) {
         await popupOut();
 
         clearInterval(interval);
