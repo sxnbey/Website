@@ -93,4 +93,9 @@ const videos = [
     name: "Kalenji",
     artists: ["G.FiT", "Keanu"],
   },
+  {
+    path: "nachts-wach",
+    name: "Nachts wach",
+    artists: ["Miksu / Macloud", "makko"],
+  },
 ];

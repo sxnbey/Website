@@ -654,6 +654,11 @@ async function popup(text, time = 2000, other = false) {
   const popupE = document.getElementById("popup");
   const textE = document.getElementById("text");
 
+  if (other == "copy")
+    text = `${location.protocol}//${location.host}${
+      typeof folder != "undefined" ? `/${folder}` : ""
+    }?p=${video.path}`;
+
   // queue check
 
   if (
@@ -909,11 +914,7 @@ function progressBar(popupThing = false) {
       .replace(" ", "&nbsp;")}<br />`;
 
   if (popupThing == "controls")
-    return `<b><a title="Copy link" onclick="popup('${location.protocol}//${
-      location.host
-    }${typeof folder != "undefined" ? `/${folder}` : ""}?p=${
-      video.path
-    }', 2000, 'copy')">🔗</a>&nbsp;|&nbsp;<a title="Repeat/Unrepeat" id="repeatA" onclick="repeatVideo()" class="${
+    return `<b><a title="Copy link" onclick="popup('', 2000, 'copy')">🔗</a>&nbsp;|&nbsp;<a title="Repeat/Unrepeat" id="repeatA" onclick="repeatVideo()" class="${
       repeat ? "green" : "red"
     }">⟳</a>&nbsp;|&nbsp;<a title="Pause/Unpause" id="pauseA" onclick="pauseVideo()">${
       videoE.paused ? "⏸️" : "▶️"
