@@ -13,12 +13,6 @@ body {
   overflow-x: hidden;
 }
 
-body:not(.loaded) #paused,
-body:not(.loaded) #mute,
-body:not(.loaded) #settingsSVG {
-  display: none;
-}
-
 #video {
   position: absolute;
   right: 0;
@@ -541,6 +535,7 @@ a.animate:hover {
 
   #popup {
     top: 50vh;
+    max-width: 85vw;
   }
 
   #contextMenu {

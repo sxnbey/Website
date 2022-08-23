@@ -649,6 +649,7 @@ function wait(ms) {
 let popupQueue = [];
 let lastPopup;
 let popupVisible = false;
+let timer = 0;
 
 async function popup(text, time = 2000, other = false) {
   const popupE = document.getElementById("popup");
@@ -747,7 +748,7 @@ async function popup(text, time = 2000, other = false) {
   // info popup
 
   if (other == "info") {
-    let int = 0;
+    timer = 0;
 
     const interval = setInterval(async function () {
       const progressBarSpan = document.getElementById("progressBarSpan");
@@ -770,7 +771,7 @@ async function popup(text, time = 2000, other = false) {
 
       timeSpan.innerHTML = progressBar("time");
 
-      if (++int == 140) {
+      if (++timer == 140) {
         await popupOut();
 
         clearInterval(interval);
@@ -914,17 +915,17 @@ function progressBar(popupThing = false) {
       .replace(" ", "&nbsp;")}<br />`;
 
   if (popupThing == "controls")
-    return `<b><a title="Copy link" onclick="popup('', 2000, 'copy')">🔗</a>&nbsp;|&nbsp;<a title="Repeat/Unrepeat" id="repeatA" onclick="repeatVideo()" class="${
+    return `<b><a title="Copy link" onclick="clickManager('popup')">🔗</a>&nbsp;|&nbsp;<a title="Repeat/Unrepeat" id="repeatA" onclick="clickManager('repeat')" class="${
       repeat ? "green" : "red"
-    }">⟳</a>&nbsp;|&nbsp;<a title="Pause/Unpause" id="pauseA" onclick="pauseVideo()">${
+    }">⟳</a>&nbsp;|&nbsp;<a title="Pause/Unpause" id="pauseA" onclick="clickManager('pause')">${
       videoE.paused ? "⏸️" : "▶️"
-    }</a>&nbsp;|&nbsp;<a title="New video" onclick="playVideo()">⏭</a>&nbsp;|&nbsp;<br style="display: ${
-      mobileCheck() ? "block" : "none"
-    };" /><a title="Mute/Unmute" id="muteA" onclick="muter()">${
+    }</a>&nbsp;|&nbsp;<a title="New video" onclick="clickManager('playVideo')">⏭</a>&nbsp;|&nbsp;<a title="Mute/Unmute" id="muteA" onclick="clickManager('muter')">${
       videoE.muted ? "🔇" : "🔊"
-    }</a>&nbsp;<a onclick="volumeDown()">-</a>&nbsp;<span id="volumeSpan">${progressBar(
+    }</a>&nbsp;<br style="display: ${
+      mobileCheck() ? "block" : "none"
+    };" /><a onclick="clickManager('volumeDown')">-</a>&nbsp;<span id="volumeSpan">${progressBar(
       "volume"
-    )}</span>/10&nbsp;<a onclick="volumeUp()">+</a></b>`;
+    )}</span>/10&nbsp;<a onclick="clickManager('volumeUp')">+</a></b>`;
 
   if (popupThing == "volume") return Math.round(vVolume * 100) / 10;
 
@@ -956,6 +957,45 @@ function skipTo(percent) {
   const videoE = document.getElementById("video");
 
   videoE.currentTime = (percent / 10) * videoE.duration;
+}
+
+function clickManager(func) {
+  timer -= 60;
+
+  if (timer < 0) timer = 0;
+
+  switch (func) {
+    default:
+      break;
+
+    case "popup":
+      popup("", 2000, "copy");
+      break;
+
+    case "repeat":
+      repeatVideo();
+      break;
+
+    case "pause":
+      pauseVideo();
+      break;
+
+    case "playVideo":
+      playVideo();
+      break;
+
+    case "muter":
+      muter();
+      break;
+
+    case "volumeDown":
+      volumeDown();
+      break;
+
+    case "volumeUp":
+      volumeUp();
+      break;
+  }
 }
 
 /************************************************************************************************\
