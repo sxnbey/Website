@@ -20,6 +20,7 @@ const videos = [
     name: "For the Last Time",
     artists: ["$uicideboy$"],
   },
+  { path: "matte-black", name: "Matte Black", artists: ["$uicideboy$"] },
   { path: "oxycodon", name: "Oxycodon", artists: ["t-low"] },
   { path: "bankaccount", name: "BANKACCOUNT", artists: ["t-low"] },
   {

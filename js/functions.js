@@ -941,7 +941,7 @@ function progressBar(popupThing = false) {
   bar = bar.map((item, i) => {
     if (item == char) return item;
 
-    return `<a onclick='skipTo(${i})'>${item}</a>`;
+    return `<a onclick='clickManager("skipTo", ${i})'>${item}</a>`;
   });
 
   return `${front}${bar.join("")}${end}`;
@@ -959,7 +959,7 @@ function skipTo(percent) {
   videoE.currentTime = (percent / 10) * videoE.duration;
 }
 
-function clickManager(func) {
+function clickManager(func, skipToPoint) {
   timer -= 60;
 
   if (timer < 0) timer = 0;
@@ -994,6 +994,10 @@ function clickManager(func) {
 
     case "volumeUp":
       volumeUp();
+      break;
+
+    case "skipTo":
+      skipTo(skipToPoint);
       break;
   }
 }
