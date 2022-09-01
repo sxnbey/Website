@@ -19,10 +19,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const mute = document.getElementById("mute");
   const settingsSVG = document.getElementById("settingsSVG");
   const settings = document.getElementById("settings");
+  const paused = document.getElementById("paused");
   const h1 = document.getElementById("h1");
   const a = Array.from(document.getElementsByTagName("a")).filter((i) =>
     i.classList.contains("animate")
   );
+
+  paused.style = "";
 
   /************************************************************************************************\
   *                                       iOS CHECK STUFF                                          *
