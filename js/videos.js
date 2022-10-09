@@ -1,4 +1,4 @@
-const videos = [
+var videos = [
   { path: "keep-my-coo", name: "Keep My Coo", artists: ["Lil Peep"] },
   { path: "live-forever", name: "Live Forever", artists: ["Lil Peep"] },
   { path: "gym-class", name: "Gym Class", artists: ["Lil Peep"] },
@@ -26,15 +26,20 @@ const videos = [
   {
     path: "vorsichtig",
     name: "Vorsichtig",
-    artists: ["t-low", "Sevi Rin", "Heinie Nüchtern"],
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
   },
   {
     path: "fliegen-laesst",
     name: "Fliegen lässt",
-    artists: ["t-low", "Sevi Rin", "Heinie Nüchtern"],
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
   },
   { path: "besser-allein", name: "Besser allein", artists: ["Sevi Rin"] },
   { path: "aufgehoert", name: "Aufgehört", artists: ["Sevi Rin", "t-low"] },
+  {
+    path: "fuer-immer",
+    name: "Für Immer",
+    artists: ["Sevi Rin", "Young Lime"],
+  },
   {
     path: "jungs-mit-rueckgrat",
     name: "Jungs mit Rückgrat",
@@ -98,5 +103,94 @@ const videos = [
     path: "nachts-wach",
     name: "Nachts wach",
     artists: ["Miksu / Macloud", "makko"],
+  },
+];
+
+const litkidsVideos = [
+  { path: "litkids-goldrausch", name: "Goldrausch", artists: ["negatiiv OG"] },
+  {
+    path: "litkids-crashen",
+    name: "Crashen",
+    artists: ["t-low"],
+  },
+  {
+    path: "litkids-we-made-it-1",
+    name: "We Made It 1",
+    artists: ["t-low"],
+  },
+  {
+    path: "litkids-we-made-it-2",
+    name: "We Made It 2",
+    artists: ["t-low"],
+  },
+  {
+    path: "litkids-geh-allein",
+    name: "Geh Allein",
+    artists: ["t-low"],
+  },
+  {
+    path: "litkids-Sehnsucht",
+    name: "Sehnsucht",
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
+  },
+  {
+    path: "litkids-aufgehoert",
+    name: "Aufgehört",
+    artists: ["Sevi Rin", "t-low"],
+  },
+  {
+    path: "litkids-beautiful-drugs",
+    name: "Beatiful Drugs",
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
+  },
+  {
+    path: "litkids-beautiful-drugs-zugabe",
+    name: "Beatiful Drugs encore",
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
+  },
+  {
+    path: "litkids-bin-1-litkid",
+    name: "Bin 1 LiTKiD",
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
+  },
+  {
+    path: "litkids-dumm-gehen-will",
+    name: "Dumm gehen will",
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
+  },
+  {
+    path: "litkids-flasche-leer",
+    name: "Flasche leer",
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
+  },
+  {
+    path: "litkids-fliegen-laesst",
+    name: "Fliegen lässt",
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
+  },
+  {
+    path: "litkids-lebenswerk",
+    name: "Lebenswerk",
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
+  },
+  {
+    path: "litkids-sprite-fuer-mich",
+    name: "Sprite für mich",
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
+  },
+  {
+    path: "litkids-vorsichtig-1",
+    name: "Vorsichtig 1",
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
+  },
+  {
+    path: "litkids-vorsichtig-2",
+    name: "Vorsichtig 2",
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
+  },
+  {
+    path: "litkids-vorsichtig-3",
+    name: "Vorsichtig 3",
+    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
   },
 ];

@@ -3,10 +3,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>About me page of senbey.net</title>
+    <title>LiTKiDS concert page of senbey.net</title>
     <script src="../js/libraries/jQuery.js"></script>
     <script src="../js/libraries/js-cookie.js"></script>
     <script src="../js/videos.js?version=17"></script>
+    <script>
+      const custom = true;
+      const folder = "litkids";
+      videos = litkidsVideos;
+    </script>
     <script src="../js/functions.js?version=78"></script>
     <link rel="stylesheet" type="text/css" href="../css/style.css?version=86" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -19,19 +24,19 @@
     <!-- META TAGS -->
 
     <meta name="viewport" content="user-scalable=no" />
-    <meta name="title" content="senbey.net - About me" />
+    <meta name="title" content="senbey.net - LiTKiDS concert page" />
     <meta charset="utf-8" />
     <meta name="author" content="senbey" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="This is the about me page of senbey.net. Here you can find all information about me."
+      content="A page to view the LiTKiDS concert videos I took."
     />
-    <meta property="og:url" content="https://senbey.net/about-me/" />
-    <meta property="og:title" content="senbey.net - About me" />
+    <meta property="og:url" content="https://senbey.net/" />
+    <meta property="og:title" content="senbey.net - LiTKiDS concert page" />
     <meta
       property="og:description"
-      content="This is the about me page of senbey.net. Here you can find all information about me."
+      content="A page to view the LiTKiDS concert videos I took."
     />
     <meta property="og:site_name" content="senbey.net" />
     <meta property="og:type" content="website" />
@@ -78,37 +83,34 @@
     <link rel="shortcut icon" href="../img/favicon/favicon.ico" />
   </head>
 
-  <body ondragstart="return false">
-    <video autoplay muted playsinline style="opacity: 0" id="video">
-      <source src="../media/keep-my-coo.mp4" type="video/mp4" />
+  <body ondragstart="return false" id="main">
+    <video
+      autoplay
+      muted
+      playsinline
+      style="opacity: 0"
+      id="video"
+      class="litkids"
+    >
+      <source src="../media/custom/LiTKiDS-vorsichtig-1.mp4" type="video/mp4" />
     </video>
 
-    <img src="../img/paused.svg" alt="Paused" id="paused" class="blurred" />
+    <img
+      src="../img/paused.svg"
+      alt="Paused"
+      id="paused"
+      class="blurred"
+      style="display: none"
+    />
 
-    <div id="text">
+    <div id="text" class="main">
+      <h1 id="h1" onclick="progressBar(true)">LiTKiDS</h1>
+
+      <br />
+
       <p>
-        Hey, my name is Niclas and I'm an 18 years old student from Germany. I'm
-        interested in (mainly Japanese) cars and any kind of front-end web
-        development, although I'm more focused on Node.js.
-        <br />
-        <br />
-        I don't do much in my free time besides programming or playing video
-        games, but I do listen to a lot of music and my favorites include Lil
-        Peep, $uicideboy$ and t-low.
-        <a
-          onclick="playVideo('fuer-immer', false, false, true)"
-          class="decorationA"
-          >This</a
-        >
-        is my favorite song right now.
-        <br />
-        <br />
-        Currently I'm still working on this website and on a rework of my
-        <a href="../bot" target="_blank" class="decorationA">Discord bot</a>. I
-        did most of my JavaScript experience in Node.js with my bot and at one
-        point I got interested in building websites until I started coding my
-        own. So far I've been working on this version of my website since
-        October and I keep getting ideas to improve my site.
+        These are these videos I took at the LiTKiDS tour in Hannover on
+        14.09.2022.
       </p>
     </div>
 
@@ -146,7 +148,7 @@
       class="svg"
     />
 
-    <div id="popup" class="muchText"></div>
+    <div id="popup"></div>
 
     <div
       id="contextMenu"

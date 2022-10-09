@@ -28,6 +28,11 @@ body {
   -o-transition: all 300ms;
 }
 
+.litkids {
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
 .svg {
   transition: all 300ms;
   -moz-transition: all 300ms;

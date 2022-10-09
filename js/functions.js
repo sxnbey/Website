@@ -572,7 +572,7 @@ function map(contextMenu = false, page) {
       `All ${videos.length} videos: ${videos
         .map(
           ({ path, name, artists }) =>
-            `<a onclick="redirect('../${
+            `"<a onclick="redirect('../${
               typeof custom != "undefined" ? `../../custom/${page}` : ""
             }', '${path}', false, false, '0')" class="decorationA disclaimer">${name.replace(
               " ",
