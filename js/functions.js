@@ -73,7 +73,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!videoE.paused) {
         pauseVideo();
 
-        popup("⚠ | The video was paused for 10s due to buffering.");
+        popup(
+          "⚠ | The video was paused for 10s due to buffering.\nFYI: You can still unpause the video."
+        );
 
         await wait(10000);
 

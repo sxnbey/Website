@@ -33,6 +33,11 @@ var videos = [
     name: "Fliegen lässt",
     artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
   },
+  {
+    path: "verdient",
+    name: "Verdient",
+    artists: ["Yung Vision", "Heinie Nüchtern", "Doktor Sterben"],
+  },
   { path: "besser-allein", name: "Besser allein", artists: ["Sevi Rin"] },
   { path: "aufgehoert", name: "Aufgehört", artists: ["Sevi Rin", "t-low"] },
   {
@@ -114,6 +119,11 @@ const litkidsVideos = [
     artists: ["t-low"],
   },
   {
+    path: "litkids-sehnsucht",
+    name: "Sehnsucht",
+    artists: ["t-low"],
+  },
+  {
     path: "litkids-we-made-it-1",
     name: "We Made It 1",
     artists: ["t-low"],
@@ -127,11 +137,6 @@ const litkidsVideos = [
     path: "litkids-geh-allein",
     name: "Geh Allein",
     artists: ["t-low"],
-  },
-  {
-    path: "litkids-Sehnsucht",
-    name: "Sehnsucht",
-    artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
   },
   {
     path: "litkids-aufgehoert",
