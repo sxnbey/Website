@@ -34,6 +34,11 @@ var videos = [
     artists: ["Heinie Nüchtern", "t-low", "Sevi Rin"],
   },
   {
+    path: "bestes-leben-remix",
+    name: "Bestes Leben (Remix)",
+    artists: ["Heinie Nüchtern", "t-low"],
+  },
+  {
     path: "verdient",
     name: "Verdient",
     artists: ["Yung Vision", "Heinie Nüchtern", "Doktor Sterben"],
@@ -41,10 +46,16 @@ var videos = [
   { path: "besser-allein", name: "Besser allein", artists: ["Sevi Rin"] },
   { path: "aufgehoert", name: "Aufgehört", artists: ["Sevi Rin", "t-low"] },
   {
+    path: "einmal-verliebt-3",
+    name: "Einmal verliebt 3",
+    artists: ["Sevi Rin"],
+  },
+  {
     path: "fuer-immer",
     name: "Für Immer",
     artists: ["Sevi Rin", "Young Lime"],
   },
+
   {
     path: "jungs-mit-rueckgrat",
     name: "Jungs mit Rückgrat",

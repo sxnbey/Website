@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         playVideo(
           cookieCheck() && // just to make sure the cookies store a video and the current site is the main page
-            url.toString().replace(/[^=]/g, "").length != 1 && // is to make sure that the url is not one attribute long
+            url.toString().replace(/[^=]/g, "").length != 1 && // is to make sure that the video from the url gets played if the one attribute is a video
             !url.find((u) => u == "c=0") // is to make sure that the url is not from the disclaimer page
             ? Cookies.get("path") // is both true, the video from the cookie is played
             : !videos.find(({ path }) => path == i[1]) // if not, it checks if the video from the url is not in the videos array
@@ -157,8 +157,8 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
 
       case "m":
-        if (i[1] == "false") muter();
-        break;
+        if (i[1] == "false" && url.toString().replace(/[^=]/g, "").length != 1)
+          break;
 
       case "v":
         if (i[1] >= 0.1 && i[1] <= 1) vVolume = i[1];
