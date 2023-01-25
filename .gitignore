@@ -1,5 +1,7 @@
 media/
 img/
 .htaccess
+.htpasswd
+panel/
 custom/
 libraries/

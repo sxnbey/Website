@@ -10,6 +10,7 @@ let repeat = false;
 let video = newVideoF();
 let vVolume = 0.3;
 let lastPercent;
+let pausedBoo;
 
 history.pushState(null, null, location.href.split("?")[0]);
 
@@ -19,13 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const mute = document.getElementById("mute");
   const settingsSVG = document.getElementById("settingsSVG");
   const settings = document.getElementById("settings");
-  const paused = document.getElementById("paused");
   const h1 = document.getElementById("h1");
   const a = Array.from(document.getElementsByTagName("a")).filter((i) =>
     i.classList.contains("animate")
   );
-
-  paused.style = "";
 
   /************************************************************************************************\
   *                                       iOS CHECK STUFF                                          *
@@ -139,7 +137,11 @@ document.addEventListener("DOMContentLoaded", function () {
         break;
 
       case "p":
-        if (url.some((i) => i == "s=true")) urlBoo = "paused";
+        if (url.some((i) => i == "s=true")) {
+          urlBoo = "paused";
+
+          pausedBoo = true;
+        }
 
         if (urlBoo != "paused") urlBoo = true;
 
@@ -158,7 +160,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       case "m":
         if (i[1] == "false" && url.toString().replace(/[^=]/g, "").length != 1)
-          break;
+          muter();
+        break;
 
       case "v":
         if (i[1] >= 0.1 && i[1] <= 1) vVolume = i[1];
@@ -297,6 +300,8 @@ document.addEventListener("DOMContentLoaded", function () {
       settingsSVG.classList.remove("hover");
     })
   );
+
+  srcPause();
 });
 
 /************************************************************************************************\
@@ -620,6 +625,14 @@ async function pauseVideo() {
 
     if (pauseA) pauseA.innerHTML = "⏸️";
   }
+}
+
+async function srcPause() {
+  const paused = document.getElementById("paused");
+
+  if (!paused) await wait(300);
+
+  paused.src = `${pathGen("img")}/paused.svg`;
 }
 
 /************************************************************************************************\
