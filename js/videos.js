@@ -21,6 +21,11 @@ var videos = [
     artists: ["$uicideboy$"],
   },
   { path: "matte-black", name: "Matte Black", artists: ["$uicideboy$"] },
+  {
+    path: "new-chains-same-shackles",
+    name: "New Chains, Same Shackles",
+    artists: ["$uicideboy$"],
+  },
   { path: "oxycodon", name: "Oxycodon", artists: ["t-low"] },
   { path: "bankaccount", name: "BANKACCOUNT", artists: ["t-low"] },
   {
@@ -38,6 +43,7 @@ var videos = [
     name: "Bestes Leben (Remix)",
     artists: ["Heinie Nüchtern", "t-low"],
   },
+  { path: "80ox", name: "80 O X", artists: ["Heinie Nüchtern"] },
   {
     path: "verdient",
     name: "Verdient",
@@ -55,7 +61,12 @@ var videos = [
     name: "Für Immer",
     artists: ["Sevi Rin", "Young Lime"],
   },
-
+  { path: "heisshunger", name: "Heißhunger", artists: ["Sevi Rin"] },
+  {
+    path: "perky-bag",
+    name: "Perky Bag",
+    artists: ["Sevi Rin", "killdummies"],
+  },
   {
     path: "jungs-mit-rueckgrat",
     name: "Jungs mit Rückgrat",
