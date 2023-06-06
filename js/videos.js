@@ -26,6 +26,11 @@ var videos = [
     name: "New Chains, Same Shackles",
     artists: ["$uicideboy$"],
   },
+  {
+    path: "gutter-bravado",
+    name: "Gutter Bravado",
+    artists: ["$uicideboy$", "Shakewell"],
+  },
   { path: "oxycodon", name: "Oxycodon", artists: ["t-low"] },
   { path: "bankaccount", name: "BANKACCOUNT", artists: ["t-low"] },
   {
