@@ -56,6 +56,7 @@ var videos = [
   },
   { path: "besser-allein", name: "Besser allein", artists: ["Sevi Rin"] },
   { path: "aufgehoert", name: "Aufgehört", artists: ["Sevi Rin", "t-low"] },
+  { path: "geheimnis-2", name: "Geheimnis 2", artists: ["Sevi Rin", "t-low"] },
   {
     path: "einmal-verliebt-3",
     name: "Einmal verliebt 3",
