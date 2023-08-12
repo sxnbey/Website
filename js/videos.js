@@ -27,6 +27,11 @@ var videos = [
     artists: ["$uicideboy$"],
   },
   {
+    path: "suicideboys-were-better-in-2015",
+    name: "$uicideboy$ were better in 2015",
+    artists: ["$uicideboy$"],
+  },
+  {
     path: "gutter-bravado",
     name: "Gutter Bravado",
     artists: ["$uicideboy$", "Shakewell"],
