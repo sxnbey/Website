@@ -2,19 +2,23 @@
 *                                          DECLARATION                                           *
 \************************************************************************************************/
 
-// WEITER DIE VARIABLEN ZUORDNEN UND DANN ANFANGEN FUNCTIONS UMZUSCHREIBEN
+// Declaration of the "global" variables (just the ones that are used more frequently).
 
-const url = location.search.substring(1).toLowerCase().split("&");
+const params = Array.from(new URLSearchParams(location.search));
 let usedVideos = [];
 let previousVideo;
 let repeat = false;
 let video = newVideoF();
 let vVolume = 0.3;
-let lastPercent;
+let videoStarted = false;
+
+// Removing the search query parameters from the URL.
 
 history.pushState(null, null, location.href.split("?")[0]);
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Declaration of every element I often need.
+
   const contextMenu = getEl("contextMenu");
   const videoE = getEl("video");
   const mute = getEl("mute");
@@ -29,6 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                        404 PAGE STUFF                                          *
   \************************************************************************************************/
 
+  // It adds the path you tried to visit to the 404 page.
+
   if (document.getElementsByClassName("404")[0]) {
     getEl("errorPath").innerHTML =
       location.pathname == "/errors/404.html"
@@ -42,7 +48,11 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                       BUFFERING STUFF                                          *
   \************************************************************************************************/
 
+  // Counts the times it already buffered.
+
   let bufferCount = 0;
+
+  // That code gets executed when the video buffers. If it has buffered 3 times, it will pause for 10s and inform you.
 
   videoE.addEventListener("waiting", async function () {
     if (videoE.networkState == 2 && videoE.currentTime > 0.2) bufferCount++;
@@ -68,6 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                CONTEXT MENU AND VOLUME STUFF                                   *
   \************************************************************************************************/
 
+  // The stuff for the context (right click) menu.
+
   document.body.addEventListener("contextmenu", function (e) {
     contextMenu.style = `display: block; --mouse-x: ${
       e.clientX - 30
@@ -75,6 +87,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     e.preventDefault();
   });
+
+  // This is for the mobile users so the context menu closes.
 
   document.body.addEventListener("click", function (e) {
     if (
@@ -86,70 +100,67 @@ document.addEventListener("DOMContentLoaded", function () {
       contextMenu.style.display = "none";
   });
 
-  videoE.volume = vVolume;
-
-  mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
-  mute.addEventListener("wheel", function (e) {
-    volume(e);
-  });
-
   /************************************************************************************************\
   *                                        URL CHECK STUFF                                         *
   \************************************************************************************************/
 
-  let urlBoo = false;
-  let pausedBoo;
+  // All possible search query parameters:
+  // p = Path of the video
+  // m = If the videos is muted or not
+  // v = Volume of the video
+  // c = Current time of the video
+  // r = If the videos is on repeat or not
+  // s = If the video is paused or not
+
+  let pausedByURL = false;
 
   videoE.addEventListener("play", function () {
-    if (urlBoo == "paused") {
+    if (pausedByURL) {
       pauseVideo();
 
-      urlBoo = true;
+      pausedByURL = false;
     }
   });
 
-  ["p=", "m=", "v=", "c=", "r="].forEach((i) => urlCheck(i));
+  params.forEach((i) => {
+    if (!params.toString().includes("p,")) return;
+    if (params.some((i) => i.toString() == "s,true")) pausedByURL = true;
 
-  url.forEach((i) => {
-    i = i.split("=");
+    // Object als switch case hier machen!!!!
+  });
 
-    if (!url.toString().includes("p=")) return;
+  params.forEach((i) => {
+    if (!params.toString().includes("p,")) return;
+    if (params.some((i) => i.toString() == "s,true")) pausedByURL = true;
 
     switch (i[0]) {
       default:
         break;
 
       case "p":
-        if (url.some((i) => i == "s=true")) {
-          urlBoo = "paused";
-
-          pausedBoo = true;
-        }
-
-        if (urlBoo != "paused") urlBoo = true;
+        videoStarted = true;
 
         playVideo(
-          cookieCheck() && // just to make sure the cookies store a video and the current site is the main page
-            url.toString().replace(/[^=]/g, "").length != 1 && // is to make sure that the video from the url gets played if the one attribute is a video
-            !url.find((u) => u == "c=0") // is to make sure that the url is not from the disclaimer page
-            ? Cookies.get("path") // is both true, the video from the cookie is played
-            : !videos.find(({ path }) => path == i[1]) // if not, it checks if the video from the url is not in the videos array
-            ? video // if true, if plays the default video
-            : i[1], // if false, it plays the url video
+          cookieCheck() && // It's to make sure the video from the cookies gets played.
+            params.toString().replace(/[^,]+/g, "").length != 1 && // This is to make sure the URL is not the link from the copy link button.¹
+            !params.find((u) => u == "c=0") // This is to make sure the URL is not from the disclaimer page.¹
+            ? Cookies.get("path") // If the URL is not from the disclaimer page and not from the copy link button, the video in the cookies starts.
+            : videos.find(({ path }) => path == i[1]) // Then it checks if the video in the URL even exists.
+            ? i[1] // If the video exists, it starts.
+            : video, // If it doesn't exist, the default video starts.
           false,
           true
         );
+
+        // ¹ It checks for "special" URLs because they have a higher priority than the cookie.
         break;
 
       case "m":
-        if (i[1] == "false" && url.toString().replace(/[^=]/g, "").length != 1)
-          muter();
+        if (i[1] == "false") muter();
         break;
 
       case "v":
-        if (i[1] >= 0.1 && i[1] <= 1) vVolume = i[1];
-
-        mute.title = `Current volume: ${i[1] * 10}/10`;
+        if (i[1] >= 0.1 && i[1] <= 1) vVolume = i[1]; // To make sure the volume is not too high or too low.
         break;
 
       case "c":
@@ -163,15 +174,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  function urlCheck(param) {
-    const checkArr = url.filter((i) => i.startsWith(param));
-    checkArr.shift();
-    checkArr.forEach((i) => url.splice(url.indexOf(i), 1));
-  }
-
   /************************************************************************************************\
   *                                          COOKIE STUFF                                          *
   \************************************************************************************************/
+
+  // The cookie popup when you first visit the site or don't have any cookies.
 
   if (typeof custom == "undefined") {
     if (!Cookies.get("cookiesAccepted"))
@@ -181,13 +188,20 @@ document.addEventListener("DOMContentLoaded", function () {
         "cookie"
       );
 
-    if (cookieCheck() && !urlBoo) {
-      playVideo(Cookies.get("path"), false, true);
+    // Setting the current time of the video to the time saved in the cookies.
+
+    if (cookieCheck() && !pausedByURL) {
+      if (!pausedByURL && !videoStarted)
+        playVideo(Cookies.get("path"), false, true);
 
       videoE.currentTime = Cookies.get("currentTime");
 
-      urlBoo = true;
+      videoStarted = true;
+
+      pausedByURL = false;
     }
+
+    // Setting the cookie everytime the video updates it's time.
 
     videoE.addEventListener("timeupdate", function () {
       if (Cookies.get("cookiesAccepted") == "true") {
@@ -197,15 +211,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  /************************************************************************************************\
-  *                                     STARTING THE VIDEO                                         *
-  \************************************************************************************************/
+  // If it's not paused by the URL, the video starts.
 
-  if (!urlBoo) playVideo(video, false, true);
+  if (!pausedByURL && !videoStarted) playVideo(video, false, true);
 
-  /************************************************************************************************\
-  *                                      CALLING THE LOOP                                          *
-  \************************************************************************************************/
+  // The title of the mute button and the event.
+
+  muteTitle();
+
+  mute.addEventListener("wheel", function (e) {
+    volume(e);
+  });
+
+  // Calling the loop function for the title.
 
   requestAnimationFrame(loop);
 
@@ -213,9 +231,13 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                     ERROR AND END EVENT                                        *
   \************************************************************************************************/
 
+  // It starts playing a new video, if the current video isn't available or if any error happens.
+
   videoE.addEventListener("error", function () {
     playVideo(video, true);
   });
+
+  // Either repeats the video or plays a new one when the video ended.
 
   videoE.addEventListener("ended", function () {
     if (!repeat) playVideo(video);
@@ -226,12 +248,18 @@ document.addEventListener("DOMContentLoaded", function () {
   *                                EVERYTHING CSS/ANIMATION RELATED                                *
   \************************************************************************************************/
 
+  // To apply the hover animation to the h1 and the a's.
+
   [h1, ...a].forEach((i) => animation(i));
+
+  // Because the settings hover menu didn't work how I wanted, I just made classes for them and add them on hover.
 
   settingsSVG.addEventListener("mouseover", function () {
     settings.classList.add("hover");
     settingsSVG.classList.add("hover");
   });
+
+  // It removes the classes when you stop hovering. It waits 50ms just in case you missed the settings by a few pixels.
 
   [settings, settingsSVG].forEach((el) =>
     el.addEventListener("mouseout", async function () {
@@ -244,165 +272,16 @@ document.addEventListener("DOMContentLoaded", function () {
     })
   );
 
-  /************************************************************************************************\
-  *                                         PROLLY USELESS                                         * 
-  \************************************************************************************************/
+  // I made that because sometimes you would see the paused picture on page load. I'm sure it's useless, but fök it.
 
   srcPause();
 });
 
 /************************************************************************************************\
-*                                        COOKIE FUNCTIONS                                        *
-\************************************************************************************************/
-
-function cookieYesF() {
-  Cookies.set("cookiesAccepted", true, { expires: 365 });
-}
-
-function cookieNoF() {
-  Cookies.set("cookiesAccepted", false, { expires: 365 });
-  Cookies.remove("currentTime");
-  Cookies.remove("path");
-}
-
-function cookieCheck() {
-  return Cookies.get("cookiesAccepted") == "true" &&
-    Cookies.get("currentTime") &&
-    Cookies.get("path") &&
-    typeof custom == "undefined"
-    ? true
-    : false;
-}
-
-function removeAllCookies() {
-  Cookies.remove("cookiesAccepted");
-  Cookies.remove("currentTime");
-  Cookies.remove("path");
-
-  popup("✓ | All cookies have been deleted.");
-}
-
-/************************************************************************************************\
-*                                    VIDEO MANAGER FUNCTIONS                                     *
-\************************************************************************************************/
-
-function playPreviousVideo() {
-  if (previousVideo) playVideo(previousVideo, false, false, true);
-  else popup("⚠ | There is no previous video.");
-}
-
-async function playVideo(
-  vid = video,
-  err = false,
-  pageLoad = false,
-  ignoreIfUsed = false
-) {
-  const videoE = getEl("video");
-  const paused = getEl("paused");
-  const settingsContent = getEl("settingsContent");
-  const contextMenu = getEl("contextMenu");
-  const pauseA = getEl("pauseA");
-  const repeatA = getEl("repeatA");
-  const apple = navigator.vendor == "Apple Computer, Inc.";
-
-  if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
-
-  video = vid;
-
-  if (pageLoad && apple) videoE.autoplay = false;
-
-  if (
-    (usedVideos.includes(vid) &&
-      usedVideos.length != videos.length &&
-      !ignoreIfUsed) ||
-    err
-  ) {
-    video = newVideoF();
-
-    playVideo();
-  } else {
-    if (pageLoad) {
-      videoE.volume = 0;
-      videoE.style.opacity = 0;
-    }
-
-    contextMenu.innerHTML = map(true);
-
-    bufferCount = 0;
-
-    if (usedVideos.length >= videos.length) usedVideos = [];
-
-    if (!pageLoad) previousVideo = videoE.src.split("/")[4].split(".")[0];
-
-    $("#video").animate(
-      {
-        volume: 0,
-        opacity: 0,
-      },
-      300
-    );
-
-    await wait(!pageLoad ? 300 : 0);
-
-    videoE.src = `${pathGen("media")}/${vid.path}.mp4`;
-
-    if (!(pageLoad && apple)) videoE.play();
-    else {
-      videoE.classList.add("blurred");
-
-      paused.classList.add("visible");
-
-      settingsContent.innerHTML = settingsContent.innerHTML.replace(
-        "Pause",
-        "Unpause"
-      );
-    }
-
-    $("#video").animate(
-      {
-        volume: vVolume,
-        opacity: 1,
-      },
-      300
-    );
-
-    if (!pageLoad)
-      popup(
-        `▶ | Now playing: <b>${vid.name.replace(
-          " ",
-          "&nbsp;"
-        )}</b> by ${vid.artists.join(", ").replace(" ", "&nbsp;")}`
-      );
-
-    if (!(pageLoad && apple)) {
-      videoE.classList.remove("blurred");
-
-      paused.classList.remove("visible");
-
-      settingsContent.innerHTML = settingsContent.innerHTML.replace(
-        "Unpause",
-        "Pause"
-      );
-
-      settingsContent.innerHTML = settingsContent.innerHTML.replace(
-        "Unrepeat",
-        "Repeat"
-      );
-
-      if (pauseA) pauseA.innerHTML = "▶️";
-
-      if (repeatA) repeatA.className = "red";
-    }
-
-    repeat = false;
-
-    if (!usedVideos.includes(video)) usedVideos.push(video);
-  }
-}
-
-/************************************************************************************************\
 *                                           KEY EVENT                                            *
 \************************************************************************************************/
+
+// Pretty self explanatory.
 
 document.addEventListener("keydown", function (e) {
   if (!["KeyR", "F5"].some((i) => i == e.code)) e.preventDefault();
@@ -457,18 +336,11 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-//  $$$$$$\  $$$$$$$$\ $$\   $$\ $$$$$$$\  $$$$$$$$\ $$\     $$\
-// $$  __$$\ $$  _____|$$$\  $$ |$$  __$$\ $$  _____|\$$\   $$  |
-// $$ /  \__|$$ |      $$$$\ $$ |$$ |  $$ |$$ |       \$$\ $$  /
-// \$$$$$$\  $$$$$\    $$ $$\$$ |$$$$$$$\ |$$$$$\      \$$$$  /
-//  \____$$\ $$  __|   $$ \$$$$ |$$  __$$\ $$  __|      \$$  /
-// $$\   $$ |$$ |      $$ |\$$$ |$$ |  $$ |$$ |          $$ |
-// \$$$$$$  |$$$$$$$$\ $$ | \$$ |$$$$$$$  |$$$$$$$$\     $$ |
-//  \______/ \________|\__|  \__|\_______/ \________|    \__|
-
 /************************************************************************************************\
-  *                                       iOS CHECK STUFF                                          *
-  \************************************************************************************************/
+*                                       iOS CHECK STUFF                                          *
+\************************************************************************************************/
+
+// It gives a warning popup if you're using an iOS device. Currently not in use, as the site probably works on iOS.
 
 // if (
 //   [
@@ -485,3 +357,12 @@ document.addEventListener("keydown", function (e) {
 //     "⚠ | It seems that you are using an iOS device. This website is not optimized for iOS devices as I am not able to test the site on them.",
 //     5000
 //   );
+
+//  $$$$$$\  $$$$$$$$\ $$\   $$\ $$$$$$$\  $$$$$$$$\ $$\     $$\
+// $$  __$$\ $$  _____|$$$\  $$ |$$  __$$\ $$  _____|\$$\   $$  |
+// $$ /  \__|$$ |      $$$$\ $$ |$$ |  $$ |$$ |       \$$\ $$  /
+// \$$$$$$\  $$$$$\    $$ $$\$$ |$$$$$$$\ |$$$$$\      \$$$$  /
+//  \____$$\ $$  __|   $$ \$$$$ |$$  __$$\ $$  __|      \$$  /
+// $$\   $$ |$$ |      $$ |\$$$ |$$ |  $$ |$$ |          $$ |
+// \$$$$$$  |$$$$$$$$\ $$ | \$$ |$$$$$$$  |$$$$$$$$\     $$ |
+//  \______/ \________|\__|  \__|\_______/ \________|    \__|

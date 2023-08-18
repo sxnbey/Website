@@ -74,7 +74,7 @@ function volumeUp() {
 
     vVolume = videoE.volume;
 
-    mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
+    muteTitle();
   } else popup("⚠ | The volume is on maximum.");
 
   if (volumeSpan) volumeSpan.innerHTML = progressBar("volume");
@@ -91,7 +91,7 @@ function volumeDown() {
 
     vVolume = videoE.volume;
 
-    mute.title = `Current volume: ${Math.round(videoE.volume * 100) / 10}/10`;
+    muteTitle();
   } else popup("⚠ | The volume is on minimum.");
 
   if (volumeSpan) volumeSpan.innerHTML = progressBar("volume");
@@ -646,4 +646,157 @@ function mobileCheck() {
 
 function getEl(el) {
   return document.getElementById(el);
+}
+
+/************************************************************************************************\
+*                                        COOKIE FUNCTIONS                                        *
+\************************************************************************************************/
+
+function cookieYesF() {
+  Cookies.set("cookiesAccepted", true, { expires: 365 });
+}
+
+function cookieNoF() {
+  Cookies.set("cookiesAccepted", false, { expires: 365 });
+  Cookies.remove("currentTime");
+  Cookies.remove("path");
+}
+
+function cookieCheck() {
+  return Cookies.get("cookiesAccepted") == "true" &&
+    Cookies.get("currentTime") &&
+    Cookies.get("path") &&
+    typeof custom == "undefined"
+    ? true
+    : false;
+}
+
+function removeAllCookies() {
+  Cookies.remove("cookiesAccepted");
+  Cookies.remove("currentTime");
+  Cookies.remove("path");
+
+  popup("✓ | All cookies have been deleted.");
+}
+
+/************************************************************************************************\
+*                                    VIDEO MANAGER FUNCTIONS                                     *
+\************************************************************************************************/
+
+function playPreviousVideo() {
+  if (previousVideo) playVideo(previousVideo, false, false, true);
+  else popup("⚠ | There is no previous video.");
+}
+
+async function playVideo(
+  vid = video,
+  err = false,
+  pageLoad = false,
+  ignoreIfUsed = false
+) {
+  const videoE = getEl("video");
+  const paused = getEl("paused");
+  const settingsContent = getEl("settingsContent");
+  const contextMenu = getEl("contextMenu");
+  const pauseA = getEl("pauseA");
+  const repeatA = getEl("repeatA");
+  const apple = navigator.vendor == "Apple Computer, Inc.";
+
+  if (typeof vid == "string") vid = videos.find(({ path }) => path == vid);
+
+  video = vid;
+
+  if (pageLoad && apple) videoE.autoplay = false;
+
+  if (
+    (usedVideos.includes(vid) &&
+      usedVideos.length != videos.length &&
+      !ignoreIfUsed) ||
+    err
+  ) {
+    video = newVideoF();
+
+    playVideo();
+  } else {
+    if (pageLoad) {
+      videoE.volume = 0;
+      videoE.style.opacity = 0;
+    }
+
+    contextMenu.innerHTML = map(true);
+
+    bufferCount = 0;
+
+    if (usedVideos.length >= videos.length) usedVideos = [];
+
+    if (!pageLoad) previousVideo = videoE.src.split("/")[4].split(".")[0];
+
+    $("#video").animate(
+      {
+        volume: 0,
+        opacity: 0,
+      },
+      300
+    );
+
+    await wait(!pageLoad ? 300 : 0);
+
+    videoE.src = `${pathGen("media")}/${vid.path}.mp4`;
+
+    if (!(pageLoad && apple)) videoE.play();
+    else {
+      videoE.classList.add("blurred");
+
+      paused.classList.add("visible");
+
+      settingsContent.innerHTML = settingsContent.innerHTML.replace(
+        "Pause",
+        "Unpause"
+      );
+    }
+
+    $("#video").animate(
+      {
+        volume: vVolume,
+        opacity: 1,
+      },
+      300
+    );
+
+    if (!pageLoad)
+      popup(
+        `▶ | Now playing: <b>${vid.name.replace(
+          " ",
+          "&nbsp;"
+        )}</b> by ${vid.artists.join(", ").replace(" ", "&nbsp;")}`
+      );
+
+    if (!(pageLoad && apple)) {
+      videoE.classList.remove("blurred");
+
+      paused.classList.remove("visible");
+
+      settingsContent.innerHTML = settingsContent.innerHTML.replace(
+        "Unpause",
+        "Pause"
+      );
+
+      settingsContent.innerHTML = settingsContent.innerHTML.replace(
+        "Unrepeat",
+        "Repeat"
+      );
+
+      if (pauseA) pauseA.innerHTML = "▶️";
+
+      if (repeatA) repeatA.className = "red";
+    }
+
+    repeat = false;
+
+    if (!usedVideos.includes(video)) usedVideos.push(video);
+  }
+}
+
+function muteTitle() {
+  getEl("mute").title = `Current volume: ${vVolume * 10}/10`;
 }
