@@ -112,7 +112,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // r = If the videos is on repeat or not
   // s = If the video is paused or not
 
-  let pausedByURL = false;
+  let pausedByURL = params.toString().includes("s,true");
+
+  console.log(pausedByURL);
 
   videoE.addEventListener("play", function () {
     if (pausedByURL) {
@@ -124,54 +126,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
   params.forEach((i) => {
     if (!params.toString().includes("p,")) return;
-    if (params.some((i) => i.toString() == "s,true")) pausedByURL = true;
 
-    // Object als switch case hier machen!!!!
-  });
+    const paramValue = i[1];
+    const param = i[0];
+    const noSpecialURL =
+      params.toString().replace(/[^,]+/g, "").length != 1 && // A boolean to make sure the URL is not the link from the copy link button.¹
+      !params.toString().includes("c,0"); // A boolean to make sure the URL is not from the disclaimer page.¹
+    const doesVideoExist = videos.find(({ path }) => path == paramValue); // A boolean for checking if the video from the URL exists.
+    const paramHandler = {
+      p: function () {
+        if (pausedByURL) return;
 
-  params.forEach((i) => {
-    if (!params.toString().includes("p,")) return;
-    if (params.some((i) => i.toString() == "s,true")) pausedByURL = true;
-
-    switch (i[0]) {
-      default:
-        break;
-
-      case "p":
         videoStarted = true;
 
         playVideo(
           cookieCheck() && // It's to make sure the video from the cookies gets played.
-            params.toString().replace(/[^,]+/g, "").length != 1 && // This is to make sure the URL is not the link from the copy link button.¹
-            !params.find((u) => u == "c=0") // This is to make sure the URL is not from the disclaimer page.¹
+            noSpecialURL // Checks for the "special" URLs.
             ? Cookies.get("path") // If the URL is not from the disclaimer page and not from the copy link button, the video in the cookies starts.
-            : videos.find(({ path }) => path == i[1]) // Then it checks if the video in the URL even exists.
-            ? i[1] // If the video exists, it starts.
+            : doesVideoExist // Then it checks if the video in the URL exists.
+            ? paramValue // If the video exists, it starts.
             : video, // If it doesn't exist, the default video starts.
           false,
           true
         );
 
-        // ¹ It checks for "special" URLs because they have a higher priority than the cookie.
-        break;
-
-      case "m":
-        if (i[1] == "false") muter();
-        break;
-
-      case "v":
-        if (i[1] >= 0.1 && i[1] <= 1) vVolume = i[1]; // To make sure the volume is not too high or too low.
-        break;
-
-      case "c":
+        // ¹ It checks for "special" URLs because they have a higher priority than the cookie video.
+      },
+      m: function () {
+        if (paramValue == "false") muter();
+      },
+      v: function () {
+        if (paramValue >= 0.1 && paramValue <= 1) vVolume = paramValue; // To make sure the volume is not too high or too low.
+      },
+      c: function () {
         videoE.currentTime =
-          cookieCheck() && i[1] != "0" ? Cookies.get("currentTime") : i[1];
-        break;
+          cookieCheck() && paramValue != "0"
+            ? Cookies.get("currentTime")
+            : paramValue;
+      },
+      r: function () {
+        if (paramValue == "true") repeatVideo(true);
+      },
+    };
 
-      case "r":
-        if (i[1] == "true") repeatVideo(true);
-        break;
-    }
+    if (param != "s") paramHandler[param]();
   });
 
   /************************************************************************************************\
@@ -204,10 +202,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Setting the cookie everytime the video updates it's time.
 
     videoE.addEventListener("timeupdate", function () {
-      if (Cookies.get("cookiesAccepted") == "true") {
-        Cookies.set("currentTime", videoE.currentTime, { expires: 365 });
-        Cookies.set("path", video.path, { expires: 365 });
-      }
+      if (Cookies.get("cookiesAccepted") != "true") return;
+
+      Cookies.set("currentTime", videoE.currentTime, { expires: 365 });
+      Cookies.set("path", video.path, { expires: 365 });
     });
   }
 
@@ -286,54 +284,24 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("keydown", function (e) {
   if (!["KeyR", "F5"].some((i) => i == e.code)) e.preventDefault();
 
-  switch (e.code) {
-    default:
-      break;
-
-    case "KeyN":
-      playVideo();
-      break;
-
-    case "KeyR":
-      repeatVideo();
-      break;
-
-    case "KeyS":
-      restartVideo();
-      break;
-
-    case "KeyM":
-      muter();
-      break;
-
-    case "KeyP":
-      playPreviousVideo();
-      break;
-
-    case "KeyI":
+  const keyHandler = {
+    KeyI: function () {
       progressBar(true);
-      break;
+    },
+    KeyN: playVideo(),
+    KeyR: repeatVideo(),
+    KeyS: restartVideo(),
+    KeyM: muter(),
+    KeyP: playPreviousVideo(),
+    Space: pauseVideo(),
+    ArrowUp: volumeUp(),
+    ArrowDown: volumeDown(),
+    ArrowLeft: fiveSecBack(),
+    ArrowRight: fiveSecForward(),
+  };
+  const handler = keyHandler[e.code];
 
-    case "Space":
-      pauseVideo();
-      break;
-
-    case "ArrowUp":
-      volumeUp();
-      break;
-
-    case "ArrowDown":
-      volumeDown();
-      break;
-
-    case "ArrowLeft":
-      fiveSecBack();
-      break;
-
-    case "ArrowRight":
-      fiveSecForward();
-      break;
-  }
+  if (handler) handler();
 });
 
 /************************************************************************************************\
