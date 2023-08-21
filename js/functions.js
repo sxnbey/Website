@@ -2,13 +2,19 @@
 *                               TITLE STUFF (thank you malte <3)                                 *
 \************************************************************************************************/
 
+// This function animates the websites title.
+
 let loopIndex = 0;
 let loopRevIndex = -1;
 
 async function loop(oldTitle = "") {
+  // Converting the video name.
+
   let title = video.name.toUpperCase().replaceAll(" ", "⠀").split("").join(" ");
 
   loopIndex++;
+
+  // Resets loop if title has changed or animation is complete.
 
   if (title != oldTitle || loopIndex > title.length * 2 + 1) {
     loopIndex = 0;
@@ -20,22 +26,28 @@ async function loop(oldTitle = "") {
     loopIndex > title.length + 1 ? loopRevIndex-- : loopIndex
   )}|`;
 
+  // Shorter waiting if title is getting "deleted".
+
   await wait(loopIndex > title.length + 1 ? 100 : 300);
 
   requestAnimationFrame(() => loop(title));
 }
 
 /************************************************************************************************\
-*                                         VIDEO FUNCTION                                         *
+*                                      NEW VIDEO FUNCTION                                        *
 \************************************************************************************************/
+
+// Well, this is very self explanatory.
 
 function newVideoF() {
   return videos[Math.floor(Math.random() * videos.length)];
 }
 
 /************************************************************************************************\
-  *                                EVERYTHING CSS/ANIMATION RELATED                                *
-  \************************************************************************************************/
+*                                EVERYTHING CSS/ANIMATION RELATED                                *
+\************************************************************************************************/
+
+// It adds classes to elements depending on where you hover.
 
 function animation(el) {
   if (!el) return;
@@ -48,7 +60,6 @@ function animation(el) {
         : "left"
     );
   });
-
   el.addEventListener("mouseout", function () {
     el.classList.remove("right", "left");
   });
@@ -59,40 +70,28 @@ function animation(el) {
 \************************************************************************************************/
 
 function volume(e) {
-  if (e.deltaY < 0) volumeUp();
-  else volumeDown();
+  if (e.deltaY < 0) volumeHandler(true);
+  else volumeHandler();
 }
 
-function volumeUp() {
+function volumeHandler(up = false) {
   const videoE = getEl("video");
-  const mute = getEl("mute");
   const volumeSpan = getEl("volumeSpan");
+  const roundedVolume = Math.round(videoE.volume * 10) / 10;
+  const newVolume = up
+    ? Math.min(roundedVolume + 0.1, 1)
+    : Math.max(roundedVolume - 0.1, 0.1);
 
-  if (Math.round(videoE.volume * 100) / 100 < 1) {
-    videoE.volume =
-      Math.round((Math.round(videoE.volume * 10) / 10 + 0.1) * 10) / 10;
+  if (roundedVolume == newVolume)
+    return popup(
+      up ? "⚠ | The volume is on maximum." : "⚠ | The volume is on minimum."
+    );
 
-    vVolume = videoE.volume;
+  videoE.volume = newVolume;
 
-    muteTitle();
-  } else popup("⚠ | The volume is on maximum.");
+  vVolume = newVolume;
 
-  if (volumeSpan) volumeSpan.innerHTML = progressBar("volume");
-}
-
-function volumeDown() {
-  const videoE = getEl("video");
-  const mute = getEl("mute");
-  const volumeSpan = getEl("volumeSpan");
-
-  if (Math.round(videoE.volume * 100) / 100 > 0.1) {
-    videoE.volume =
-      Math.round((Math.round(videoE.volume * 10) / 10 - 0.1) * 10) / 10;
-
-    vVolume = videoE.volume;
-
-    muteTitle();
-  } else popup("⚠ | The volume is on minimum.");
+  muteTitle();
 
   if (volumeSpan) volumeSpan.innerHTML = progressBar("volume");
 }
@@ -466,7 +465,7 @@ function progressBar(popupThing = false) {
       mobileCheck() ? "block" : "none"
     };" /><a onclick="clickManager('volumeDown')">-</a>&nbsp;<span id="volumeSpan">${progressBar(
       "volume"
-    )}</span>/10&nbsp;<a onclick="clickManager('volumeUp')">+</a></b>`;
+    )}</span>/10&nbsp;<a onclick="clickManager('volumeHandler')">+</a></b>`;
 
   if (popupThing == "volume") return Math.round(vVolume * 100) / 10;
 
@@ -530,11 +529,11 @@ function clickManager(func, skipToPoint) {
       break;
 
     case "volumeDown":
-      volumeDown();
+      volumeHandler();
       break;
 
     case "volumeUp":
-      volumeUp();
+      volumeHandler(true);
       break;
 
     case "skipTo":

@@ -114,8 +114,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let pausedByURL = params.toString().includes("s,true");
 
-  console.log(pausedByURL);
-
   videoE.addEventListener("play", function () {
     if (pausedByURL) {
       pauseVideo();
@@ -130,8 +128,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const paramValue = i[1];
     const param = i[0];
     const noSpecialURL =
-      params.toString().replace(/[^,]+/g, "").length != 1 && // A boolean to make sure the URL is not the link from the copy link button.¹
-      !params.toString().includes("c,0"); // A boolean to make sure the URL is not from the disclaimer page.¹
+      params.toString().replace(/[^,]+/g, "").length != 1 && // Check if the URL is not the link from the copy link button.¹
+      !params.toString().includes("c,0"); // Check if the URL is not from the disclaimer page.¹
     const doesVideoExist = videos.find(({ path }) => path == paramValue); // A boolean for checking if the video from the URL exists.
     const paramHandler = {
       p: function () {
@@ -282,22 +280,26 @@ document.addEventListener("DOMContentLoaded", function () {
 // Pretty self explanatory.
 
 document.addEventListener("keydown", function (e) {
-  if (!["KeyR", "F5"].some((i) => i == e.code)) e.preventDefault();
+  if (!["KeyR", "F5"].some((i) => i === e.code)) e.preventDefault();
 
   const keyHandler = {
     KeyI: function () {
       progressBar(true);
     },
-    KeyN: playVideo(),
-    KeyR: repeatVideo(),
-    KeyS: restartVideo(),
-    KeyM: muter(),
-    KeyP: playPreviousVideo(),
-    Space: pauseVideo(),
-    ArrowUp: volumeUp(),
-    ArrowDown: volumeDown(),
-    ArrowLeft: fiveSecBack(),
-    ArrowRight: fiveSecForward(),
+    ArrowUp: function () {
+      volumeHandler(true);
+    },
+    ArrowDown: function () {
+      volumeHandler();
+    },
+    KeyN: playVideo,
+    KeyR: repeatVideo,
+    KeyS: restartVideo,
+    KeyM: muter,
+    KeyP: playPreviousVideo,
+    Space: pauseVideo,
+    ArrowLeft: fiveSecBack,
+    ArrowRight: fiveSecForward,
   };
   const handler = keyHandler[e.code];
 
