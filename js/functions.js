@@ -275,14 +275,12 @@ async function popup(text, time = 2000, other = false) {
 
   const otherHandler = {
     copy: async function () {
-      text = `${location.protocol}//${location.host}${
+      text = `✓ | "${location.protocol}//${location.host}${
         typeof folder != "undefined" ? `/${folder}` : ""
-      }?p=${video.path}`;
+      }?p=${video.path}" has been copied to your clipboard!`;
 
       try {
         await navigator.clipboard.writeText(text);
-
-        text = `✓ | "${text}" has been copied to your clipboard!`;
       } catch (e) {
         text = `⚠ | The text could not be copied. Error: ${e}`;
       }
@@ -374,7 +372,7 @@ async function popup(text, time = 2000, other = false) {
 
   lastPopup = text;
 
-  // Sets the variable to "info" or true for the queue check.
+  // Sets the variable to true if it's a normal popup.
 
   popupVisible = typeof popupVisible == "boolean" ? true : popupVisible;
 
@@ -742,7 +740,7 @@ async function playVideo(
 
   // This fades the current video out.
 
-  if (!!pageLoad) {
+  if (!pageLoad) {
     $("#video").animate(
       {
         volume: 0,
