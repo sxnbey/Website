@@ -52,6 +52,8 @@ function newVideoF() {
 function animation(el) {
   if (!el) return;
 
+  // If you hover left, it'll add the class "left". Same for right.
+
   el.addEventListener("mouseover", function (e) {
     el.classList.add(
       e.clientX - el.getBoundingClientRect().left >
@@ -69,10 +71,14 @@ function animation(el) {
 *                                        VOlUME FUNCTIONS                                        *
 \************************************************************************************************/
 
+// Volume function for scrolling on the mute button in the top left corner.
+
 function volume(e) {
   if (e.deltaY < 0) volumeHandler(true);
   else volumeHandler();
 }
+
+// It handles volume up/down in one function.
 
 function volumeHandler(up = false) {
   const videoE = getEl("video");
@@ -83,9 +89,7 @@ function volumeHandler(up = false) {
     : Math.max(roundedVolume - 0.1, 0.1);
 
   if (roundedVolume == newVolume)
-    return popup(
-      up ? "⚠ | The volume is on maximum." : "⚠ | The volume is on minimum."
-    );
+    return popup(`⚠ | The volume is on m${up ? "aximum" : "inimum"}.`);
 
   videoE.volume = newVolume;
 
@@ -100,37 +104,28 @@ function volumeHandler(up = false) {
 *                                     REPEAT VIDEO FUNCTION                                      *
 \************************************************************************************************/
 
-function repeatVideo(noPopup = false) {
+function repeatVideo(makePopup = true) {
   const settingsContent = getEl("settingsContent");
   const repeatA = getEl("repeatA");
 
-  if (repeat) {
-    settingsContent.innerHTML = settingsContent.innerHTML.replace(
-      "Unrepeat",
-      "Repeat"
-    );
+  settingsContent.innerHTML = settingsContent.innerHTML.replace(
+    repeat ? "Unrepeat" : "Repeat",
+    repeat ? "Repeat" : "Unrepeat"
+  );
 
-    repeat = false;
+  if (makePopup)
+    popup(`⟳ | The video is now ${repeat ? "unrepeated" : "repeated"}.`);
 
-    if (!noPopup) popup("⟳ | The video is now unrepeated.");
-  } else {
-    settingsContent.innerHTML = settingsContent.innerHTML.replace(
-      "Repeat",
-      "Unrepeat"
-    );
+  if (repeatA) repeatA.className = repeat ? "red" : "green";
 
-    repeat = true;
-
-    if (!noPopup) popup("⟳ | The video is now repeated.");
-  }
-
-  if (repeatA?.className == "green") repeatA.className = "red";
-  else if (repeatA?.className == "red") repeatA.className = "green";
+  repeat = !repeat;
 }
 
 /************************************************************************************************\
 *                                     RESTART VIDEO FUNCTION                                     *
 \************************************************************************************************/
+
+// Who would have thought, this function will restart the video.
 
 function restartVideo() {
   const videoE = getEl("video");
@@ -154,6 +149,8 @@ function restartVideo() {
 /************************************************************************************************\
 *                                         VIDEO MAPPER                                           *
 \************************************************************************************************/
+
+// This function returns all the videos for the context menu or for the disclaimer page.
 
 function map(contextMenu = false, page) {
   if (contextMenu)
@@ -196,16 +193,16 @@ async function pauseVideo() {
   const settingsContent = getEl("settingsContent");
   const pauseA = getEl("pauseA");
 
+  settingsContent.innerHTML = settingsContent.innerHTML.replace(
+    videoE.paused ? "Unpause" : "Pause",
+    videoE.paused ? "Pause" : "Unpause"
+  );
+
   if (videoE.paused) {
     videoE.classList.remove("blurred");
     videoE.play();
 
     paused.classList.remove("visible");
-
-    settingsContent.innerHTML = settingsContent.innerHTML.replace(
-      "Unpause",
-      "Pause"
-    );
 
     if (pauseA) pauseA.innerHTML = "▶️";
   } else {
@@ -213,11 +210,6 @@ async function pauseVideo() {
     videoE.pause();
 
     paused.classList.add("visible");
-
-    settingsContent.innerHTML = settingsContent.innerHTML.replace(
-      "Pause",
-      "Unpause"
-    );
 
     if (pauseA) pauseA.innerHTML = "⏸️";
   }
@@ -227,10 +219,12 @@ async function pauseVideo() {
 *                                         PROLLY USELESS                                         * 
 \************************************************************************************************/
 
+// The function I mentioned in ./js/main.js line 271.
+
 async function srcPause() {
   const paused = getEl("paused");
 
-  if (!paused) await wait(300);
+  await wait(500);
 
   paused.src = `${pathGen("img")}/paused.svg`;
 }
@@ -238,6 +232,8 @@ async function srcPause() {
 /************************************************************************************************\
 *                                         MUTE FUNCTION                                          *
 \************************************************************************************************/
+
+// Mute toggle function.
 
 function muter() {
   const videoE = getEl("video");
@@ -248,13 +244,14 @@ function muter() {
 
   mute.src = `${pathGen("img")}/${videoE.muted ? "muted" : "unmuted"}.svg`;
 
-  if (muteA && videoE.muted) muteA.innerHTML = "🔇";
-  else if (muteA) muteA.innerHTML = "🔊";
+  if (muteA) muteA.innerHTML = video.muted ? "🔇" : "🔊";
 }
 
 /************************************************************************************************\
 *                                         WAIT FUNCTION                                          *
 \************************************************************************************************/
+
+// I don't even know why I'm writing this comment.
 
 function wait(ms) {
   return new Promise((res) => setTimeout(() => res(true), ms));
@@ -263,6 +260,8 @@ function wait(ms) {
 /************************************************************************************************\
 *                                        POPUP FUNCTION                                          *
 \************************************************************************************************/
+
+// The function for handling the popup stuff.
 
 let popupQueue = [];
 let lastPopup;
@@ -274,12 +273,67 @@ async function popup(text, time = 2000, other = false) {
   const popupE = getEl("popup");
   const textE = getEl("text");
 
-  if (other == "copy")
-    text = `${location.protocol}//${location.host}${
-      typeof folder != "undefined" ? `/${folder}` : ""
-    }?p=${video.path}`;
+  const otherHandler = {
+    copy: async function () {
+      text = `${location.protocol}//${location.host}${
+        typeof folder != "undefined" ? `/${folder}` : ""
+      }?p=${video.path}`;
 
-  // queue check
+      try {
+        await navigator.clipboard.writeText(text);
+
+        text = `✓ | "${text}" has been copied to your clipboard!`;
+      } catch (e) {
+        text = `⚠ | The text could not be copied. Error: ${e}`;
+      }
+    },
+    cookie: function () {
+      popupE.innerHTML = text;
+
+      popupVisible = "cookiePopup";
+
+      if (popupE.classList.contains("muchText")) textE.classList.add("blurred");
+
+      popupE.classList.add("visible");
+
+      return;
+    },
+    info: function () {
+      popupTimer = 0;
+
+      popupVisible = "infoPopup";
+
+      const interval = setInterval(async function () {
+        const progressBarSpan = getEl("progressBarSpan");
+        const artistsSpan = getEl("artistsSpan");
+        const timeSpan = getEl("timeSpan");
+        const percent = percentF();
+
+        if (!progressBarSpan || !artistsSpan || !timeSpan)
+          return clearInterval(interval);
+
+        if (
+          popupLastPercent != percent ||
+          !artistsSpan?.innerHTML.split("b")[0] ==
+            progressBar("artists").split("b")[0] ||
+          !progressBarSpan?.innerHTML
+        )
+          progressBarSpan.innerHTML = progressBar();
+
+        artistsSpan.innerHTML = progressBar("artists");
+
+        timeSpan.innerHTML = progressBar("time");
+
+        if (++popupTimer == 140) {
+          await popupOut();
+
+          clearInterval(interval);
+        }
+      }, 50);
+    },
+  };
+
+  // This queue check checks if the called popup can be displayed. If not, it will either be returned or pushed in the queue.
 
   if (
     popupVisible == "cookiePopup" ||
@@ -288,13 +342,19 @@ async function popup(text, time = 2000, other = false) {
   )
     return;
 
+  // If the copy link popup or the info popup gets called, the current popup fades out and the info/copy link popup displays.
+
   if (other == "copy" || (other == "info" && !popupE.innerHTML.includes("▰")))
     await popupOut(true, popupVisible ? true : false);
   else if (popupVisible) {
+    // It checks if the called popup is the "Now playing:" popup. If it is, it will be displayed but all the queued ones are getting deleted.
+
     if (text.startsWith("▶ |"))
       popupQueue = popupQueue.filter(
         ({ text: ftext }) => !ftext.startsWith("▶ |")
       );
+
+    // It will push everything in the queue except the copy link popup.
 
     if (
       ![lastPopup, ...popupQueue.map(({ text }) => text)].includes(
@@ -308,110 +368,44 @@ async function popup(text, time = 2000, other = false) {
     return;
   }
 
-  // cookie popup
+  // If the called popup needs extra stuff, it will be executed now.
 
-  if (other == "cookie") {
-    popupE.innerHTML = text;
-
-    const cookieYES = getEl("cookieYES");
-    const cookieNO = getEl("cookieNO");
-
-    popupVisible = "cookiePopup";
-
-    if (popupE.classList.contains("muchText")) textE.classList.add("blurred");
-
-    popupE.classList.add("visible");
-
-    [cookieYES, cookieNO].forEach((i) =>
-      i.addEventListener(
-        "click",
-        function () {
-          if (i.id == "cookieYES") cookieYesF();
-          else cookieNoF();
-
-          popupOut(true, false);
-        },
-        { once: true }
-      )
-    );
-
-    return;
-  }
-
-  // copy popup
-
-  if (other == "copy") {
-    try {
-      await navigator.clipboard.writeText(text);
-
-      text = `✓ | "${text}" has been copied to your clipboard!`;
-    } catch (e) {
-      text = `⚠ | The text could not be copied. Error: ${e}`;
-    }
-  }
-
-  // normal popup shit
+  if (otherHandler[other]) otherHandler[other]();
 
   lastPopup = text;
 
-  if (other == "info") popupVisible = "infoPopup";
-  else popupVisible = true;
+  // Sets the variable to "info" or true for the queue check.
+
+  popupVisible = typeof popupVisible == "boolean" ? true : popupVisible;
 
   if (popupE.classList.contains("muchText")) textE.classList.add("blurred");
 
-  if (other == "info") popupE.innerHTML = progressBar("string");
-  else popupE.innerHTML = text;
+  // If the called popup is the info popup, the progressbar will be displayed.
+
+  popupE.innerHTML = other == "info" ? progressBar("allText") : text;
 
   popupE.classList.add("visible");
 
-  // info popup
-
-  if (other == "info") {
-    popupTimer = 0;
-
-    const interval = setInterval(async function () {
-      const progressBarSpan = getEl("progressBarSpan");
-      const artistsSpan = getEl("artistsSpan");
-      const timeSpan = getEl("timeSpan");
-      const percent = percentF();
-
-      if (!progressBarSpan || !artistsSpan || !timeSpan)
-        return clearInterval(interval);
-
-      if (
-        popupLastPercent != percent ||
-        !artistsSpan?.innerHTML.split("b")[0] ==
-          progressBar("artists").split("b")[0] ||
-        !progressBarSpan?.innerHTML
-      )
-        progressBarSpan.innerHTML = progressBar();
-
-      artistsSpan.innerHTML = progressBar("artists");
-
-      timeSpan.innerHTML = progressBar("time");
-
-      if (++popupTimer == 140) {
-        await popupOut();
-
-        clearInterval(interval);
-      }
-    }, 50);
-  }
-
   await wait(time);
 
-  if (other == "info" || popupE.innerHTML.includes("▰")) return;
+  // If the info popup gets called or is displayed, it returns here because the queue will be ignored then.
+
+  if (typeof popupVisible != "boolean") return;
 
   await popupOut(false);
 
+  // This calls the function again with the next popup in the queue.
+
   if (popupQueue.length > 0) {
-    let queuePopup = popupQueue.shift();
+    const queuePopup = popupQueue.shift();
 
     popupVisible = false;
 
     popup(queuePopup.text, queuePopup.time, queuePopup.other);
   } else popupVisible = false;
 }
+
+// The fade out function for the popup.
 
 async function popupOut(booChange = true, waitt = true) {
   const popupE = getEl("popup");
@@ -426,6 +420,8 @@ async function popupOut(booChange = true, waitt = true) {
   if (booChange) popupVisible = false;
 }
 
+// This is the progressbar function for the popup.
+
 function progressBar(popupThing = false) {
   const videoE = getEl("video");
   const percent = percentF();
@@ -435,41 +431,47 @@ function progressBar(popupThing = false) {
   const fullMins = Math.floor(videoE.duration / 60) % 60 || 0;
   const fullSecs = Math.floor(videoE.duration % 60) || 0;
 
-  if (popupThing == "string")
-    return `<span id="artistsSpan">${progressBar(
-      "artists"
-    )}</span><span id="progressBarSpan" style="white-space: nowrap;">${progressBar()}</span> <span id="timeSpan">${progressBar(
-      "time"
-    )}</span><br /><span id="controlsSpan">${progressBar("controls")}</span>`;
+  const popupThingHandler = {
+    allText: function () {
+      return `<span id="artistsSpan">${progressBar(
+        "artists"
+      )}</span><span id="progressBarSpan" style="white-space: nowrap;">${progressBar()}</span><span id="timeSpan">${progressBar(
+        "time"
+      )}</span><br /><span id="controlsSpan">${progressBar("controls")}</span>`;
+    },
+    time: function () {
+      return `${mins.toString().padStart(2, "0")}:${secs
+        .toString()
+        .padStart(2, "0")}&nbsp;/&nbsp;${fullMins
+        .toString()
+        .padStart(2, "0")}:${fullSecs.toString().padStart(2, "0")}`;
+    },
+    artists: function () {
+      return `<b>${video.name.replace(" ", "&nbsp;")}</b> by ${video.artists
+        .join(", ")
+        .replace(" ", "&nbsp;")}<br />`;
+    },
+    controls: function () {
+      return `<b><a title="Copy link" onclick="clickManager('copy')">🔗</a>&nbsp;|&nbsp;<a title="Repeat/Unrepeat" id="repeatA" onclick="clickManager('repeat')" class="${
+        repeat ? "green" : "red"
+      }">⟳</a>&nbsp;|&nbsp;<a title="Pause/Unpause" id="pauseA" onclick="clickManager('pause')">${
+        videoE.paused ? "⏸️" : "▶️"
+      }</a>&nbsp;|&nbsp;<a title="New video" onclick="clickManager('playVideo')">⏭</a>&nbsp;|&nbsp;<a title="Mute/Unmute" id="muteA" onclick="clickManager('muter')">${
+        videoE.muted ? "🔇" : "🔊"
+      }</a>&nbsp;<br style="display: ${
+        mobileCheck() ? "block" : "none"
+      };" /><a onclick="clickManager('volumeDown')">-</a>&nbsp;<span id="volumeSpan">${progressBar(
+        "volume"
+      )}</span>/10&nbsp;<a onclick="clickManager('volumeHandler')">+</a></b>`;
+    },
+    volume: function () {
+      return Math.round(vVolume * 100) / 10;
+    },
+  };
 
-  if (popupThing == "time")
-    return `${mins.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}&nbsp;/&nbsp;${fullMins
-      .toString()
-      .padStart(2, "0")}:${fullSecs.toString().padStart(2, "0")}`;
+  if (popupThingHandler[popupThing]) return popupThingHandler[popupThing]();
 
-  if (popupThing == "artists")
-    return `<b>${video.name.replace(" ", "&nbsp;")}</b> by ${video.artists
-      .join(", ")
-      .replace(" ", "&nbsp;")}<br />`;
-
-  if (popupThing == "controls")
-    return `<b><a title="Copy link" onclick="clickManager('popup')">🔗</a>&nbsp;|&nbsp;<a title="Repeat/Unrepeat" id="repeatA" onclick="clickManager('repeat')" class="${
-      repeat ? "green" : "red"
-    }">⟳</a>&nbsp;|&nbsp;<a title="Pause/Unpause" id="pauseA" onclick="clickManager('pause')">${
-      videoE.paused ? "⏸️" : "▶️"
-    }</a>&nbsp;|&nbsp;<a title="New video" onclick="clickManager('playVideo')">⏭</a>&nbsp;|&nbsp;<a title="Mute/Unmute" id="muteA" onclick="clickManager('muter')">${
-      videoE.muted ? "🔇" : "🔊"
-    }</a>&nbsp;<br style="display: ${
-      mobileCheck() ? "block" : "none"
-    };" /><a onclick="clickManager('volumeDown')">-</a>&nbsp;<span id="volumeSpan">${progressBar(
-      "volume"
-    )}</span>/10&nbsp;<a onclick="clickManager('volumeHandler')">+</a></b>`;
-
-  if (popupThing == "volume") return Math.round(vVolume * 100) / 10;
-
-  if (popupThing) return popup("", 5000, "info");
+  // Well, that is the real progressbar.
 
   let bar = new Array(10).fill("═");
   const char = "▰";
@@ -477,7 +479,6 @@ function progressBar(popupThing = false) {
   const end = "╡";
 
   bar.splice(percent, 0, char);
-
   bar = bar.map((item, i) => {
     if (item == char) return item;
 
@@ -487,11 +488,15 @@ function progressBar(popupThing = false) {
   return `${front}${bar.join("")}${end}`;
 }
 
+// This function returns the current time of the video in percent.
+
 function percentF() {
   const videoE = getEl("video");
 
   return Math.floor((videoE.currentTime / videoE.duration) * 10);
 }
+
+// This function skips to the point the function above calculated.
 
 function skipTo(percent) {
   const videoE = getEl("video");
@@ -499,57 +504,43 @@ function skipTo(percent) {
   videoE.currentTime = (percent / 10) * videoE.duration;
 }
 
+// This function calls all the function and adds time to the timer everytime you click on something.
+
 function clickManager(func, skipToPoint) {
   popupTimer -= 60;
 
   if (popupTimer < 0) popupTimer = 0;
 
-  switch (func) {
-    default:
-      break;
-
-    case "popup":
+  const functionHandler = {
+    copy: function () {
       popup("", 2000, "copy");
-      break;
-
-    case "repeat":
-      repeatVideo();
-      break;
-
-    case "pause":
-      pauseVideo();
-      break;
-
-    case "playVideo":
-      playVideo();
-      break;
-
-    case "muter":
-      muter();
-      break;
-
-    case "volumeDown":
-      volumeHandler();
-      break;
-
-    case "volumeUp":
+    },
+    volumeUp: function () {
       volumeHandler(true);
-      break;
-
-    case "skipTo":
+    },
+    skipTo: function () {
       skipTo(skipToPoint);
-      break;
-  }
+    },
+    repeat: repeatVideo,
+    pause: pauseVideo,
+    playVideo: playVideo,
+    muter: muter,
+    volumeDown: volumeHandler,
+  };
+
+  if (functionHandler[func]) functionHandler[func]();
 }
 
 /************************************************************************************************\
 *                                         PATH FUNCTION                                          *
 \************************************************************************************************/
 
+// This function generates the path to the given folder. I really don't know how, but it works.
+
 function pathGen(folder) {
   return document.getElementsByClassName("404")[0]
     ? `${location.protocol}//${location.host}/${folder}`
-    : getEl("main")
+    : document.getElementById("main")
     ? typeof custom != "undefined"
       ? `../${folder}${folder == "media" ? "/custom" : ""}`
       : `./${folder}`
@@ -562,7 +553,9 @@ function pathGen(folder) {
 *                                       REDIRECT FUNCTION                                        *
 \************************************************************************************************/
 
-// if a custom thing is false, put it in a string //
+//! If a custom thing is false, put it in a string.
+
+// The function that generates the URL that will be processed on page load and redirects you.
 
 async function redirect(
   url,
@@ -620,6 +613,8 @@ function fiveSecForward() {
 /************************************************************************************************\
 *                                         MOBILE CHECK                                           *
 \************************************************************************************************/
+
+// Stole that function from Stackoverflow, lmao. Like where should I get that RegEx xd.
 
 function mobileCheck() {
   let check = false;
@@ -705,9 +700,13 @@ async function playVideo(
 
   video = vid;
 
+  // Because Safari is trash, I have to put autplay on false.
+
   if (pageLoad && apple) videoE.autoplay = false;
 
   if (
+    // This check makes sure that a new video gets played, when the given video is already used and the video isn't allowed to be used twice (it's mostly not allowed to be played twice, only if the video is from the context menu).
+
     (usedVideos.includes(vid) &&
       usedVideos.length != videos.length &&
       !ignoreIfUsed) ||
@@ -715,21 +714,35 @@ async function playVideo(
   ) {
     video = newVideoF();
 
-    playVideo();
-  } else {
-    if (pageLoad) {
-      videoE.volume = 0;
-      videoE.style.opacity = 0;
-    }
+    return playVideo();
+  }
 
-    contextMenu.innerHTML = map(true);
+  // Sets the videos volume and opacity to 0, so the upcoming animations won't look weird.
 
-    bufferCount = 0;
+  if (pageLoad) {
+    videoE.volume = 0;
+    videoE.style.opacity = 0;
+  }
 
-    if (usedVideos.length >= videos.length) usedVideos = [];
+  // Refresh the context menu.
 
-    if (!pageLoad) previousVideo = videoE.src.split("/")[4].split(".")[0];
+  contextMenu.innerHTML = map(true);
 
+  // Reset the buffer count.
+
+  bufferCount = 0;
+
+  // When all videos are used, the used videos array gets "refreshed".
+
+  if (usedVideos.length >= videos.length) usedVideos = [];
+
+  // Sets the preview video.
+
+  if (!pageLoad) previousVideo = videoE.src.split("/")[4].split(".")[0];
+
+  // This fades the current video out.
+
+  if (!!pageLoad) {
     $("#video").animate(
       {
         volume: 0,
@@ -738,64 +751,90 @@ async function playVideo(
       300
     );
 
-    await wait(!pageLoad ? 300 : 0);
+    await wait(300);
+  }
 
-    videoE.src = `${pathGen("media")}/${vid.path}.mp4`;
+  // Sets the new video.
 
-    if (!(pageLoad && apple)) videoE.play();
-    else {
-      videoE.classList.add("blurred");
+  videoE.src = `${pathGen("media")}/${vid.path}.mp4`;
 
-      paused.classList.add("visible");
+  // Well well well, I hate Safari. This pauses the video on page load in Safari.
 
-      settingsContent.innerHTML = settingsContent.innerHTML.replace(
-        "Pause",
-        "Unpause"
-      );
-    }
+  if (!(pageLoad && apple)) videoE.play();
+  else {
+    videoE.classList.add("blurred");
 
-    $("#video").animate(
-      {
-        volume: vVolume,
-        opacity: 1,
-      },
-      300
+    paused.classList.add("visible");
+
+    settingsContent.innerHTML = settingsContent.innerHTML.replace(
+      "Pause",
+      "Unpause"
+    );
+  }
+
+  // Fades the new video in.
+
+  $("#video").animate(
+    {
+      volume: vVolume,
+      opacity: 1,
+    },
+    300
+  );
+
+  // Displays a popup. But not, if the function got called on page load.
+
+  if (!pageLoad) {
+    popup(
+      `▶ | Now playing: <b>${vid.name.replace(
+        " ",
+        "&nbsp;"
+      )}</b> by ${vid.artists.join(", ").replace(" ", "&nbsp;")}`
     );
 
-    if (!pageLoad)
-      popup(
-        `▶ | Now playing: <b>${vid.name.replace(
-          " ",
-          "&nbsp;"
-        )}</b> by ${vid.artists.join(", ").replace(" ", "&nbsp;")}`
-      );
-
-    if (!(pageLoad && apple)) {
-      videoE.classList.remove("blurred");
-
-      paused.classList.remove("visible");
-
-      settingsContent.innerHTML = settingsContent.innerHTML.replace(
-        "Unpause",
-        "Pause"
-      );
-
-      settingsContent.innerHTML = settingsContent.innerHTML.replace(
-        "Unrepeat",
-        "Repeat"
-      );
-
-      if (pauseA) pauseA.innerHTML = "▶️";
-
-      if (repeatA) repeatA.className = "red";
-    }
+    // If the video was repeated, now it is not.
 
     repeat = false;
-
-    if (!usedVideos.includes(video)) usedVideos.push(video);
   }
+
+  // Unpauses the video in case it was paused.
+
+  if (!pageLoad) {
+    videoE.classList.remove("blurred");
+
+    paused.classList.remove("visible");
+
+    settingsContent.innerHTML = settingsContent.innerHTML.replace(
+      "Unpause",
+      "Pause"
+    );
+
+    settingsContent.innerHTML = settingsContent.innerHTML.replace(
+      "Unrepeat",
+      "Repeat"
+    );
+
+    if (pauseA) pauseA.innerHTML = "▶️";
+
+    if (repeatA) repeatA.className = "red";
+  }
+
+  // Push the new video in the used videos array.
+
+  if (!usedVideos.includes(video)) usedVideos.push(video);
 }
+
+// This function creates the title for the mute button.
 
 function muteTitle() {
   getEl("mute").title = `Current volume: ${vVolume * 10}/10`;
 }
+
+//  $$$$$$\  $$$$$$$$\ $$\   $$\ $$$$$$$\  $$$$$$$$\ $$\     $$\
+// $$  __$$\ $$  _____|$$$\  $$ |$$  __$$\ $$  _____|\$$\   $$  |
+// $$ /  \__|$$ |      $$$$\ $$ |$$ |  $$ |$$ |       \$$\ $$  /
+// \$$$$$$\  $$$$$\    $$ $$\$$ |$$$$$$$\ |$$$$$\      \$$$$  /
+//  \____$$\ $$  __|   $$ \$$$$ |$$  __$$\ $$  __|      \$$  /
+// $$\   $$ |$$ |      $$ |\$$$ |$$ |  $$ |$$ |          $$ |
+// \$$$$$$  |$$$$$$$$\ $$ | \$$ |$$$$$$$  |$$$$$$$$\     $$ |
+//  \______/ \________|\__|  \__|\_______/ \________|    \__|

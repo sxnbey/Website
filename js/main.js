@@ -2,7 +2,7 @@
 *                                          DECLARATION                                           *
 \************************************************************************************************/
 
-// Declaration of the "global" variables (just the ones that are used more frequently).
+// Declaration of the global variables.
 
 const params = Array.from(new URLSearchParams(location.search));
 let usedVideos = [];
@@ -133,8 +133,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const doesVideoExist = videos.find(({ path }) => path == paramValue); // A boolean for checking if the video from the URL exists.
     const paramHandler = {
       p: function () {
-        if (pausedByURL) return;
-
         videoStarted = true;
 
         playVideo(
@@ -163,11 +161,11 @@ document.addEventListener("DOMContentLoaded", function () {
             : paramValue;
       },
       r: function () {
-        if (paramValue == "true") repeatVideo(true);
+        if (paramValue == "true") repeatVideo(false);
       },
     };
 
-    if (param != "s") paramHandler[param]();
+    if (param != "s" && paramHandler[param]) paramHandler[param]();
   });
 
   /************************************************************************************************\
@@ -177,12 +175,29 @@ document.addEventListener("DOMContentLoaded", function () {
   // The cookie popup when you first visit the site or don't have any cookies.
 
   if (typeof custom == "undefined") {
-    if (!Cookies.get("cookiesAccepted"))
+    if (!Cookies.get("cookiesAccepted")) {
       popup(
         "This website uses cookies to improve your experience. If you don't agree, click the cross. <br /> <a id='cookieYES'><b>✓ I agree</b></a> <a id='cookieNO'><b>✗ I don't agree</b></a>",
         0,
         "cookie"
       );
+
+      const cookieYES = getEl("cookieYES");
+      const cookieNO = getEl("cookieNO");
+
+      [cookieYES, cookieNO].forEach((i) =>
+        i.addEventListener(
+          "click",
+          function () {
+            if (i.id == "cookieYES") cookieYesF();
+            else cookieNoF();
+
+            popupOut(true, false);
+          },
+          { once: true }
+        )
+      );
+    }
 
     // Setting the current time of the video to the time saved in the cookies.
 
@@ -284,7 +299,7 @@ document.addEventListener("keydown", function (e) {
 
   const keyHandler = {
     KeyI: function () {
-      progressBar(true);
+      popup("", 5000, "info");
     },
     ArrowUp: function () {
       volumeHandler(true);
@@ -301,9 +316,8 @@ document.addEventListener("keydown", function (e) {
     ArrowLeft: fiveSecBack,
     ArrowRight: fiveSecForward,
   };
-  const handler = keyHandler[e.code];
 
-  if (handler) handler();
+  if (keyHandler[e.code]) keyHandler[e.code]();
 });
 
 /************************************************************************************************\
