@@ -433,7 +433,9 @@ function progressBar(popupThing = false) {
     allText: function () {
       return `<span id="artistsSpan">${progressBar(
         "artists"
-      )}</span><span id="progressBarSpan" style="white-space: nowrap;">${progressBar()}</span><span id="timeSpan">${progressBar(
+      )}</span><span id="progressBarSpan" style="white-space: nowrap;">${progressBar()}<br style="display: ${
+        mobileCheck() ? "block" : "none"
+      };" /></span><span id="timeSpan">${progressBar(
         "time"
       )}</span><br /><span id="controlsSpan">${progressBar("controls")}</span>`;
     },
