@@ -535,7 +535,7 @@ function clickManager(func, skipToPoint) {
 *                                         PATH FUNCTION                                          *
 \************************************************************************************************/
 
-// This function generates the path to the given folder. I really don't know how, but it works.
+// This function generates the path to the given folder. I really don't know what I did there, but it works.
 
 function pathGen(folder) {
   return document.getElementsByClassName("404")[0]
@@ -717,7 +717,7 @@ async function playVideo(
     return playVideo();
   }
 
-  // Sets the videos volume and opacity to 0, so the upcoming animations won't look weird.
+  // Sets the videos volume and opacity to 0 on page load, so the upcoming animations won't look weird.
 
   if (pageLoad) {
     videoE.volume = 0;
@@ -736,7 +736,7 @@ async function playVideo(
 
   if (usedVideos.length >= videos.length) usedVideos = [];
 
-  // Sets the preview video.
+  // Sets the previous video.
 
   if (!pageLoad) previousVideo = videoE.src.split("/")[4].split(".")[0];
 
@@ -795,14 +795,12 @@ async function playVideo(
     // If the video was repeated, now it is not.
 
     repeat = false;
-  }
 
-  // Unpauses the video in case it was paused.
-
-  if (!pageLoad) {
     videoE.classList.remove("blurred");
 
     paused.classList.remove("visible");
+
+    // Unpauses the video in case it was paused.
 
     settingsContent.innerHTML = settingsContent.innerHTML.replace(
       "Unpause",

@@ -39,9 +39,9 @@ document.addEventListener("DOMContentLoaded", function () {
     getEl("errorPath").innerHTML =
       location.pathname == "/errors/404.html"
         ? ""
-        : location.pathname.length > 35
-        ? location.pathname.slice(0, 35) + "..."
-        : location.pathname;
+        : location.pathname.slice(0, 35) + location.pathname.length > 35
+        ? "..."
+        : "";
   }
 
   /************************************************************************************************\
