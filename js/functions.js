@@ -244,7 +244,7 @@ function muter() {
 
   mute.src = `${pathGen("img")}/${videoE.muted ? "muted" : "unmuted"}.svg`;
 
-  if (muteA) muteA.innerHTML = video.muted ? "🔇" : "🔊";
+  if (muteA) muteA.innerHTML = videoE.muted ? "🔇" : "🔊";
 }
 
 /************************************************************************************************\
