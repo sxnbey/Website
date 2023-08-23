@@ -35,13 +35,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // It adds the path you tried to visit to the 404 page.
 
-  if (document.getElementsByClassName("404")[0]) {
+  if (getEl("errorPath")) {
     getEl("errorPath").innerHTML =
       location.pathname == "/errors/404.html"
         ? ""
-        : location.pathname.slice(0, 35) + location.pathname.length > 35
-        ? "..."
-        : "";
+        : location.pathname.slice(0, 35) +
+          `${location.pathname.length > 35 ? "..." : ""}`;
   }
 
   /************************************************************************************************\
