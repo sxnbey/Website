@@ -462,7 +462,7 @@ function progressBar(popupThing = false) {
         mobileCheck() ? "block" : "none"
       };" /><a onclick="clickManager('volumeDown')">-</a>&nbsp;<span id="volumeSpan">${progressBar(
         "volume"
-      )}</span>/10&nbsp;<a onclick="clickManager('volumeHandler')">+</a></b>`;
+      )}</span>/10&nbsp;<a onclick="clickManager('volumeUp')">+</a></b>`;
     },
     volume: function () {
       return Math.round(vVolume * 100) / 10;
