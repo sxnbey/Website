@@ -36,6 +36,32 @@ var videos = [
     name: "Gutter Bravado",
     artists: ["$uicideboy$", "Shakewell"],
   },
+  {
+    path: "kein-pflaster",
+    name: "Kein Pflaster",
+    artists: ["GlenGang 030", "Joey99", "ODG"],
+  },
+  {
+    path: "eden-im-herz",
+    name: "Eden im Herz",
+    artists: ["GlenGang 030", "Kilian437", "Joey99"],
+  },
+
+  {
+    path: "graue-maenner",
+    name: "Graue Männer",
+    artists: ["GlenGang 030", "JulioMC", "Kilian437", "Joey99"],
+  },
+  {
+    path: "pillz",
+    name: "Pillz",
+    artists: ["GlenGang 030", "JulioMC", "ODG", "Jonzon104"],
+  },
+  {
+    path: "packs-ein",
+    name: "Packs Ein",
+    artists: ["GlenGang 030", "Kilian437", "JulioMC"],
+  },
   { path: "oxycodon", name: "Oxycodon", artists: ["t-low"] },
   { path: "bankaccount", name: "BANKACCOUNT", artists: ["t-low"] },
   {
