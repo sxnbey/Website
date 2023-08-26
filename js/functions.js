@@ -219,7 +219,7 @@ async function pauseVideo() {
 *                                         PROLLY USELESS                                         * 
 \************************************************************************************************/
 
-// The function I mentioned in ./js/main.js line 286.
+// The function I mentioned in ./js/main.js line 277.
 
 async function srcPause() {
   const paused = getEl("paused");

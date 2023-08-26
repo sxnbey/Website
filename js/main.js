@@ -132,18 +132,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const doesVideoExist = videos.find(({ path }) => path == paramValue); // A boolean for checking if the video from the URL exists.
     const paramHandler = {
       p: function () {
+        if (cookieCheck() && noSpecialURL) return;
+
         videoStarted = true;
 
-        playVideo(
-          cookieCheck() && // It's to make sure the video from the cookies gets played.
-            noSpecialURL // Checks for the "special" URLs.
-            ? Cookies.get("path") // If the URL is not from the disclaimer page and not from the copy link button, the video in the cookies starts.
-            : doesVideoExist // Then it checks if the video in the URL exists.
-            ? paramValue // If the video exists, it starts.
-            : video, // If it doesn't exist, the default video starts.
-          false,
-          true
-        );
+        playVideo(doesVideoExist ? paramValue : video, false, true);
 
         // ¹ It checks for "special" URLs because they have a higher priority than the cookie video.
       },
@@ -198,11 +191,10 @@ document.addEventListener("DOMContentLoaded", function () {
       );
     }
 
-    // Setting the current time of the video to the time saved in the cookies.
+    // Setting the current time of the video to the time saved in the cookies but only when there was no special URL and the cookies are accepted.
 
-    if (cookieCheck() && !pausedByURL) {
-      if (!pausedByURL && !videoStarted)
-        playVideo(Cookies.get("path"), false, true);
+    if (cookieCheck() && !pausedByURL && !videoStarted) {
+      playVideo(Cookies.get("path"), false, true);
 
       videoE.currentTime = Cookies.get("currentTime");
 
