@@ -275,12 +275,14 @@ async function popup(text, time = 2000, other = false) {
 
   const otherHandler = {
     copy: async function () {
-      text = `✓ | "${location.protocol}//${location.host}${
+      const toCopy = `${location.protocol}//${location.host}${
         typeof folder != "undefined" ? `/${folder}` : ""
-      }?p=${video.path}" has been copied to your clipboard!`;
+      }?p=${video.path}`;
+
+      text = `✓ | "${toCopy}" has been copied to your clipboard!`;
 
       try {
-        await navigator.clipboard.writeText(text);
+        await navigator.clipboard.writeText(toCopy);
       } catch (e) {
         text = `⚠ | The text could not be copied. Error: ${e}`;
       }
