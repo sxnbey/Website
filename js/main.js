@@ -315,23 +315,23 @@ document.addEventListener("keydown", function (e) {
 *                                       iOS CHECK STUFF                                          *
 \************************************************************************************************/
 
-// It gives a warning popup if you're using an iOS device. Currently not in use, as the site probably works on iOS.
+// It gives a warning popup if you're using an iOS device.
 
-// if (
-//   [
-//     "iPad Simulator",
-//     "iPhone Simulator",
-//     "iPod Simulator",
-//     "iPad",
-//     "iPhone",
-//     "iPod",
-//   ].includes(navigator.platform) ||
-//   (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-// )
-//   popup(
-//     "⚠ | It seems that you are using an iOS device. This website is not optimized for iOS devices as I am not able to test the site on them.",
-//     5000
-//   );
+if (
+  [
+    "iPad Simulator",
+    "iPhone Simulator",
+    "iPod Simulator",
+    "iPad",
+    "iPhone",
+    "iPod",
+  ].includes(navigator.platform) ||
+  (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+)
+  popup(
+    "⚠ | It seems that you are using an iOS device. Because of Apple's policies, the video has been paused.<br>Unpause it over the gear-symbol.",
+    5000
+  );
 
 //  $$$$$$\  $$$$$$$$\ $$\   $$\ $$$$$$$\  $$$$$$$$\ $$\     $$\
 // $$  __$$\ $$  _____|$$$\  $$ |$$  __$$\ $$  _____|\$$\   $$  |
