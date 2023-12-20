@@ -32,6 +32,11 @@ var videos = [
     artists: ["$uicideboy$"],
   },
   {
+    path: "not-even-ghosts-are-this-empty",
+    name: "Not Even Ghosts Are This Empty",
+    artists: ["$uicideboy$"],
+  },
+  {
     path: "gutter-bravado",
     name: "Gutter Bravado",
     artists: ["$uicideboy$", "Shakewell"],
@@ -40,6 +45,11 @@ var videos = [
     path: "kein-pflaster",
     name: "Kein Pflaster",
     artists: ["GlenGang 030", "Joey99", "ODG"],
+  },
+  {
+    path: "platz-in-der-stadt",
+    name: "Platz in der Stadt",
+    artists: ["GlenGang 030", "Jonzon104", "JulioMC", "Kilian437"],
   },
   {
     path: "eden-im-herz",
@@ -61,6 +71,41 @@ var videos = [
     path: "packs-ein",
     name: "Packs Ein",
     artists: ["GlenGang 030", "Kilian437", "JulioMC"],
+  },
+  {
+    path: "statement",
+    name: "Statement",
+    artists: [
+      "GlenGang 030",
+      "Grzegorz",
+      "Joey99",
+      "Kilian437",
+      "Samo104",
+      "Ocboyblau",
+      "Jonzon104",
+      "JulioMC",
+      "ODG",
+    ],
+  },
+  {
+    path: "fuer-immer-gg",
+    name: "Für immer",
+    artists: ["GlenGang 030", "Jonzon104", "Joey99", "JulioMC"],
+  },
+  {
+    path: "dreck",
+    name: "Dreck",
+    artists: ["GlenGang 030", "Joey99", "Kilian437", "JulioMC"],
+  },
+  {
+    path: "evil",
+    name: "Evil",
+    artists: ["GlenGang 030", "Kilian437", "JulioMC"],
+  },
+  {
+    path: "schatten",
+    name: "Schatten",
+    artists: ["Ocboyblau"],
   },
   { path: "oxycodon", name: "Oxycodon", artists: ["t-low"] },
   { path: "bankaccount", name: "BANKACCOUNT", artists: ["t-low"] },
